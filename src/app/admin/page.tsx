@@ -1,0 +1,427 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+interface OrderItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  category: string;
+}
+
+interface Order {
+  id: string;
+  date: string;
+  items: OrderItem[];
+  total: number;
+  status: string;
+  customerName?: string;
+  country?: string;
+  city?: string;
+  address?: string;
+  whatsapp?: string;
+  email?: string;
+}
+
+export default function AdminPage() {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [bank, setBank] = useState({ beneficiary: "", iban: "", bic: "" });
+  const [savingBank, setSavingBank] = useState(false);
+
+  // États pour la sécurité / Login
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [stats, setStats] = useState<{ totalVisits: number; countriesStats: { country: string; count: number }[] }>({
+    totalVisits: 0,
+    countriesStats: [],
+  });
+
+  // The HttpOnly server session, not browser storage, determines admin access.
+  useEffect(() => {
+    fetch("/api/admin/auth", { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("No se pudo verificar la sesión.");
+        const result = await response.json();
+        setIsAuthenticated(result.authenticated === true);
+      })
+      .catch((error) => console.error("Error comprobando la sesión:", error))
+      .finally(() => setCheckingAuth(false));
+  }, []);
+
+  // Charger les données des commandes
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    async function fetchOrders() {
+      try {
+        const response = await fetch("/api/orders");
+        if (response.ok) {
+          const data = await response.json();
+          setOrders(data);
+        }
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchOrders();
+  }, [isAuthenticated]);
+
+  // Charger les statistiques de visites si authentifié
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    async function fetchStats() {
+      try {
+        const res = await fetch("/api/admin/stats");
+        if (res.ok) {
+          const data = await res.json();
+          setStats(data);
+        }
+      } catch (err) {
+        console.error("Error fetching stats:", err);
+      }
+    }
+
+    fetchStats();
+  }, [isAuthenticated]);
+
+  // Gérer la connexion
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError("");
+    try {
+      const response = await fetch("/api/admin/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        setLoginError(result.error || "No se pudo iniciar sesión.");
+        return;
+      }
+      setIsAuthenticated(true);
+      setPassword("");
+    } catch (error) {
+      console.error("Error iniciando sesión:", error);
+      setLoginError("No se pudo conectar con el servidor.");
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/admin/auth", { method: "DELETE" });
+    } catch (error) {
+      console.error("Error cerrando la sesión:", error);
+    } finally {
+      setIsAuthenticated(false);
+      setOrders([]);
+      setBank({ beneficiary: "", iban: "", bic: "" });
+    }
+  };
+
+  const handleStatusChange = async (orderId: string, newStatus: string) => {
+    try {
+      const response = await fetch(`/api/orders/${orderId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (response.ok) {
+        setOrders((currentOrders) => currentOrders.map((order) => 
+          order.id === orderId ? { ...order, status: newStatus } : order
+        ));
+      } else {
+        alert("No se pudo actualizar el estado del pedido.");
+      }
+    } catch (error) {
+      console.error("Error actualizando el estado del pedido:", error);
+      alert("No se pudo actualizar el estado.");
+    }
+  };
+
+  // Suppression de la commande (Appelle la méthode DELETE du backend)
+  const handleDeleteOrder = async (orderId: string) => {
+    if (!confirm("¿Está seguro de que desea eliminar este pedido del historial definitivamente?")) return;
+
+    try {
+      const response = await fetch(`/api/orders/${orderId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        setOrders((currentOrders) => currentOrders.filter((order) => order.id !== orderId));
+      } else {
+        alert("Error del servidor al intentar eliminar el pedido.");
+      }
+    } catch (error) {
+      console.error("Error eliminando el pedido:", error);
+      alert("No se pudo eliminar el pedido.");
+    }
+  };
+
+  // Charger les données bancaires au démarrage si authentifié
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    fetch("/api/bank-details")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && !data.error) {
+          setBank({
+            beneficiary: data.beneficiary || "",
+            iban: data.iban || "",
+            bic: data.bic || ""
+          });
+        }
+      })
+      .catch(console.error);
+  }, [isAuthenticated]);
+
+  const handleBankUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSavingBank(true);
+    try {
+      const res = await fetch("/api/bank-details", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bank),
+      });
+      if (res.ok) {
+        alert("Datos bancarios actualizados correctamente.");
+      } else {
+        alert("El servidor no pudo actualizar los datos bancarios.");
+      }
+    } catch (error) {
+      console.error("Error actualizando los datos bancarios:", error);
+      alert("Error al actualizar.");
+    } finally {
+      setSavingBank(false);
+    }
+  };
+
+  // ÉCRAN DE CONNEXION (Si non authentifié)
+  if (checkingAuth) {
+    return <div className="admin-container"><p>Verificando sesión...</p></div>;
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
+        <form onSubmit={handleLogin} style={{ background: "#fff", padding: "30px", borderRadius: "8px", boxShadow: "0 4px 12px rgba(0,0,0,0.1)", width: "100%", maxWidth: "400px" }}>
+          <h2 style={{ marginBottom: "20px", textAlign: "center" }}><i className="fas fa-lock"></i> Acceso Admin</h2>
+          
+          {loginError && <p role="alert" style={{ color: "red", backgroundColor: "#ffe6e6", padding: "10px", borderRadius: "5px", fontSize: "14px" }}>{loginError}</p>}
+          
+          <div style={{ marginBottom: "15px" }}>
+            <label htmlFor="admin-username" style={{ display: "block", marginBottom: "5px" }}>Usuario</label>
+            <input id="admin-username" type="text" autoComplete="username" value={username} onChange={(e) => setUsername(e.target.value)} style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }} required />
+          </div>
+
+          <div style={{ marginBottom: "20px" }}>
+            <label htmlFor="admin-password" style={{ display: "block", marginBottom: "5px" }}>Contraseña</label>
+            <input id="admin-password" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} style={{ width: "100%", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }} required />
+          </div>
+
+          <button type="submit" style={{ width: "100%", padding: "12px", background: "#0070f3", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer", fontWeight: "bold" }}>
+            Iniciar Sesión
+          </button>
+        </form>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return <div className="admin-container"><p>Cargando pedidos desde Turso...</p></div>;
+  }
+
+  // ÉCRAN PRINCIPAL (Si connecté)
+  return (
+    <div className="admin-container">
+      <div className="admin-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
+        <div>
+          <h1 className="admin-title"><i className="fas fa-user-shield"></i> Panel de Control - Administración</h1>
+          <span className="admin-badge">{orders.length} Pedido(s) recibido(s)</span>
+        </div>
+        <button onClick={handleLogout} style={{ padding: "8px 16px", background: "#333", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer" }}>
+          Cerrar Sesión
+        </button>
+      </div>
+
+      {/* SECTION STATISTIQUES DE VISITES */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: "20px", marginBottom: "30px" }}>
+        {/* Carte du Total */}
+        <div style={{ background: "#fff", padding: "20px", borderRadius: "8px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+          <i className="fas fa-eye" style={{ fontSize: "32px", color: "#0070f3", marginBottom: "10px" }}></i>
+          <h3 style={{ margin: 0, color: "#666", fontSize: "14px", textTransform: "uppercase" }}>Visitas Totales</h3>
+          <strong style={{ fontSize: "36px", color: "#111", marginTop: "5px" }}>{stats.totalVisits}</strong>
+        </div>
+
+        {/* Tableau/Liste des Pays */}
+        <div style={{ background: "#fff", padding: "20px", borderRadius: "8px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+          <h3 style={{ margin: "0 0 15px 0", fontSize: "16px" }}><i className="fas fa-globe-americas"></i> Origen de los visitantes</h3>
+          <div style={{ maxHeight: "120px", overflowY: "auto" }}>
+            {stats.countriesStats.length === 0 ? (
+              <p style={{ color: "#888", fontSize: "14px" }}>No hay datos de visitas aún.</p>
+            ) : (
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "14px" }}>
+                <thead>
+                  <tr style={{ borderBottom: "1px solid #eee", textAlign: "left", color: "#666" }}>
+                    <th style={{ paddingBottom: "5px" }}>País / Código</th>
+                    <th style={{ paddingBottom: "5px", textAlign: "right" }}>Visitas</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stats.countriesStats.map((item, index) => (
+                    <tr key={index} style={{ borderBottom: "1px solid #f9f9f9" }}>
+                      <td style={{ padding: "6px 0", fontWeight: "500" }}>
+                        <span style={{ marginRight: "8px" }}>📍</span>
+                        {item.country === "Unknown" ? "Desconocido" : item.country}
+                      </td>
+                      <td style={{ padding: "6px 0", textAlign: "right", fontWeight: "bold", color: "#0070f3" }}>
+                        {item.count}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* SECTION CONFIGURATION BANCAIRE */}
+      <div style={{ background: "#fff", padding: "20px", borderRadius: "8px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)", marginBottom: "30px" }}>
+        <h3><i className="fas fa-university"></i> Configuración de Cuenta Bancaria</h3>
+        <form onSubmit={handleBankUpdate} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 210px), 1fr))", gap: "15px", alignItems: "end", marginTop: "15px" }}>
+          <div>
+            <label style={{ display: "block", fontSize: "14px", marginBottom: "5px" }}>Beneficiario</label>
+            <input type="text" value={bank.beneficiary} onChange={(e) => setBank({ ...bank, beneficiary: e.target.value })} style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }} required />
+          </div>
+          <div>
+            <label style={{ display: "block", fontSize: "14px", marginBottom: "5px" }}>IBAN</label>
+            <input type="text" value={bank.iban} onChange={(e) => setBank({ ...bank, iban: e.target.value })} style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }} required />
+          </div>
+          <div>
+            <label style={{ display: "block", fontSize: "14px", marginBottom: "5px" }}>SWIFT / BIC</label>
+            <input type="text" value={bank.bic} onChange={(e) => setBank({ ...bank, bic: e.target.value })} style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }} required />
+          </div>
+          <button type="submit" disabled={savingBank} style={{ padding: "10px 20px", background: "#2ecc71", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer", fontWeight: "bold" }}>
+            {savingBank ? "Guardando..." : "Actualizar Cuenta"}
+          </button>
+        </form>
+      </div>
+
+      {/* SECTION LISTE DES COMMANDES */}
+      {orders.length === 0 ? (
+        <div className="admin-empty-state">
+          <i className="fas fa-inbox admin-empty-icon"></i>
+          <h2>No hay ningún pedido registrado aún</h2>
+          <p>Las compras realizadas por los clientes aparecerán automáticamente aquí.</p>
+        </div>
+      ) : (
+        <div className="admin-orders-list">
+          {orders.map((order) => (
+            <div key={order.id} className="admin-order-card">
+              <div className="admin-card-header">
+                <div className="admin-order-info-group">
+                  <span className="admin-label">ID de Pedido: </span>
+                  <strong className="admin-order-id">#{order.id}</strong>
+                </div>
+                <div className="admin-order-info-group">
+                  <span className="admin-label">Fecha: </span>
+                  <strong className="admin-order-date">{order.date}</strong>
+                </div>
+                <div className="admin-order-info-group">
+                  <span className="admin-label">Estado: </span>
+                  <span className={`admin-status-pill status-${order.status.toLowerCase().replace(/\s+/g, "-")}`}>
+                    {order.status}
+                  </span>
+                </div>
+              </div>
+
+              {/* COORDONNÉES DU CLIENT / LIVRAISON */}
+              <div style={{ background: "#f8f9fa", padding: "12px 15px", borderRadius: "6px", margin: "15px 0", borderLeft: "4px solid #0070f3" }}>
+                <h4 style={{ margin: "0 0 8px 0", fontSize: "14px", color: "#333" }}>
+                  <i className="fas fa-user-tag" style={{ marginRight: "6px" }}></i> Datos del Cliente y Envío
+                </h4>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px", fontSize: "13px", color: "#555" }}>
+                  <div><strong>Cliente:</strong> {order.customerName || "No especificado"}</div>
+                  <div><strong>Email:</strong> {order.email || "N/A"}</div>
+                  <div>
+                    <strong>WhatsApp:</strong>{" "}
+                    {order.whatsapp ? (
+                      <a href={`https://wa.me/${order.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" style={{ color: "#25D366", fontWeight: "bold", textDecoration: "none" }}>
+                        {order.whatsapp} <i className="fab fa-whatsapp"></i>
+                      </a>
+                    ) : "N/A"}
+                  </div>
+                  <div><strong>Ubicación:</strong> {order.city ? `${order.city}, ${order.country}` : "N/A"}</div>
+                  <div style={{ gridColumn: "1 / -1" }}><strong>Dirección:</strong> {order.address || "N/A"}</div>
+                </div>
+              </div>
+
+              <div className="admin-card-body">
+                <h4 className="admin-section-subtitle">Artículos comprados :</h4>
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Producto</th>
+                      <th>Categoría</th>
+                      <th>Precio unitario</th>
+                      <th className="text-center">Cantidad</th>
+                      <th className="text-right">Subtotal</th>
+                    </tr>
+                  </thead> 
+                  <tbody>
+                    {order.items?.map((item) => (
+                      <tr key={item.id}>
+                        <td className="product-name-cell">{item.name}</td>
+                        <td className="product-cat-cell">{item.category}</td>
+                        <td>{item.price} €</td>
+                        <td className="text-center">x{item.quantity}</td>
+                        <td className="text-right subtotal-cell">{(item.price * item.quantity).toLocaleString()} €</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="admin-card-footer">
+                <div className="admin-status-control">
+                  <span className="control-label">Cambiar estado del pedido:</span>
+                  <select 
+                    value={order.status} 
+                    onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                    className="admin-select"
+                  >
+                    <option value="Pendiente de pago">Pendiente de pago</option>
+                    <option value="Pagado">Pagado (Recibo Validado)</option>
+                    <option value="Cancelado">Cancelado</option>
+                  </select>
+                </div>
+
+                <div className="admin-actions-summary">
+                  <div className="admin-total-amount">
+                    <span>Monto Total a Recibir: </span>
+                    <strong className="total-price-display">{order.total.toLocaleString()} €</strong>
+                  </div>
+                  <button onClick={() => handleDeleteOrder(order.id)} className="admin-delete-btn" title="Eliminar historial">
+                    <i className="far fa-trash-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

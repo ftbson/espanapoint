@@ -639,7 +639,9 @@ width: 95%;
     grid-template-columns: repeat(2, 1fr);
     gap: 40px;
   }
-}
+} 
+
+
 
 @media (max-width: 640px) {
   .main-footer {

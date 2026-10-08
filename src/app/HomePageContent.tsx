@@ -184,14 +184,14 @@ function HomeContent() {
   <h2 id="help-title" className="help-title">¿Necesitas ayuda?</h2>
   <p className="help-text">   
     Contacta con Espanapoint para consultar productos o pedidos.
-  </p>
+  </p> 
   <Link href="/contact" className="help-button">Contactar</Link>
 </section>
 
     </div>
   );
 }
-
+ 
 export default function HomePageContent() {
   return (
     <Suspense fallback={<div role="status">Cargando catálogo...</div>}>

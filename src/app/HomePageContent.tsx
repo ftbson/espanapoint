@@ -179,7 +179,7 @@ function HomeContent() {
           </div>
         )}
       </section>
-
+ 
     <section className="help-section" aria-labelledby="help-title">
   <h2 id="help-title" className="help-title">¿Necesitas ayuda?</h2>
   <p className="help-text">

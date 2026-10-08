@@ -182,7 +182,7 @@ function HomeContent() {
  
     <section className="help-section" aria-labelledby="help-title">
   <h2 id="help-title" className="help-title">¿Necesitas ayuda?</h2>
-  <p className="help-text">
+  <p className="help-text">   
     Contacta con Espanapoint para consultar productos o pedidos.
   </p>
   <Link href="/contact" className="help-button">Contactar</Link>

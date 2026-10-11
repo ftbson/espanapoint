@@ -84,7 +84,7 @@ export async function POST(req: Request) {
       price: product.price,
       quantity,
       category: product.category,
-      image: product.image,
+      image: product.image[0],
     }));
 
     await db.insert(orders).values({

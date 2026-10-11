@@ -1,40 +1,23 @@
-export type ProductCondition = "new" | "refurbished";
-export type ProductAvailability = "in_stock" | "out_of_stock" | "preorder" | "backorder";
-export type ProductStockStatus = "confirmed" | "pending";
-
-export interface ProductImage {
-  src: string;
-  alt: string;
-}
+export type ProductCondition =
+  | "NewCondition"
+  | "RefurbishedCondition"
+  | "UsedCondition";
+export type ProductAvailability = "InStock" | "OutOfStock" | "PreOrder";
 
 export interface Product {
   id: number;
-  slug: string;
-  title: string;
+  sku: string;
   name: string;
-  price: number;
-  currency: "EUR";
-  category: string;
-  image: string;
-  images: ProductImage[];
-  brand?: string;
-  model?: string;
-  gtin?: string;
-  mpn?: string;
-  availability?: ProductAvailability;
-  stock: number | null;
-  stockStatus: ProductStockStatus;
-  condition: ProductCondition;
-  conditionGrade?: string;
-  professionallyRefurbished?: boolean;
-  warranty?: string;
-  shortDescription: string;
+  brand: string;
   description: string;
-  features: string[];
-  specs: Record<string, string>;
-  whatsInTheBox?: string[];
-  descriptionStatus: "draft" | "verified";
-  isMerchantReady?: boolean;
+  image: string[];
+  category: string;
+  color?: string;
+  itemCondition: ProductCondition;
+  price: number;
+  priceCurrency: "EUR";
+  availability: ProductAvailability;
+  url?: string;
 }
 
 type ProductSeedEntry = {
@@ -511,25 +494,12 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
   },
 ];
 
-function normalizeProductTitle(name: string): string {
-  const cleaned = name
-    .replace(/\s*\|\s*.*$/, "")
-    .replace(/\([^)]*\)/g, " ")
-    .replace(/\s*[-–—]\s*/g, " ")
-    .replace(/\s{2,}/g, " ")
-    .trim();
-
-  const safe = cleaned
-    .replace(/\b(amazon|apple|google|ninja|samsung|lenovo|asus|dji|sony|mixa|cera|tymo|nintendo|puma|adidas|skechers|jbl|realme|qianbaiyi|aurlane|urlife|zipro|mercusys|bissell|dreame|roborock|ecovacs|tapo|gasland|nespresso|shokz|soundcore|playstation|mini|roku|horizon|amazon basics)\b/gi, "")
-    .replace(/\s{2,}/g, " ")
-    .trim();
-
-  const candidate = safe.length > 110 ? safe.slice(0, 110).replace(/\s+\S*$/, "") : safe;
-  return candidate || cleaned;
-}
-
-function detectBrand(name: string): string | undefined {
+function detectBrand(name: string): string {
   const brands = [
+    "Amazon Basics",
+    "HORION",
+    "EZVIZ",
+    "Amazon",
     "Apple",
     "Google",
     "Sony",
@@ -548,6 +518,7 @@ function detectBrand(name: string): string | undefined {
     "TYMO",
     "Nintendo",
     "Nespresso",
+    "Cosori",
     "TP-Link",
     "Bissell",
     "Dreame",
@@ -556,197 +527,152 @@ function detectBrand(name: string): string | undefined {
     "GASLAND",
     "SanDisk",
     "Shark",
-    "Amazon Basics",
     "MERCUSYS",
     "QIANBAIYI",
     "URLIFE",
     "ZIPRO",
     "Aurlane",
     "Smartue",
-  ];
-
-  return brands.find((brand) => name.toLowerCase().includes(brand.toLowerCase()));
-}
-
-function detectModel(name: string): string | undefined {
-  const noBrand = name.replace(/^[A-Za-z0-9 .\-]+\s+/, "");
-  const match = noBrand.match(/(?:modelo|model|UM[0-9A-Z-]+|YY\d+[A-Z0-9-]*|MC\d+[A-Z0-9-]*|G5|G6|QLED|OLED|Pro|Max|Air|One|Mini|Ultra|Slim|Zenbook|Inissia|T50|H60)/i);
-  if (!match) return undefined;
-  return match[0].trim();
-}
-
-function buildProductDescription(product: Product): string {
-  const conditionText =
-    product.condition === "refurbished"
-      ? "se ofrece como reacondicionado y revisado antes de su salida al mercado."
-      : "se ofrece en estado nuevo.";
-  const intro = `Este producto ${product.title.toLowerCase()} forma parte del catálogo de Espanapoint y ${conditionText}`;
-  const categoryText = `Se presenta dentro de la categoría ${product.category.toLowerCase()} y está pensado para uso cotidiano.`;
-  const useText = `Su diseño prioriza la funcionalidad y la comodidad, con una presentación clara para quienes buscan un artículo práctico en su día a día.`;
-  const featureText = product.features
-    .map((feature) => feature.replace(/\.$/, ""))
-    .join(" ");
-  const idealText = `Es ideal para quienes buscan una solución práctica y fácil de integrar en el hogar, el trabajo o la rutina diaria.`;
-  const refurbText =
-    product.condition === "refurbished"
-      ? "¿Qué significa reacondicionado? El producto ha sido revisado, se entrega con un estado estético coherente con su condición y se acompaña de la garantía mínima legal vigente para artículos reacondicionados."
-      : "";
-
-  const text = `${intro} ${categoryText} ${useText} ${featureText}. ${idealText} ${refurbText}`.trim();
-  return text.length >= 150 ? text : `${text} ${product.shortDescription}`.trim();
-}
-
-export const PRODUCTS_DATA: Product[] = PRODUCT_SEED.map((entry, index) => {
-  const condition = /reacondicionado|refurbished|used/i.test(entry.name) ? "refurbished" : "new";
-  const brand = detectBrand(entry.name) ?? "Espanapoint";
-  const cleanName = normalizeProductTitle(entry.name);
-  const title = cleanName.length > 110 ? cleanName.slice(0, 110).replace(/\s+\S*$/, "") : cleanName;
-  const model = detectModel(entry.name);
-  const stock = [7, 9, 13, 22, 40, 58].includes(entry.id) ? null : 1 + ((index + entry.id) % 8);
-  const availability = stock === null ? undefined : stock > 0 ? "in_stock" : "out_of_stock";
-  const shortDescription = `${title}. Producto ${condition === "refurbished" ? "reacondicionado" : "nuevo"} del catálogo de Espanapoint.`;
-  const features = [
-    "Diseño pensado para uso cotidiano y fácil integración en la rutina diaria.",
-    "Presenta una propuesta funcional con materiales y acabados apropiados para su categoría.",
-    "Se adapta a necesidades domésticas, de trabajo o de uso personal según el artículo.",
-    "Ofrece una experiencia clara y accesible para la mayor parte de usuarios.",
-    "Ideal para quienes buscan una solución práctica y versátil.",
-    "Se entrega con la información y garantías legales aplicables según el producto.",
-    "Compatible con el uso previsto en la categoría comercial de referencia.",
-  ];
-
-  const specs: Record<string, string> = {
-    Categoría: entry.category,
-    Condición: condition === "refurbished" ? "Reacondicionado" : "Nuevo",
-    Marca: brand,
-    Stock: stock === null ? "Pendiente de confirmar" : String(stock),
-    IVA: "Incluido",
-    Envío: "Gratis en España",
-  };
-
-  if (model) {
-    specs.Modelo = model;
-  }
-
-  const product: Product = {
-    id: entry.id,
-    slug: "",
-    title,
-    name: title,
-    price: entry.price,
-    currency: "EUR",
-    category: entry.category,
-    image: entry.image,
-    images: [{ src: entry.image, alt: title }],
-    brand,
-    model,
-    gtin: undefined,
-    mpn: undefined,
-    availability,
-    stock,
-    stockStatus: stock === null ? "pending" : "confirmed",
-    condition,
-    conditionGrade: condition === "refurbished" ? "A" : undefined,
-    professionallyRefurbished: condition === "refurbished",
-    warranty: condition === "refurbished" ? "Garantía mínima legal de 1 año" : "Garantía legal de 3 años",
-    shortDescription,
-    description: "",
-    features,
-    specs,
-    descriptionStatus: "draft",
-    isMerchantReady: false,
-  };
-
-  product.description = buildProductDescription(product);
-  product.slug = `${product.title
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "")}-${product.id}`;
-
-  return product;
-});
-
-export function getProductSlug(product: Product): string {
-  const slug = product.name
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-
-  return `${slug}-${product.id}`;
-}
-
-export function getProductUrl(product: Product): string {
-  return `/produits/${getProductSlug(product)}`;
-}
-
-export function getProductByRouteId(routeId: string): Product | undefined {
-  const idFromSlug = Number(routeId.match(/-(\d+)$/)?.[1] ?? routeId);
-  return PRODUCTS_DATA.find((product) => product.id === idFromSlug);
-}
-
-export function getProductBrand(product: Product): string | undefined {
-  if (product.brand) return product.brand;
-
-  const brands = [
-    "Amazon Basics",
-    "Apple",
-    "Adidas",
+    "UrbanLuxe",
+    "Dskeuzeew",
+    "PROIRON",
+    "The G-Lab",
+    "SHOKZ",
+    "Soundcore",
+    "SNDOAS",
     "Anker",
-    "ASUS",
-    "Bissell",
-    "CeraVe",
-    "Cosori",
-    "DJI",
-    "Dreame",
-    "Ecovacs",
-    "EZVIZ",
-    "GASLAND",
-    "Google",
-    "JBL",
-    "Lenovo",
-    "MIXA",
-    "MERCUSYS",
-    "Nespresso",
-    "Nintendo",
-    "Ninja",
-    "Puma",
-    "Realme",
-    "Roborock",
-    "Samsung",
-    "SanDisk",
-    "Shark",
-    "Skechers",
-    "Sony",
-    "TP-Link",
-    "TYMO",
-    "URLIFE",
-    "ZIPRO",
+    "PlayStation",
   ];
 
-  return brands.find((brand) =>
-    new RegExp(`(?:^|\\W)${brand.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:$|\\W)`, "i").test(product.name)
+  if (/\biphone\b/i.test(name)) return "Apple";
+  return (
+    brands.find((brand) =>
+      new RegExp(
+        `(?:^|[^a-z0-9])${brand.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:$|[^a-z0-9])`,
+        "i"
+      ).test(name)
+    ) ??
+    "Genérico"
   );
 }
 
+function slugifyProductName(name: string): string {
+  return name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .split("-")
+    .slice(0, 6)
+    .join("-")
+    .slice(0, 48)
+    .replace(/-+$/g, "");
+}
+
+function makeProductDescription(name: string): string {
+  const source = name.split(/[|.]/, 1)[0].trim();
+  const maxSourceLength = 145;
+  const shortName =
+    source.length > maxSourceLength
+      ? `${source.slice(0, maxSourceLength).replace(/\s+\S*$/, "")}…`
+      : source;
+  return `Producto: ${shortName}.`;
+}
+
+const usedSkus = new Set<string>();
+
+export const PRODUCTS_DATA: Product[] = PRODUCT_SEED.map((entry) => {
+  const baseSku = slugifyProductName(entry.name) || `producto-${entry.id}`;
+  let sku = baseSku;
+  if (usedSkus.has(sku)) {
+    sku = `${baseSku}-${entry.id}`;
+    while (usedSkus.has(sku)) {
+      sku = `${baseSku}-${entry.id}-${usedSkus.size}`;
+    }
+  }
+  usedSkus.add(sku);
+
+  const condition: ProductCondition = /reacondicionado/i.test(entry.name)
+    ? "RefurbishedCondition"
+    : /\busad[oa]s?\b|\bused\b/i.test(entry.name)
+      ? "UsedCondition"
+      : "NewCondition";
+
+  return {
+    id: entry.id,
+    sku,
+    name: entry.name,
+    brand: detectBrand(entry.name),
+    description: makeProductDescription(entry.name),
+    image: [entry.image],
+    category: entry.category,
+    itemCondition: condition,
+    price: entry.price,
+    priceCurrency: "EUR",
+    availability: "InStock",
+  };
+});
+
+export function getProductSlug(product: Product): string {
+  return product.sku;
+}
+
+export function getProductUrl(product: Product): string {
+  return product.url ?? `/produits/${getProductSlug(product)}`;
+}
+
+export function getProductByRouteId(routeId: string): Product | undefined {
+  const idFromLegacySlug = Number(routeId.match(/-(\d+)$/)?.[1]);
+  return PRODUCTS_DATA.find(
+    (product) =>
+      product.sku === routeId ||
+      product.id === Number(routeId) ||
+      (Number.isInteger(idFromLegacySlug) && product.id === idFromLegacySlug)
+  );
+}
+
+export function getProductBrand(product: Product): string {
+  return product.brand;
+}
+
 export function getProductDescription(product: Product): string {
-  return product.description?.trim() || product.name.trim();
+  return product.description;
 }
 
 export function getVerifiedProductCondition(
   product: Product
-): ProductCondition | undefined {
-  if (
-    product.condition === "refurbished" &&
-    (!product.professionallyRefurbished || !product.warranty?.trim())
-  ) {
-    return undefined;
+): "new" | "refurbished" | "used" {
+  switch (product.itemCondition) {
+    case "RefurbishedCondition":  
+      return "refurbished";
+    case "UsedCondition":
+      return "used";
+    default:
+      return "new";
   }
+}
 
-  return product.condition;
+export function getAvailabilityLabel(availability: ProductAvailability): string {
+  switch (availability) {
+    case "InStock":
+      return "En stock";
+    case "OutOfStock":
+      return "Agotado";
+    case "PreOrder":
+      return "Preventa";
+  }
+}
+
+export function getProductConditionLabel(condition: ProductCondition): string {
+  switch (condition) {
+    case "RefurbishedCondition":
+      return "Reacondicionado";
+    case "UsedCondition":
+      return "Usado";
+    default:
+      return "Nuevo";
+  }
 }
 
 export function resolveCheckoutItems(items: unknown) {

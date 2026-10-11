@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import { PRODUCTS_DATA } from "@/lib/products";
+import type { Product } from "@/lib/products";
 
 export interface CartItem {
   id: number;
@@ -17,9 +18,20 @@ export interface CartItem {
   quantity: number;
 }
 
+function toCartItem(product: Product, quantity: number): CartItem {
+  return {
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    image: product.image[0],
+    category: product.category,
+    quantity,
+  };
+}
+
 interface CartContextType {
   cart: CartItem[];
-  addToCart: (product: Omit<CartItem, "quantity">) => void;
+  addToCart: (product: Product) => void;
   removeFromCart: (id: number) => void;
   updateQuantity: (id: number, quantity: number) => void;
   clearCart: () => void;
@@ -62,7 +74,7 @@ function restoreCart(): CartItem[] {
         return [];
       }
       const product = PRODUCTS_DATA.find((entry) => entry.id === item.id);
-      return product ? [{ ...product, quantity: item.quantity }] : [];
+      return product ? [toCartItem(product, item.quantity)] : [];
     });
 
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(restored));
@@ -124,7 +136,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
 
-  const addToCart = (product: Omit<CartItem, "quantity">) => {
+  const addToCart = (product: Product) => {
     const current = getCartSnapshot();
     const existing = current.find((item) => item.id === product.id);
     if (existing) {
@@ -137,7 +149,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       );
       return;
     }
-    commitCart([...current, { ...product, quantity: 1 }]);
+    commitCart([...current, toCartItem(product, 1)]);
   };
 
   const removeFromCart = (id: number) => {

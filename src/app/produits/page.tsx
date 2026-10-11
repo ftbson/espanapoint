@@ -100,7 +100,7 @@ export default function ProductsPage() {
             >
               <div className="product-image-wrapper">
                 <Image
-                  src={product.image}
+                  src={product.image[0]}
                   alt={product.name}
                   className="product-img"
                   width={320}

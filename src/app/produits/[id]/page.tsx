@@ -5,16 +5,17 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import ProductActions from "./ProductActions";
 import "./product.css";
+import { getProductJsonLd } from "@/lib/productSchema";
 import {
+  getAvailabilityLabel,
   getProductBrand,
   getProductByRouteId,
   getProductDescription,
   getProductSlug,
   getProductUrl,
-  getVerifiedProductCondition,
+  getProductConditionLabel,
   PRODUCTS_DATA,
 } from "@/lib/products";
-import { STORE } from "@/lib/store";
 
 export function generateStaticParams() {
   return PRODUCTS_DATA.map((product) => ({ id: getProductSlug(product) }));
@@ -38,7 +39,7 @@ export async function generateMetadata({
           description: getProductDescription(product).slice(0, 160),
           url: getProductUrl(product),
           type: "website",
-          images: [{ url: product.image, alt: product.name }],
+          images: [{ url: product.image[0], alt: product.name }],
         },
       }
     : { title: "Producto no encontrado" };
@@ -63,47 +64,8 @@ export default async function ProductPage({
   }
 
   const brand = getProductBrand(product);
-  const condition = getVerifiedProductCondition(product);
   const description = getProductDescription(product);
-  const productJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
-    description,
-    image: product.image.startsWith("http")
-      ? product.image
-      : `${STORE.website}${product.image}`,
-    category: product.category,
-    ...(brand ? { brand: { "@type": "Brand", name: brand } } : {}),
-    ...(product.model ? { model: product.model } : {}),
-    ...(product.gtin ? { gtin: product.gtin } : {}),
-    ...(product.mpn ? { mpn: product.mpn } : {}),
-    offers: {
-      "@type": "Offer",
-      url: `${STORE.website}${canonicalPath}`,
-      priceCurrency: "EUR",
-      price: product.price.toFixed(2),
-      ...(product.availability
-        ? {
-            availability: `https://schema.org/${{
-              in_stock: "InStock",
-              out_of_stock: "OutOfStock",
-              preorder: "PreOrder",
-              backorder: "BackOrder",
-            }[product.availability]}`,
-          }
-        : {}),
-      ...(condition
-        ? {
-            itemCondition: `https://schema.org/${{
-              new: "NewCondition",
-              used: "UsedCondition",
-              refurbished: "RefurbishedCondition",
-            }[condition]}`,
-          }
-        : {}),
-    },
-  };
+  const productJsonLd = getProductJsonLd(product);
 
   return (
     <article className="product-detail">
@@ -119,7 +81,7 @@ export default async function ProductPage({
 
       <div className="product-detail-image">
         <Image
-          src={product.image}
+          src={product.image[0]}
           alt={product.name}
           width={600}
           height={600}
@@ -133,8 +95,10 @@ export default async function ProductPage({
         <span className="product-detail-cat">{product.category}</span>
 
         <h1>{product.name}</h1>
-        {brand && <p>Marca: {brand}</p>}
-        {product.model && <p>Modelo: {product.model}</p>}
+        <p>Marca: {brand}</p>
+        <p className={`product-availability product-availability-${product.availability.toLowerCase()}`}>
+          {getAvailabilityLabel(product.availability)}
+        </p>
 
         <p className="product-detail-price">
           {product.price.toLocaleString("es-ES", {
@@ -145,9 +109,9 @@ export default async function ProductPage({
 
         <p className="product-detail-description">{description}</p>
 
-        {product.name.toLowerCase().includes("reacondicionado") && (
-          <p className="product-condition">Reacondicionado</p>
-        )}
+        <p className="product-condition">
+          {getProductConditionLabel(product.itemCondition)}
+        </p>
 
         <ProductActions product={product} />
       </div>

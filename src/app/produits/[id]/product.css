@@ -87,6 +87,30 @@
   font-weight: 600;
 }
 
+.product-availability {
+  display: inline-flex;
+  align-self: flex-start;
+  margin: 0 0 16px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.product-availability-instock {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.product-availability-outofstock {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.product-availability-preorder {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
 .product-detail-benefits {
   color: #555;
   line-height: 1.8;

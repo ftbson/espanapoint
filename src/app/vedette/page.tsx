@@ -37,7 +37,7 @@ export default function FeaturedPage() {
             <Link href={getProductUrl(product)} className="product-card-link">
               <div className="product-image-wrapper">
                 <Image
-                  src={product.image}
+                  src={product.image[0]}
                   alt={product.name}
                   className="product-img"
                   width={320}

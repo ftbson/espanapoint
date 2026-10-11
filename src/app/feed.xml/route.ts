@@ -20,9 +20,10 @@ function getFeedReadyProducts() {
       return [];
     }
 
-    const image = product.image.startsWith("http")
-      ? product.image
-      : `${STORE.website}${product.image}`;
+    const productImage = product.image[0];
+    const image = productImage.startsWith("http")
+      ? productImage
+      : `${STORE.website}${productImage}`;
 
     return [{ product, brand, condition, image }];
   });
@@ -47,12 +48,14 @@ export async function GET() {
       <g:link>${cdata(productUrl)}</g:link>
       <g:image_link>${cdata(image)}</g:image_link>
       <g:price>${product.price.toFixed(2)} EUR</g:price>
-      <g:availability>${product.availability}</g:availability>
+      <g:availability>${{
+        InStock: "in_stock",
+        OutOfStock: "out_of_stock",
+        PreOrder: "preorder",
+      }[product.availability]}</g:availability>
       <g:condition>${condition}</g:condition>
       <g:brand>${cdata(brand)}</g:brand>
       <g:product_type>${cdata(product.category)}</g:product_type>
-      ${product.gtin ? `<g:gtin>${cdata(product.gtin)}</g:gtin>` : ""}
-      ${product.mpn ? `<g:mpn>${cdata(product.mpn)}</g:mpn>` : ""}
     </item>`;
       })
       .join("\n")}

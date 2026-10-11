@@ -19,6 +19,8 @@ export const metadata: Metadata = {
 };
 
 export default function CGV() {
+  const shippingCost: number = SHIPPING_COST;
+
   return (
     <div className="cgv-container">
       <header className="cgv-header">
@@ -43,7 +45,7 @@ export default function CGV() {
         <section className="cgv-section">
           <h2>2. Precios, IVA e información comercial</h2>
           <p>
-            Los precios se muestran en euros y incluyen el IVA. El precio final de cada producto es el que aparece publicado en la ficha y en el carrito. El envío se ofrece con coste <strong>{SHIPPING_COST === 0 ? "0 €" : `${SHIPPING_COST.toFixed(2)} €`}</strong> para entregas en {SHIPPING_COUNTRY === "ES" ? "España" : SHIPPING_COUNTRY}.
+            Los precios se muestran en euros y incluyen el IVA. El precio final de cada producto es el que aparece publicado en la ficha y en el carrito. El envío se ofrece con coste <strong>{shippingCost === 0 ? "0 €" : `${shippingCost.toFixed(2)} €`}</strong> para entregas en {SHIPPING_COUNTRY === "ES" ? "España" : SHIPPING_COUNTRY}.
           </p>
           <p>
             La disponibilidad real del producto se comunica en la ficha y en el checkout. Si el stock no está disponible o queda agotado, el pedido no podrá tramitarse.

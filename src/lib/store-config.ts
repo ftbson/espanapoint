@@ -13,25 +13,30 @@ export const STORE_CONFIG = {
     phone: "+34 684 797 526",
     cif: "47609196R",
     email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "contact@espanapoint.es",
-    hours: "Lun–Vie 8:00–19:00; sábado 9:00–17:00",
+    hours: "Lun–Vie 8:00–19:00 y sábado 9:00–17:00",
   },
   WEBSITE: "https://espanapoint.es",
   DELIVERY_TEXT:
     "Entrega en un máximo de 3 días desde la confirmación del pedido.",
   SHIPPING_TEXT: "Envío gratuito a España.",
   RETURN_TEXT: "14 días naturales para desistir desde la recepción del producto.",
-  GUARANTEE_TEXT: "Garantía legal: 3 años para productos nuevos, 1 año mínimo para reacondicionados.",
+  GUARANTEE_TEXT:
+    "Garantía legal: 3 años para productos nuevos, 1 año mínimo para productos reacondicionados.",
 } as const;
 
 export const STORE_NAME = STORE_CONFIG.STORE_NAME;
 export const DELIVERY_DAYS = STORE_CONFIG.DELIVERY_DAYS;
+export const DELIVERY_TEXT = STORE_CONFIG.DELIVERY_TEXT;
 export const SHIPPING_COST = STORE_CONFIG.SHIPPING_COST;
 export const SHIPPING_COUNTRY = STORE_CONFIG.SHIPPING_COUNTRY;
+export const SHIPPING_TEXT = STORE_CONFIG.SHIPPING_TEXT;
 export const RETURN_DAYS = STORE_CONFIG.RETURN_DAYS;
+export const RETURN_TEXT = STORE_CONFIG.RETURN_TEXT;
 export const REFUND_DAYS = STORE_CONFIG.REFUND_DAYS;
 export const RETURN_FEES_PAYER = STORE_CONFIG.RETURN_FEES_PAYER;
 export const GUARANTEE_NEW_YEARS = STORE_CONFIG.GUARANTEE_NEW_YEARS;
 export const GUARANTEE_REFURBISHED_YEARS = STORE_CONFIG.GUARANTEE_REFURBISHED_YEARS;
+export const GUARANTEE_TEXT = STORE_CONFIG.GUARANTEE_TEXT;
 
 // TODO: confirmar el identificador fiscal exacto y su coincidencia con Merchant Center.
 // TODO: confirmar quién asume los gastos de devolución en caso de defecto/error.

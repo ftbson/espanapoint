@@ -52,6 +52,11 @@ export default function Footer() {
                 Política de Cookies
               </Link>
             </li>
+            <li>
+              <Link href="/aviso-legal">
+                Aviso Legal
+              </Link>
+            </li>
           </ul>
         </div>
 

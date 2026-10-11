@@ -193,9 +193,5 @@ function HomeContent() {
 }
  
 export default function HomePageContent() {
-  return (
-    <Suspense fallback={<div role="status">Cargando catálogo...</div>}>
-      <HomeContent />
-    </Suspense>
-  );
+  return <HomeContent />;
 }

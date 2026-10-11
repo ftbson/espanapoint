@@ -1,11 +1,20 @@
 import React from 'react';
 import { STORE } from "@/lib/store";
 import type { Metadata } from "next";
+import {
+  DELIVERY_DAYS,
+  GUARANTEE_NEW_YEARS,
+  GUARANTEE_REFURBISHED_YEARS,
+  RETURN_DAYS,
+  RETURN_FEES_PAYER,
+  SHIPPING_COST,
+  SHIPPING_COUNTRY,
+} from "@/lib/store-config";
 
 export const metadata: Metadata = {
   title: "Condiciones Generales de Venta",
   description:
-    "Consulta las condiciones de compra, pago, envío, devoluciones y garantías de Espanapoint.",
+    "Condiciones de compra, precios con IVA incluido, envío gratuito, plazo de entrega y devoluciones de Espanapoint.",
   alternates: { canonical: "/cgv" },
 };
 
@@ -15,75 +24,93 @@ export default function CGV() {
       <header className="cgv-header">
         <h1 className="cgv-title">Condiciones Generales de Venta</h1>
         <p className="cgv-subtitle">
-          Última actualización: {new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })}
+          Última actualización: {new Date().toLocaleDateString("es-ES", { month: "long", year: "numeric" })}
         </p>
       </header>
 
       <div className="cgv-content">
         <section className="cgv-section">
-          <h2>1. Objeto y Ámbito de Aplicación</h2>
+          <h2>1. Objeto y ámbito de aplicación</h2>
           <p>
-            Las presentes Condiciones Generales de Venta (en adelante, &quot;CGV&quot;) regulan la compraventa de productos a través de <strong>Espanapoint</strong>. Al realizar un pedido en nuestra plataforma, el usuario acepta los términos aquí expuestos.
+            Las presentes Condiciones Generales de Venta (CGV) regulan la compraventa de productos a través de <strong>{STORE.name}</strong>.
+            Al realizar un pedido, el cliente acepta estas condiciones y la información comercial visible en la tienda, incluida la política de envío y devoluciones.
           </p>
           <p>
-            Nombre comercial: <strong>{STORE.name}</strong>. CIF: <strong>{STORE.cif}</strong>.
-            Dirección: {STORE.address.street}, {STORE.address.postalCode} {STORE.address.locality}, {STORE.address.country}.
-            Contacto: <a href={`mailto:${STORE.email}`}>{STORE.email}</a> · {STORE.phone}.
-          </p>
-        </section>
-
-        <section className="cgv-section">
-          <h2>2. Productos y Precios</h2>
-          <p>
-            Todos los productos mostrados en la tienda <strong>Espanapoint</strong> están sujetos a disponibilidad. Nos reservamos el derecho de modificar la oferta de productos y los precios en cualquier momento sin previo aviso.
-          </p>
-          <p>
-            Los precios se muestran en euros. La inclusión de impuestos no se especifica actualmente en las fichas. El carrito muestra el envío como gratuito y no calcula tarifas por zona o modalidad. Consulte la <a href="/politica-de-envio">Política de Envío</a> y confirme cualquier duda antes de comprar.
+            <strong>{STORE.name}</strong> · CIF/NIF: <strong>{STORE.cif}</strong> · {STORE.address.street}, {STORE.address.postalCode} {STORE.address.locality}, {STORE.address.country}. · Contacto: <a href={`mailto:${STORE.email}`}>{STORE.email}</a> · <a href={`tel:${STORE.phoneLink}`}>{STORE.phone}</a>.
           </p>
         </section>
 
         <section className="cgv-section">
-          <h2>3. Pedidos y Confirmación</h2>
+          <h2>2. Precios, IVA e información comercial</h2>
           <p>
-            Para realizar un pedido, el cliente debe seleccionar los productos deseados, proporcionar los datos solicitados y elegir un método de pago. El pedido se registra antes de completarse el pago; los pedidos por transferencia quedan pendientes hasta su verificación.
+            Los precios se muestran en euros y incluyen el IVA. El precio final de cada producto es el que aparece publicado en la ficha y en el carrito. El envío se ofrece con coste <strong>{SHIPPING_COST === 0 ? "0 €" : `${SHIPPING_COST.toFixed(2)} €`}</strong> para entregas en {SHIPPING_COUNTRY === "ES" ? "España" : SHIPPING_COUNTRY}.
+          </p>
+          <p>
+            La disponibilidad real del producto se comunica en la ficha y en el checkout. Si el stock no está disponible o queda agotado, el pedido no podrá tramitarse.
           </p>
         </section>
 
         <section className="cgv-section">
-          <h2>4. Métodos de Pago</h2>
+          <h2>3. Pedidos y confirmación</h2>
           <p>
-            El checkout ofrece pago con tarjeta mediante Stripe o transferencia bancaria cuando los datos bancarios están configurados. La transferencia queda pendiente de verificación.
+            El pedido se realiza por medio del carrito de la web. Antes de confirmar la compra, el cliente debe aceptar expresamente las presentes CGV y la <a href="/politica-de-privacidad">Política de Privacidad</a>.
+          </p>
+          <p>
+            Una vez confirmado el pedido, se genera la confirmación y se procede al pago. Los productos pendientes de confirmación por falta de stock no se pueden vender ni reservar sin validación previa.
           </p>
         </section>
 
         <section className="cgv-section">
-          <h2>5. Envíos y Entregas</h2>
+          <h2>4. Pago</h2>
           <p>
-            El sitio no publica actualmente un plazo de entrega confirmado. Consulte la <a href="/politica-de-envio">Política de Envío</a> y confirme cobertura y plazo antes de realizar el pedido.
+            Los pagos se realizan mediante tarjeta a través de Stripe. Cuando la entidad bancaria lo solicita, también puede ofrecerse transferencia bancaria previa confirmación del pedido. En caso de transferencia, la compra se considera pendiente hasta que el ingreso sea verificado.
           </p>
         </section>
 
         <section className="cgv-section">
-          <h2>6. Derecho de Desistimiento y Devoluciones</h2>
+          <h2>5. Envío y entrega</h2>
           <p>
-            El cliente dispone de un plazo legal de <strong>14 días naturales</strong> desde la recepción del producto para ejercer el derecho de desistimiento, sujeto a las excepciones y condiciones previstas por la legislación aplicable. Consulte la <a href="/politica-de-devoluciones">Política de Devoluciones</a>.
+            El envío es gratuito a España y la entrega se realiza en un máximo de <strong>{DELIVERY_DAYS} días desde la confirmación del pedido</strong>. El transportista y el número de seguimiento se facilitarán por correo electrónico cuando el pedido se ponga en tránsito.
           </p>
           <p>
-            Para gestionar una devolución, el usuario deberá ponerse en contacto con el equipo de soporte de <strong>Espanapoint</strong> a través de los canales oficiales habilitados en la web.
-          </p>
-        </section>
-
-        <section className="cgv-section">
-          <h2>7. Garantía y Atención al Cliente</h2>
-          <p>
-            Los derechos de garantía aplicables dependen del producto y de la normativa vigente. Confirme las condiciones específicas del artículo antes de realizar el pedido. Para cualquier consulta, contacte con <strong>{STORE.name}</strong>.
+            Las entregas se realizan en la península y en las Islas Baleares salvo indicación expresa de la zona o de los términos de transporte aplicables; cualquier excepción se comunica antes de la confirmación del pedido. Consulte la <a href="/politica-de-envio">Política de Envío</a> para más detalles.
           </p>
         </section>
 
         <section className="cgv-section">
-          <h2>8. Ley Aplicable y Jurisdicción</h2>
+          <h2>6. Derecho de desistimiento y devoluciones</h2>
           <p>
-            Las presentes condiciones se rigen por la legislación vigente en España. En caso de controversia o disputa, las partes se someterán a los juzgados y tribunales competentes establecidos por la normativa aplicable.
+            El cliente puede ejercer el derecho de desistimiento en un plazo de <strong>{RETURN_DAYS} días naturales</strong> desde la recepción del producto, sin necesidad de justificarlo, de acuerdo con la normativa vigente.
+          </p>
+          <p>
+            El procedimiento para devolver un producto y la dirección de devolución se especifican en la <a href="/politica-de-devoluciones">Política de Devoluciones</a>. La devolución, salvo que se produzca un defecto o error del vendedor, corre a cargo del consumidor en el caso de desistimiento; si hay un defecto o error del vendedor, los gastos corren a cargo de {STORE.name}.
+          </p>
+        </section>
+
+        <section className="cgv-section">
+          <h2>7. Garantía</h2>
+          <p>
+            Los productos nuevos cuentan con una garantía legal de <strong>{GUARANTEE_NEW_YEARS} años</strong> y los productos reacondicionados tienen una garantía mínima legal de <strong>{GUARANTEE_REFURBISHED_YEARS} año</strong>. Además, la tienda ofrece la garantía aplicable según la naturaleza del artículo y la normativa vigente.
+          </p>
+          <p>
+            Para cualquier incidencia, el cliente puede contactarnos a través de <a href={`mailto:${STORE.email}`}>{STORE.email}</a> o por teléfono <a href={`tel:${STORE.phoneLink}`}>{STORE.phone}</a>.
+          </p>
+        </section>
+
+        <section className="cgv-section">
+          <h2>8. Atención al cliente y servicio de reclamaciones</h2>
+          <p>
+            Cualquier duda, incidencia o consulta puede resolverse a través del formulario de contacto o por teléfono en el horario indicado. La dirección de contacto del vendedor y la información legal están disponibles en la web.
+          </p>
+          <p>
+            Si el cliente desea presentar una reclamación fuera de la vía extrajudicial, puede hacerlo en la plataforma de resolución de conflictos de la Unión Europea: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noreferrer">https://ec.europa.eu/consumers/odr</a>.
+          </p>
+        </section>
+
+        <section className="cgv-section">
+          <h2>9. Ley aplicable</h2>
+          <p>
+            Las presentes condiciones se rigen por la legislación española y, en su caso, por el marco normativo aplicable a la venta online de bienes. Cualquier conflicto se resolverá conforme a la legislación vigente en España.
           </p>
         </section>
       </div>

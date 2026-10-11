@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/politica-de-envio",
     "/politica-de-devoluciones",
     "/politica-de-cookies",
+    "/aviso-legal",
   ];
 
   return [

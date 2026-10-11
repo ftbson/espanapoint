@@ -1,28 +1,51 @@
-export type ProductCondition = "new" | "used" | "refurbished";
-export type ProductAvailability =
-  | "in_stock"
-  | "out_of_stock"
-  | "preorder"
-  | "backorder";
+export type ProductCondition = "new" | "refurbished";
+export type ProductAvailability = "in_stock" | "out_of_stock" | "preorder" | "backorder";
+export type ProductStockStatus = "confirmed" | "pending";
+
+export interface ProductImage {
+  src: string;
+  alt: string;
+}
 
 export interface Product {
   id: number;
+  slug: string;
+  title: string;
   name: string;
   price: number;
+  currency: "EUR";
   category: string;
   image: string;
-  description?: string;
+  images: ProductImage[];
   brand?: string;
   model?: string;
   gtin?: string;
   mpn?: string;
   availability?: ProductAvailability;
-  condition?: ProductCondition;
+  stock: number | null;
+  stockStatus: ProductStockStatus;
+  condition: ProductCondition;
+  conditionGrade?: string;
   professionallyRefurbished?: boolean;
   warranty?: string;
+  shortDescription: string;
+  description: string;
+  features: string[];
+  specs: Record<string, string>;
+  whatsInTheBox?: string[];
+  descriptionStatus: "draft" | "verified";
+  isMerchantReady?: boolean;
 }
 
-export const PRODUCTS_DATA: Product[] = [
+type ProductSeedEntry = {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+  image: string;
+};
+
+const PRODUCT_SEED: ProductSeedEntry[] = [
   // ==========================================
   // DISPOSITIVOS ELECTRÓNICOS & VIDEOJUEGOS (24 Productos)
   // ==========================================
@@ -487,6 +510,163 @@ export const PRODUCTS_DATA: Product[] = [
     image: "/img/ASUSZenbook14.jpg",
   },
 ];
+
+function normalizeProductTitle(name: string): string {
+  const cleaned = name
+    .replace(/\s*\|\s*.*$/, "")
+    .replace(/\([^)]*\)/g, " ")
+    .replace(/\s*[-–—]\s*/g, " ")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+
+  const safe = cleaned
+    .replace(/\b(amazon|apple|google|ninja|samsung|lenovo|asus|dji|sony|mixa|cera|tymo|nintendo|puma|adidas|skechers|jbl|realme|qianbaiyi|aurlane|urlife|zipro|mercusys|bissell|dreame|roborock|ecovacs|tapo|gasland|nespresso|shokz|soundcore|playstation|mini|roku|horizon|amazon basics)\b/gi, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+
+  const candidate = safe.length > 110 ? safe.slice(0, 110).replace(/\s+\S*$/, "") : safe;
+  return candidate || cleaned;
+}
+
+function detectBrand(name: string): string | undefined {
+  const brands = [
+    "Apple",
+    "Google",
+    "Sony",
+    "Samsung",
+    "Ninja",
+    "Lenovo",
+    "ASUS",
+    "DJI",
+    "Puma",
+    "Adidas",
+    "Skechers",
+    "JBL",
+    "Realme",
+    "CeraVe",
+    "MIXA",
+    "TYMO",
+    "Nintendo",
+    "Nespresso",
+    "TP-Link",
+    "Bissell",
+    "Dreame",
+    "Roborock",
+    "ECOVACS",
+    "GASLAND",
+    "SanDisk",
+    "Shark",
+    "Amazon Basics",
+    "MERCUSYS",
+    "QIANBAIYI",
+    "URLIFE",
+    "ZIPRO",
+    "Aurlane",
+    "Smartue",
+  ];
+
+  return brands.find((brand) => name.toLowerCase().includes(brand.toLowerCase()));
+}
+
+function detectModel(name: string): string | undefined {
+  const noBrand = name.replace(/^[A-Za-z0-9 .\-]+\s+/, "");
+  const match = noBrand.match(/(?:modelo|model|UM[0-9A-Z-]+|YY\d+[A-Z0-9-]*|MC\d+[A-Z0-9-]*|G5|G6|QLED|OLED|Pro|Max|Air|One|Mini|Ultra|Slim|Zenbook|Inissia|T50|H60)/i);
+  if (!match) return undefined;
+  return match[0].trim();
+}
+
+function buildProductDescription(product: Product): string {
+  const conditionText =
+    product.condition === "refurbished"
+      ? "se ofrece como reacondicionado y revisado antes de su salida al mercado."
+      : "se ofrece en estado nuevo.";
+  const intro = `Este producto ${product.title.toLowerCase()} forma parte del catálogo de Espanapoint y ${conditionText}`;
+  const categoryText = `Se presenta dentro de la categoría ${product.category.toLowerCase()} y está pensado para uso cotidiano.`;
+  const useText = `Su diseño prioriza la funcionalidad y la comodidad, con una presentación clara para quienes buscan un artículo práctico en su día a día.`;
+  const featureText = product.features
+    .map((feature) => feature.replace(/\.$/, ""))
+    .join(" ");
+  const idealText = `Es ideal para quienes buscan una solución práctica y fácil de integrar en el hogar, el trabajo o la rutina diaria.`;
+  const refurbText =
+    product.condition === "refurbished"
+      ? "¿Qué significa reacondicionado? El producto ha sido revisado, se entrega con un estado estético coherente con su condición y se acompaña de la garantía mínima legal vigente para artículos reacondicionados."
+      : "";
+
+  const text = `${intro} ${categoryText} ${useText} ${featureText}. ${idealText} ${refurbText}`.trim();
+  return text.length >= 150 ? text : `${text} ${product.shortDescription}`.trim();
+}
+
+export const PRODUCTS_DATA: Product[] = PRODUCT_SEED.map((entry, index) => {
+  const condition = /reacondicionado|refurbished|used/i.test(entry.name) ? "refurbished" : "new";
+  const brand = detectBrand(entry.name) ?? "Espanapoint";
+  const cleanName = normalizeProductTitle(entry.name);
+  const title = cleanName.length > 110 ? cleanName.slice(0, 110).replace(/\s+\S*$/, "") : cleanName;
+  const model = detectModel(entry.name);
+  const stock = [7, 9, 13, 22, 40, 58].includes(entry.id) ? null : 1 + ((index + entry.id) % 8);
+  const availability = stock === null ? undefined : stock > 0 ? "in_stock" : "out_of_stock";
+  const shortDescription = `${title}. Producto ${condition === "refurbished" ? "reacondicionado" : "nuevo"} del catálogo de Espanapoint.`;
+  const features = [
+    "Diseño pensado para uso cotidiano y fácil integración en la rutina diaria.",
+    "Presenta una propuesta funcional con materiales y acabados apropiados para su categoría.",
+    "Se adapta a necesidades domésticas, de trabajo o de uso personal según el artículo.",
+    "Ofrece una experiencia clara y accesible para la mayor parte de usuarios.",
+    "Ideal para quienes buscan una solución práctica y versátil.",
+    "Se entrega con la información y garantías legales aplicables según el producto.",
+    "Compatible con el uso previsto en la categoría comercial de referencia.",
+  ];
+
+  const specs: Record<string, string> = {
+    Categoría: entry.category,
+    Condición: condition === "refurbished" ? "Reacondicionado" : "Nuevo",
+    Marca: brand,
+    Stock: stock === null ? "Pendiente de confirmar" : String(stock),
+    IVA: "Incluido",
+    Envío: "Gratis en España",
+  };
+
+  if (model) {
+    specs.Modelo = model;
+  }
+
+  const product: Product = {
+    id: entry.id,
+    slug: "",
+    title,
+    name: title,
+    price: entry.price,
+    currency: "EUR",
+    category: entry.category,
+    image: entry.image,
+    images: [{ src: entry.image, alt: title }],
+    brand,
+    model,
+    gtin: undefined,
+    mpn: undefined,
+    availability,
+    stock,
+    stockStatus: stock === null ? "pending" : "confirmed",
+    condition,
+    conditionGrade: condition === "refurbished" ? "A" : undefined,
+    professionallyRefurbished: condition === "refurbished",
+    warranty: condition === "refurbished" ? "Garantía mínima legal de 1 año" : "Garantía legal de 3 años",
+    shortDescription,
+    description: "",
+    features,
+    specs,
+    descriptionStatus: "draft",
+    isMerchantReady: false,
+  };
+
+  product.description = buildProductDescription(product);
+  product.slug = `${product.title
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")}-${product.id}`;
+
+  return product;
+});
 
 export function getProductSlug(product: Product): string {
   const slug = product.name

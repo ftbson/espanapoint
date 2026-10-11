@@ -144,7 +144,7 @@ export default function ContactPage() {
                 <a href={`mailto:${STORE.email}`} className="info-link">
                   {STORE.email}
                 </a>
-                <p>También puede usar el formulario para preparar un mensaje de correo.</p>
+                <p>Puede contactar con nosotros por correo o teléfono para consultas sobre productos y pedidos.</p>
               </div>
             </div>
 

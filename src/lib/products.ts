@@ -67,7 +67,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
   },
   {
     id: 3,
-    name: "iPhone 15 (Reacondicionado)",
+    name: "iPhone 15 (Reacondicionado)", 
     price: 461.99,
     category: "Dispositivos electrónicos",
     image:

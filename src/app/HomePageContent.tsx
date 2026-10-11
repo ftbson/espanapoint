@@ -193,5 +193,9 @@ function HomeContent() {
 }
  
 export default function HomePageContent() {
-  return <HomeContent />;
+  return (
+    <Suspense fallback={null}>
+      <HomeContent />
+    </Suspense>
+  );
 }

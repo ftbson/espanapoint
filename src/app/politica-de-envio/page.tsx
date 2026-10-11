@@ -16,6 +16,8 @@ export const metadata: Metadata = {
 };
 
 export default function PoliticaEnvio() {
+  const shippingCost: number = SHIPPING_COST;
+
   return (
     <div
       className="legal-page-container"
@@ -31,7 +33,7 @@ export default function PoliticaEnvio() {
 
       <h2>2. Coste de envío</h2>
       <p>
-        {SHIPPING_TEXT} El coste del envío en la web es <strong>{SHIPPING_COST === 0 ? "0 €" : `${SHIPPING_COST.toFixed(2)} €`}</strong> para entregas en {SHIPPING_COUNTRY === "ES" ? "España" : SHIPPING_COUNTRY}. No se aplicarán gastos adicionales salvo que se indique expresamente en el pedido.
+        {SHIPPING_TEXT} El coste del envío en la web es <strong>{shippingCost === 0 ? "0 €" : `${shippingCost.toFixed(2)} €`}</strong> para entregas en {SHIPPING_COUNTRY === "ES" ? "España" : SHIPPING_COUNTRY}. No se aplicarán gastos adicionales salvo que se indique expresamente en el pedido.
       </p>
 
       <h2>3. Plazo de entrega</h2>

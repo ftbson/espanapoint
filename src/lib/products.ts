@@ -570,15 +570,71 @@ function slugifyProductName(name: string): string {
     .replace(/-+$/g, "");
 }
 
-function makeProductDescription(name: string): string {
-  const source = name.split(/[|.]/, 1)[0].trim();
-  const maxSourceLength = 145;
-  const shortName =
-    source.length > maxSourceLength
-      ? `${source.slice(0, maxSourceLength).replace(/\s+\S*$/, "")}…`
-      : source;
-  return `Producto: ${shortName}.`;
-}
+const PRODUCT_DESCRIPTIONS: Record<number, string> = {
+  1: "El iPhone 13 Pro Max reacondicionado ofrece una experiencia Apple en un formato de gran pantalla, ideal para consultar contenido, comunicarse y organizar el día a día. Una opción para quien busca un iPhone de gama alta reacondicionado a un precio más accesible.",
+  2: "El iPhone 14 Pro reacondicionado reúne el diseño y las funciones de un smartphone Apple de gama alta en un formato cómodo para el uso diario. Permite gestionar llamadas, aplicaciones, fotos y contenido desde el ecosistema iOS, con la ventaja de elegir un producto reacondicionado.",
+  3: "El iPhone 15 reacondicionado es un smartphone Apple pensado para la comunicación, la fotografía y el entretenimiento cotidiano. Su formato versátil facilita llevarlo contigo y acceder a las aplicaciones y servicios del ecosistema iOS.",
+  4: "El iPhone 15 Pro Max reacondicionado combina un formato de pantalla amplia con la experiencia de un smartphone Apple de gama alta. Es una alternativa reacondicionada para disfrutar de aplicaciones, contenido y funciones de iOS en el día a día.",
+  5: "Este iPhone 16 reacondicionado incluye 128 GB de almacenamiento, acabado cian y una funda transparente compatible con MagSafe. Una combinación lista para el uso diario, con espacio para aplicaciones y archivos y accesorios pensados para integrarse con el sistema MagSafe.",
+  6: "El iPhone 16 Pro Max reacondicionado ofrece la experiencia de un smartphone Apple de gama alta en un formato amplio. Está preparado para acompañar la comunicación, el entretenimiento y las tareas cotidianas dentro del ecosistema iOS.",
+  7: "El Google Pixel 11 Pro incluye 256 GB de almacenamiento y funciones de inteligencia Gemini, según la ficha del producto. Se presenta en negro volcánico y destaca una autonomía anunciada de más de 30 horas y una pantalla Super, para quienes buscan un teléfono Android actual con herramientas de IA.",
+  8: "El Google Pixel 10 Pro XL combina una pantalla Super Actua de 6,8 pulgadas con una cámara trasera triple. La ficha anuncia más de 24 horas de autonomía e integración con Gemini, en un smartphone Android libre diseñado para fotografía, comunicación y entretenimiento.",
+  9: "Este MacBook Pro de 14,2 pulgadas incorpora el chip M5 con CPU de 10 núcleos y GPU de 10 núcleos, además de 1 TB de almacenamiento. Su pantalla Liquid Retina XDR y su configuración están pensadas para trabajar con aplicaciones exigentes, crear contenido y gestionar proyectos. El teclado de esta versión está indicado en inglés.",
+  10: "El Shark RGBeast Mini R502 es un PC gaming de sobremesa pensado para montar una estación de juego en casa. Su formato Mini ayuda a mantener una configuración compacta; consulta la configuración de componentes y las conexiones disponibles antes de elegir los periféricos.",
+  11: "Los Apple AirPods Pro 3 son auriculares inalámbricos con cancelación activa de ruido para escuchar música, podcasts y llamadas con menos ruido ambiental. Su formato portátil facilita utilizarlos durante los desplazamientos y con dispositivos Apple compatibles.",
+  12: "Los Sony WH-1000XM5SA combinan conectividad Bluetooth, cancelación activa de ruido y funciones para mantener llamadas claras. Esta edición especial incluye un estuche blando, práctico para guardar y transportar los auriculares entre usos.",
+  13: "Este Apple Watch Series 9 reacondicionado incorpora GPS y conectividad Cellular en una caja de aluminio de 45 mm color blanco estrella, acompañada de una correa deportiva a juego en talla M/L. Permite llevar funciones del Apple Watch en la muñeca y mantener la conexión también fuera del alcance inmediato del teléfono, según la configuración de red.",
+  14: "Los SHOKZ OpenFit Pro son auriculares inalámbricos de diseño abierto en color negro. Su formato permite escuchar audio sin aislar completamente los oídos del entorno, una alternativa para quienes prefieren mantener mayor conciencia de lo que ocurre a su alrededor.",
+  15: "Los Realme Buds Clip utilizan un diseño abierto tipo clip para sujetarse alrededor de la oreja sin introducirse en el canal auditivo. Son una opción inalámbrica para escuchar audio durante actividades cotidianas manteniendo una experiencia de uso ligera y abierta.",
+  16: "Los JBL Wave Beam 2 son auriculares Bluetooth inalámbricos con cancelación de ruido y hasta 40 horas de autonomía anunciada. Su formato compacto resulta adecuado para música, llamadas y podcasts tanto en casa como durante los desplazamientos.",
+  17: "Estos auriculares inalámbricos para iPhone incorporan Bluetooth 5.4, diseño estéreo y ganchos para ayudar a mantenerlos sujetos en la oreja. Una propuesta práctica para escuchar audio y atender llamadas mientras te mueves.",
+  18: "Los Soundcore Space One de Anker son auriculares Bluetooth de diadema con cancelación activa de ruido adaptativa. Permiten escuchar música y contenido con una reducción del ruido ambiental que se ajusta al entorno, según las características anunciadas.",
+  19: "El conjunto DJI Osmo Pocket 3 incluye una cámara de bolsillo para vlogging y el transmisor inalámbrico Mic Mini, en acabado negro obsidiana. Reúne captura de imagen y audio en un equipo compacto pensado para grabar contenido en movimiento.",
+  20: "El DJI Osmo Pocket 4 Essential Bundle es una cámara de bolsillo para vlogging con sensor CMOS de 1 pulgada, grabación anunciada en 4K a 240 fps y estabilización mecánica de 3 ejes. Su formato compacto facilita llevarla para grabar escenas y contenido en movimiento.",
+  21: "La PlayStation 5 Edición Estándar incluye 1 TB de almacenamiento, lector Blu-ray 4K, SSD de alta velocidad y audio 3D. Permite jugar títulos de PS5 y reproducir películas Blu-ray compatibles en una misma consola.",
+  22: "El reproductor a distancia PlayStation Portal incorpora una pantalla LCD Full HD de 8 pulgadas para jugar por streaming a través de Wi-Fi. Está pensado para transmitir juegos desde una consola PS5 compatible; no sustituye a la consola ni funciona como una consola independiente.",
+  23: "La Nintendo Switch OLED ofrece una pantalla táctil de 17,8 cm, 64 GB de almacenamiento y conexión Wi-Fi, en color blanco. Su formato portátil permite jugar fuera de casa y disfrutar de los títulos compatibles de Nintendo Switch.",
+  24: "El teclado mecánico The G-Lab Keyz Titanium Noir tiene formato compacto del 65 %, distribución francesa AZERTY y conexión USB con cable. Sus interruptores rojos y la iluminación RGB personalizable permiten adaptar la sensación de escritura y el aspecto de la configuración gaming.",
+  25: "El SSD externo SanDisk Extreme ofrece 1 TB de almacenamiento portátil mediante USB-C y tecnología NVMe. La velocidad anunciada alcanza hasta 1050 MB/s en lectura y 1000 MB/s en escritura; su resistencia al polvo lo hace adecuado para transportar archivos entre distintos espacios de trabajo.",
+  26: "Las PUMA Tazon 6 Fracture FM son zapatillas para hombre con un diseño deportivo pensado para completar conjuntos de entrenamiento o de uso diario. Su estilo dinámico combina fácilmente con ropa deportiva y casual.",
+  27: "Las Puma Smash V2 L son zapatillas de estilo clásico para mujer o hombre. Su diseño sencillo y versátil permite utilizarlas a diario y combinarlas con prendas informales.",
+  28: "Las Adidas VS Pace 2.0 son zapatillas unisex de inspiración deportiva y diseño urbano. Una opción versátil para completar un conjunto casual y acompañarte en las actividades cotidianas.",
+  29: "Las Skechers Uno Stand on Air combinan un diseño urbano reconocible con una suela de aspecto acolchado. Son zapatillas pensadas para el uso diario, tanto para caminar como para completar un conjunto informal.",
+  30: "Las Skechers Uno-Night Shades ofrecen un estilo deportivo urbano para el día a día. Su diseño permite combinarlas con ropa casual y utilizarlas en distintas actividades cotidianas.",
+  31: "Este kit de mancuernas ajustables de hasta 20 kg permite variar la carga para adaptar los ejercicios de fuerza a la rutina. El formato ajustable ayuda a organizar el entrenamiento en casa sin necesitar una mancuerna fija para cada peso.",
+  32: "La bicicleta eléctrica URLIFE para adultos incorpora neumáticos anchos de 16 pulgadas y está diseñada para desplazamientos y paseos. Antes de utilizarla, revisa las indicaciones del fabricante sobre talla, autonomía, carga y normativa aplicable.",
+  33: "La bicicleta estática ZIPRO ofrece resistencia magnética con 8 niveles y una pantalla LCD para consultar los datos de la sesión. Permite realizar ejercicio cardiovascular en casa y ajustar la intensidad según el entrenamiento.",
+  34: "La bicicleta estática Dskeuzeew está pensada para entrenar en casa e incorpora una pantalla LCD y un portavasos. Su configuración permite realizar sesiones de ciclismo indoor y mantener a mano una bebida durante el ejercicio.",
+  35: "La pista inflable UrbanLuxe Air Tumble Track está destinada a ejercicios de gimnasia, volteretas y acrobacias. Su superficie acolchada ofrece un espacio de práctica que se puede inflar y guardar cuando no se utiliza; úsala sobre una base adecuada y siguiendo las medidas de seguridad.",
+  36: "La esterilla de yoga PROIRON está disponible en grosores anunciados de 10 o 15 mm y cuenta con superficie antideslizante. El acolchado adicional está pensado para ejercicios de suelo, estiramientos y sesiones de fitness; confirma el grosor seleccionado al realizar el pedido.",
+  37: "El balón medicinal Slam de Amazon Basics está diseñado para ejercicios de fuerza y acondicionamiento físico. Puede incorporarse a rutinas de lanzamiento y movimientos funcionales, eligiendo un peso adecuado para el nivel de entrenamiento.",
+  38: "Este soporte QIANBAIYI para mancuernas ofrece tres posiciones de almacenamiento en una estructura pensada para ahorrar espacio. Ayuda a mantener el material de entrenamiento ordenado tanto en un gimnasio doméstico como en una sala de ejercicio.",
+  39: "El sérum MIXA Booster de Hidratación Intensa está formulado para aportar hidratación durante 24 horas, con un efecto de piel más rellena y luminosa según su descripción. Su formato de sérum permite incorporarlo a la rutina facial antes de la crema habitual.",
+  40: "La crema hidratante CeraVe está indicada para rostro y cuerpo y anuncia hasta 48 horas de hidratación. Su uso versátil permite incorporarla a la rutina diaria de cuidado de la piel; consulta el envase para revisar ingredientes e instrucciones.",
+  41: "El cepillo secador y moldeador TYMO One-Step reúne funciones de secado, alisado, rizado y aporte de volumen en una sola herramienta. Su tecnología iónica y sus tres niveles de temperatura permiten adaptar el peinado a distintas necesidades.",
+  42: "La freidora de aire Ninja Foodi FlexDrawer cuenta con dos zonas de cocción y un separador extraíble. Permite preparar alimentos por separado o aprovechar el espacio de cocción de forma flexible, según la configuración elegida.",
+  43: "La Cosori TurboBlaze es una freidora de aire de 6 cuartos con 9 funciones anunciadas, cinco velocidades de ventilador y temperaturas de 90 a 450 °F. La ficha menciona opciones para freír con aire, asar y hornear, facilitando distintas preparaciones en un mismo aparato.",
+  44: "La cafetera programable Ninja prepara hasta 12 tazas y ofrece dos estilos de preparación. Incluye un depósito de 60 onzas, una placa caliente ajustable y programación retardada para organizar el café con antelación.",
+  45: "El robot aspirador ECOVACS T50 Omni GEN2 se suministra con estación y anuncia una potencia de succión de 21 000 Pa. Está concebido para automatizar la limpieza del hogar; consulta las especificaciones completas de la estación para conocer sus funciones y requisitos.",
+  46: "La aspiradora inalámbrica Bissell PowerClean FurGuard ofrece 280 W, batería extraíble y un cepillo autolimpiante. Su diseño vertical permite guardarla de pie y está pensado para recoger suciedad y pelo de mascotas con una succión potente, según la ficha.",
+  47: "La Dreame H15 Pro CarpetFlex es una aspiradora inalámbrica para limpieza en seco y húmedo que incorpora mopa y dos cepillos. Está diseñada para limpiar suelos duros y alfombras; revisa las instrucciones del fabricante para seleccionar el modo apropiado para cada superficie.",
+  48: "La aspiradora escoba inalámbrica Roborock H60 Ultra anuncia 210 AW de potencia y hasta 90 minutos de autonomía. Incluye un tubo plegable a 90 grados, filtración anunciada del 99,9 % y un cepillo antienredos para alfombras y suelos duros.",
+  49: "El televisor HORION Roku TV de 40 pulgadas combina panel QLED, resolución Full HD y plataforma Smart TV Roku. La ficha indica más de 500 canales en directo gratuitos, Dolby Audio y compatibilidad con Apple AirPlay.",
+  50: "Este mini refrigerador retro azul ofrece una capacidad de 3,5 pies cúbicos y configuración de dos puertas con congelador. Su diseño compacto está pensado para espacios reducidos donde se necesita refrigeración y un compartimento congelador.",
+  51: "La cámara exterior EZVIZ C8c ofrece resolución 4K, conexión Wi-Fi y cobertura panorámica de 360 grados. La ficha incluye seguimiento y zoom automáticos, detección de personas y vehículos, visión nocturna en color y audio.",
+  52: "La cámara exterior MERCUSYS MC510 ofrece resolución 2K, conexión Wi-Fi y visión de 360 grados. Incluye visión nocturna en color, detección de personas, seguimiento de movimiento, protección IP65 y alarma sonora personalizable.",
+  53: "La cámara interior TP-Link Tapo graba en 1080p y puede utilizarse para vigilar una habitación, un bebé o una mascota. Incorpora detección de movimiento, comunicación de audio bidireccional y sirena para alertas.",
+  54: "La placa SNDOAS de gas integrable dispone de cuatro fuegos y una superficie de cristal blanco. Su formato está pensado para instalarse en la encimera de la cocina; comprueba las dimensiones de encastre y los requisitos de instalación antes del montaje.",
+  55: "La placa mixta GASLAND GIH604BF de 60 cm combina gas e inducción e incluye un quemador wok de gas con potencia indicada de 5200 W. Su configuración mixta permite elegir entre ambos tipos de cocción; verifica las conexiones y condiciones de instalación necesarias.",
+  56: "La tumbona Bali en color beige ofrece una plaza, orientación derecha y tapicería de terciopelo. Es un chaise longue fijo, no convertible, pensado para crear un rincón de descanso con un diseño cosmopolita.",
+  57: "Este juego Smartue incluye seis sillas de comedor beige con patas de madera maciza, respaldo curvo y asiento de tela. Cada silla mide 81 × 56,4 × 52,6 cm, según la ficha, para ayudar a comprobar el espacio disponible alrededor de la mesa.",
+  58: "La mampara de ducha rectangular Aurlane DUALIDAD combina aluminio negro mate, puerta corredera y una función de hidromasaje anunciada. Sus dimensiones indicadas son 80 × 110 × 215 cm; confirma el espacio, el sentido de instalación y las conexiones necesarias antes de la compra.",
+  60: "El Amazon Echo Spot 2024 en color azul funciona como despertador inteligente con Alexa e incorpora una pantalla de 2,83 pulgadas. Permite consultar información y utilizar funciones compatibles de Alexa desde la mesilla de noche.",
+  61: "La cafetera de cápsulas Nespresso Inissia YY1531FD en color rojo incorpora dos botones con parada automática, una bomba de 19 bares y un depósito de agua de 0,7 litros. Su manejo sencillo permite preparar café en formato de cápsula y detener la extracción automáticamente.",
+  62: "El monitor Samsung Odyssey G5 OLED de 27 pulgadas ofrece resolución QHD de 2560 × 1440, frecuencia de 180 Hz y respuesta anunciada de 0,03 ms. Incluye HDR10, compatibilidad con FreeSync y G-SYNC, formato 16:9 y conexiones HDMI y DisplayPort.",
+  63: "El Lenovo Yoga Slim 7 14ILL10 combina un procesador Intel Core Ultra 7 258V con 32 GB de memoria y SSD de 1 TB. Su pantalla OLED de 14 pulgadas y resolución 2.8K se acompaña de Wi-Fi 7, Bluetooth, cámara web y Windows 11 Home.",
+  64: "El ASUS Zenbook 14 OLED UM3406GA-QD013W incorpora un procesador AMD Ryzen AI 5 430, 16 GB de memoria y SSD de 512 GB. Cuenta con pantalla OLED Full HD+ de 14 pulgadas, Wi-Fi 7, Bluetooth, cámara web y Windows 11 Home.",
+};
 
 const usedSkus = new Set<string>();
 
@@ -599,12 +655,17 @@ export const PRODUCTS_DATA: Product[] = PRODUCT_SEED.map((entry) => {
       ? "UsedCondition"
       : "NewCondition";
 
+  const description = PRODUCT_DESCRIPTIONS[entry.id];
+  if (!description) {
+    throw new Error(`Missing product description for product ${entry.id}`);
+  }
+
   return {
     id: entry.id,
     sku,
     name: entry.name,
     brand: detectBrand(entry.name),
-    description: makeProductDescription(entry.name),
+    description,
     image: [entry.image],
     category: entry.category,
     itemCondition: condition,

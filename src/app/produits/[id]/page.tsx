@@ -107,7 +107,13 @@ export default async function ProductPage({
           })}
         </p>
 
-        <p className="product-detail-description">{description}</p>
+        <section
+          className="product-detail-description-section"
+          aria-labelledby="product-description-heading"
+        >
+          <h2 id="product-description-heading">Descripción</h2>
+          <p className="product-detail-description">{description}</p>
+        </section>
 
         <p className="product-condition">
           {getProductConditionLabel(product.itemCondition)}

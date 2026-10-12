@@ -70,6 +70,13 @@
   margin-bottom: 20px;
 }
 
+.product-detail-description-section h2 {
+  margin: 0 0 8px;
+  color: #1c1c1e;
+  font-size: 18px;
+  font-weight: 600;
+}
+
 .product-detail-description {
   color: #555;
   line-height: 1.6;

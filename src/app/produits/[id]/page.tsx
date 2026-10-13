@@ -42,7 +42,7 @@ export async function generateMetadata({
           title: product.name,
           description: getProductDescription(product).slice(0, 160),
           url: getProductCanonicalUrl(product),
-          type: "product" as "website",
+          type: "website",
           images: [{ url: image!, alt: product.name }],
         },
         twitter: {
@@ -50,6 +50,9 @@ export async function generateMetadata({
           title: product.name,
           description: getProductDescription(product).slice(0, 160),
           images: [image!],
+        },
+        other: {
+          "og:type": "product",
         },
       }
     : { title: "Producto no encontrado" };

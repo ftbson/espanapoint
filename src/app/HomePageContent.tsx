@@ -47,7 +47,8 @@ function HomeContent() {
   const targetCategory = categoryMapping[categoryQuery] || "";
   const filteredProducts = PRODUCTS_DATA.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery);
-    const matchesCategory = !targetCategory || product.category === targetCategory;
+    const matchesCategory =
+      !targetCategory || product.category === targetCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -64,31 +65,49 @@ function HomeContent() {
             <h1>Catálogo de productos Espanapoint</h1>
           </div>
           <Hero />
-          <section className="features-section" aria-label="Información de compra">
+          <section
+            className="features-section"
+            aria-label="Información de compra"
+          >
             <div className="features-container">
               <article className="feature-card">
-                <div className="feature-icon-wrapper icon-shipping" aria-hidden="true">
+                <div
+                  className="feature-icon-wrapper icon-shipping"
+                  aria-hidden="true"
+                >
                   <i className="fas fa-list"></i>
                 </div>
                 <h2>Catálogo en línea</h2>
                 <p>Consulta los artículos y sus precios en euros.</p>
               </article>
               <article className="feature-card">
-                <div className="feature-icon-wrapper icon-security" aria-hidden="true">
+                <div
+                  className="feature-icon-wrapper icon-security"
+                  aria-hidden="true"
+                >
                   <i className="fas fa-shopping-cart"></i>
                 </div>
                 <h2>Carrito de compra</h2>
-                <p>Añade productos al carrito y revisa el pedido antes de continuar.</p>
+                <p>
+                  Añade productos al carrito y revisa el pedido antes de
+                  continuar.
+                </p>
               </article>
               <article className="feature-card">
-                <div className="feature-icon-wrapper icon-support" aria-hidden="true">
+                <div
+                  className="feature-icon-wrapper icon-support"
+                  aria-hidden="true"
+                >
                   <i className="fas fa-credit-card"></i>
                 </div>
                 <h2>Formas de pago</h2>
                 <p>Consulta las opciones disponibles al tramitar el pedido.</p>
               </article>
               <article className="feature-card">
-                <div className="feature-icon-wrapper icon-guarantee" aria-hidden="true">
+                <div
+                  className="feature-icon-wrapper icon-guarantee"
+                  aria-hidden="true"
+                >
                   <i className="fas fa-envelope"></i>
                 </div>
                 <h2>Contacto</h2>
@@ -99,7 +118,10 @@ function HomeContent() {
         </>
       )}
 
-      <section className="home-page-container" aria-labelledby="catalog-heading">
+      <section
+        className="home-page-container"
+        aria-labelledby="catalog-heading"
+      >
         <div className="featured-hero">
           <span className="featured-subtitle">Espanapoint</span>
           <h2 id="catalog-heading">
@@ -122,10 +144,13 @@ function HomeContent() {
           <div className="products-grid">
             {filteredProducts.map((product) => (
               <article key={product.id} className="product-card">
-                <Link href={getProductUrl(product)} className="product-card-link">
+                <Link
+                  href={getProductUrl(product)}
+                  className="product-card-link"
+                >
                   <div className="product-image-wrapper">
                     <Image
-                      src={product.image[0]}
+                      src={product.images[0]}
                       alt={product.name}
                       className="product-img"
                       width={320}
@@ -153,7 +178,10 @@ function HomeContent() {
                     type="button"
                     aria-label={`Añadir ${product.name} al carrito`}
                   >
-                    <i className="fas fa-shopping-basket" aria-hidden="true"></i>
+                    <i
+                      className="fas fa-shopping-basket"
+                      aria-hidden="true"
+                    ></i>
                     <span>Añadir</span>
                   </button>
                   <button
@@ -179,19 +207,22 @@ function HomeContent() {
           </div>
         )}
       </section>
- 
-    <section className="help-section" aria-labelledby="help-title">
-  <h2 id="help-title" className="help-title">¿Necesitas ayuda?</h2>
-  <p className="help-text">   
-    Contacta con Espanapoint para consultar productos o pedidos.
-  </p> 
-  <Link href="/contact" className="help-button">Contactar</Link>
-</section>
 
+      <section className="help-section" aria-labelledby="help-title">
+        <h2 id="help-title" className="help-title">
+          ¿Necesitas ayuda?
+        </h2>
+        <p className="help-text">
+          Contacta con Espanapoint para consultar productos o pedidos.
+        </p>
+        <Link href="/contact" className="help-button">
+          Contactar
+        </Link>
+      </section>
     </div>
   );
 }
- 
+
 export default function HomePageContent() {
   return (
     <Suspense fallback={null}>

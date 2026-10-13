@@ -10,6 +10,8 @@ import Image from "next/image";
 import { Elements } from "@stripe/react-stripe-js";
 import StripeCheckoutForm from "@/components/StripeCheckoutForm";
 import { STORE } from "@/lib/store";
+import { getProductUrl, PRODUCTS_DATA } from "@/lib/products";
+import { siteConfig } from "@/lib/siteConfig";
 
 const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
   ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
@@ -37,24 +39,37 @@ export default function CartPage() {
     email: "",
   });
 
-  const [paymentMethod, setPaymentMethod] = useState<"card" | "bank" | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<"card" | "bank" | null>(
+    null,
+  );
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const [creatingPayment, setCreatingPayment] = useState(false);
-  const [bankInfo, setBankInfo] = useState({ beneficiary: "", iban: "", bic: "" });
+  const [bankInfo, setBankInfo] = useState({
+    beneficiary: "",
+    iban: "",
+    bic: "",
+  });
   const [bankInfoLoaded, setBankInfoLoaded] = useState(false);
   const [showEmailPromptPopup, setShowEmailPromptPopup] = useState(false);
 
-  const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const hasBankDetails = Boolean(
-    bankInfo.beneficiary && bankInfo.iban && bankInfo.bic
+  const totalPrice = cart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0,
   );
-  const hasPaymentMethod = Boolean(stripePromise || (bankInfoLoaded && hasBankDetails));
+  const orderTotal = totalPrice + siteConfig.shipping.cost;
+  const hasBankDetails = Boolean(
+    bankInfo.beneficiary && bankInfo.iban && bankInfo.bic,
+  );
+  const hasPaymentMethod = Boolean(
+    stripePromise || (bankInfoLoaded && hasBankDetails),
+  );
 
   useEffect(() => {
     fetch("/api/bank-details")
       .then(async (res) => {
-        if (!res.ok) throw new Error("No se pudieron cargar los datos bancarios.");
+        if (!res.ok)
+          throw new Error("No se pudieron cargar los datos bancarios.");
         return res.json();
       })
       .then((data) => {
@@ -66,7 +81,9 @@ export default function CartPage() {
           });
         }
       })
-      .catch((error) => console.error("Error cargando los datos bancarios:", error))
+      .catch((error) =>
+        console.error("Error cargando los datos bancarios:", error),
+      )
       .finally(() => setBankInfoLoaded(true));
   }, []);
 
@@ -151,7 +168,9 @@ export default function CartPage() {
       });
       const result = await response.json();
       if (!response.ok || !result.clientSecret) {
-        setPaymentError(result.error || "No se pudo preparar el pago con tarjeta.");
+        setPaymentError(
+          result.error || "No se pudo preparar el pago con tarjeta.",
+        );
         return;
       }
       setClientSecret(result.clientSecret);
@@ -182,7 +201,9 @@ export default function CartPage() {
         <i className="fas fa-shopping-bag empty-icon"></i>
         <h2>Su carrito está vacío</h2>
         <p>Parece que aún no ha añadido ningún producto.</p>
-        <Link href="/" className="btn-back-home">Continuar comprando</Link>
+        <Link href="/" className="btn-back-home">
+          Continuar comprando
+        </Link>
       </div>
     );
   }
@@ -191,7 +212,6 @@ export default function CartPage() {
     <div className="cart-page-container">
       <h1 className="page-title">Mi Carrito ({cart.length})</h1>
       <div className="cart-content-wrapper">
-        
         {/* Liste des produits */}
         <div className="cart-items-list">
           {cart.map((item) => (
@@ -210,17 +230,43 @@ export default function CartPage() {
               </div>
               <div className="cart-item-details">
                 <span className="cart-item-cat">{item.category}</span>
-                <h3 className="cart-item-name">{item.name}</h3>
-                <p className="cart-item-unit-price">Precio unitario: {formatEuro(item.price)}</p>
+                <h3 className="cart-item-name">
+                  <Link
+                    href={getProductUrl(
+                      PRODUCTS_DATA.find((product) => product.id === item.id)!,
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                </h3>
+                <p className="cart-item-unit-price">
+                  Precio unitario: {formatEuro(item.price)}
+                </p>
               </div>
               <div className="cart-item-quantity">
-                <button onClick={() => updateQuantity(item.id, item.quantity - 1)} type="button">-</button>
+                <button
+                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                  type="button"
+                >
+                  -
+                </button>
                 <span>{item.quantity}</span>
-                <button onClick={() => updateQuantity(item.id, item.quantity + 1)} type="button">+</button>
+                <button
+                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                  type="button"
+                >
+                  +
+                </button>
               </div>
               <div className="cart-item-actions">
-                <p className="cart-item-subtotal">{formatEuro(item.price * item.quantity)}</p>
-                <button onClick={() => removeFromCart(item.id)} className="btn-remove-item" type="button">
+                <p className="cart-item-subtotal">
+                  {formatEuro(item.price * item.quantity)}
+                </p>
+                <button
+                  onClick={() => removeFromCart(item.id)}
+                  className="btn-remove-item"
+                  type="button"
+                >
                   <i className="far fa-trash-alt"></i>
                 </button>
               </div>
@@ -231,58 +277,129 @@ export default function CartPage() {
         {/* Panneau latéral : Formulaire de livraison + Résumé */}
         <div className="cart-summary-card">
           <form onSubmit={handleCheckout}>
-            <h3 className="checkout-section-title"><i className="fas fa-truck"></i> Datos de Envío</h3>
-            
+            <h3 className="checkout-section-title">
+              <i className="fas fa-truck"></i> Datos de Envío
+            </h3>
+
             <div className="form-grid">
               <div className="form-group">
                 <label>Nombre *</label>
-                <input type="text" name="firstName" required value={formData.firstName} onChange={handleInputChange} placeholder="Juan" />
+                <input
+                  type="text"
+                  name="firstName"
+                  required
+                  value={formData.firstName}
+                  onChange={handleInputChange}
+                  placeholder="Juan"
+                />
               </div>
 
               <div className="form-group">
                 <label>Apellidos *</label>
-                <input type="text" name="lastName" required value={formData.lastName} onChange={handleInputChange} placeholder="Pérez" />
+                <input
+                  type="text"
+                  name="lastName"
+                  required
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                  placeholder="Pérez"
+                />
               </div>
 
               <div className="form-group">
                 <label>País *</label>
-                <input type="text" name="country" required value={formData.country} onChange={handleInputChange} placeholder="España" />
+                <input
+                  type="text"
+                  name="country"
+                  required
+                  value={formData.country}
+                  onChange={handleInputChange}
+                  placeholder="España"
+                />
               </div>
 
               <div className="form-group">
                 <label>Ciudad *</label>
-                <input type="text" name="city" required value={formData.city} onChange={handleInputChange} placeholder="Madrid" />
+                <input
+                  type="text"
+                  name="city"
+                  required
+                  value={formData.city}
+                  onChange={handleInputChange}
+                  placeholder="Madrid"
+                />
               </div>
 
               <div className="form-group full-width">
                 <label>Dirección exacta *</label>
-                <input type="text" name="address" required value={formData.address} onChange={handleInputChange} placeholder="Calle y número" />
+                <input
+                  type="text"
+                  name="address"
+                  required
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  placeholder="Calle y número"
+                />
               </div>
 
               <div className="form-group">
                 <label>WhatsApp / Teléfono *</label>
-                <input type="tel" name="whatsapp" required value={formData.whatsapp} onChange={handleInputChange} placeholder="+34 600 000 000" />
+                <input
+                  type="tel"
+                  name="whatsapp"
+                  required
+                  value={formData.whatsapp}
+                  onChange={handleInputChange}
+                  placeholder="+34 600 000 000"
+                />
               </div>
 
               <div className="form-group">
                 <label>Correo electrónico *</label>
-                <input type="email" name="email" required value={formData.email} onChange={handleInputChange} placeholder="juan@ejemplo.com" />
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="juan@ejemplo.com"
+                />
               </div>
             </div>
 
-            <h3 className="checkout-section-title" style={{ marginTop: "20px" }}><i className="fas fa-file-invoice"></i> Resumen del pedido</h3>
-            <div className="summary-row"><span>Subtotal</span><span>{formatEuro(totalPrice)}</span></div>
-            <div className="summary-row"><span>Envío</span><span className="free-shipping">Gratis</span></div>
+            <h3
+              className="checkout-section-title"
+              style={{ marginTop: "20px" }}
+            >
+              <i className="fas fa-file-invoice"></i> Resumen del pedido
+            </h3>
+            <div className="summary-row">
+              <span>Subtotal</span>
+              <span>{formatEuro(totalPrice)}</span>
+            </div>
+            <div className="summary-row">
+              <span>{siteConfig.shipping.label}</span>
+              <span className="free-shipping">
+                {siteConfig.shipping.cost === 0
+                  ? "Gratis"
+                  : formatEuro(siteConfig.shipping.cost)}
+              </span>
+            </div>
             <div className="summary-divider"></div>
-            <div className="summary-row total-row"><span>Total</span><span>{formatEuro(totalPrice)}</span></div>
+            <div className="summary-row total-row">
+              <span>Total</span>
+              <span>{formatEuro(orderTotal)}</span>
+            </div>
             {paymentError && (
               <p role="alert" style={{ color: "#b42318", margin: "12px 0" }}>
                 {paymentError}
               </p>
             )}
-            
+
             {bankInfoLoaded && !hasPaymentMethod && (
-              <p role="alert">No hay métodos de pago disponibles en este momento.</p>
+              <p role="alert">
+                No hay métodos de pago disponibles en este momento.
+              </p>
             )}
             <button
               className="btn-checkout"
@@ -298,21 +415,49 @@ export default function CartPage() {
       {/* POPUPS DE MODAL */}
       {showSuccessPopup && (
         <div className="payment-modal-overlay" style={{ zIndex: 9999 }}>
-          <div className="payment-modal-card" style={{ textAlign: "center", padding: "40px 30px" }}>
-            <div style={{ fontSize: "50px", color: "#2ecc71", marginBottom: "20px" }}>
+          <div
+            className="payment-modal-card"
+            style={{ textAlign: "center", padding: "40px 30px" }}
+          >
+            <div
+              style={{
+                fontSize: "50px",
+                color: "#2ecc71",
+                marginBottom: "20px",
+              }}
+            >
               <i className="fas fa-check-circle animate-bounce"></i>
             </div>
-            <h2 style={{ fontSize: "24px", color: "#2c3e50", marginBottom: "10px" }}>¡Pedido Enviado con Éxito!</h2>
-            <p style={{ color: "#7f8c8d", marginBottom: "25px", fontSize: "16px" }}>
-              Su pedido <strong>#{currentOrderRef}</strong> ha sido guardado correctamente.
+            <h2
+              style={{
+                fontSize: "24px",
+                color: "#2c3e50",
+                marginBottom: "10px",
+              }}
+            >
+              ¡Pedido Enviado con Éxito!
+            </h2>
+            <p
+              style={{
+                color: "#7f8c8d",
+                marginBottom: "25px",
+                fontSize: "16px",
+              }}
+            >
+              Su pedido <strong>#{currentOrderRef}</strong> ha sido guardado
+              correctamente.
             </p>
-            <button 
+            <button
               onClick={handleProceedToPaymentType}
               className="btn-modal-confirm"
               style={{ background: "#2ecc71", border: "none", width: "100%" }}
               type="button"
             >
-              Proceder al pago <i className="fas fa-arrow-right" style={{ marginLeft: "8px" }}></i>
+              Proceder al pago{" "}
+              <i
+                className="fas fa-arrow-right"
+                style={{ marginLeft: "8px" }}
+              ></i>
             </button>
           </div>
         </div>
@@ -320,27 +465,37 @@ export default function CartPage() {
 
       {showPaymentModal && (
         <div className="payment-modal-overlay" style={{ zIndex: 9998 }}>
-          <div className="payment-modal-card" style={{ maxWidth: "450px", padding: "20px" }}>
-            <div className="payment-modal-header" style={{ marginBottom: "15px", textAlign: "center" }}>
-              <h2 style={{ fontSize: "20px", marginBottom: "6px" }}>Método de Pago</h2>
+          <div
+            className="payment-modal-card"
+            style={{ maxWidth: "450px", padding: "20px" }}
+          >
+            <div
+              className="payment-modal-header"
+              style={{ marginBottom: "15px", textAlign: "center" }}
+            >
+              <h2 style={{ fontSize: "20px", marginBottom: "6px" }}>
+                Método de Pago
+              </h2>
               <p style={{ fontSize: "14px", color: "#666", lineHeight: "1.4" }}>
-                  Seleccione cómo desea pagar su pedido <strong>#{currentOrderRef}</strong> por un total de <strong>{formatEuro(totalPrice)}</strong>.
+                Seleccione cómo desea pagar su pedido{" "}
+                <strong>#{currentOrderRef}</strong> por un total de{" "}
+                <strong>{formatEuro(orderTotal)}</strong>.
               </p>
             </div>
 
             <div style={{ display: "flex", gap: "8px", marginBottom: "15px" }}>
-              <button 
-                  onClick={() => void handleSelectPaymentMethod("bank")}
-                  disabled={!hasBankDetails}
-                style={{ 
-                  flex: 1, 
-                  padding: "8px 10px", 
-                  fontSize: "14px", 
-                  borderRadius: "6px", 
-                  border: "2px solid #0070f3", 
-                  background: "#f0f7ff", 
-                  cursor: "pointer", 
-                  fontWeight: "bold" 
+              <button
+                onClick={() => void handleSelectPaymentMethod("bank")}
+                disabled={!hasBankDetails}
+                style={{
+                  flex: 1,
+                  padding: "8px 10px",
+                  fontSize: "14px",
+                  borderRadius: "6px",
+                  border: "2px solid #0070f3",
+                  background: "#f0f7ff",
+                  cursor: "pointer",
+                  fontWeight: "bold",
                 }}
                 type="button"
               >
@@ -366,12 +521,17 @@ export default function CartPage() {
             </div>
 
             {paymentError && (
-              <p role="alert" style={{ color: "#b42318", marginBottom: "12px" }}>
+              <p
+                role="alert"
+                style={{ color: "#b42318", marginBottom: "12px" }}
+              >
                 {paymentError}
               </p>
             )}
 
-            {paymentMethod === "card" && creatingPayment && <p>Preparando el pago...</p>}
+            {paymentMethod === "card" && creatingPayment && (
+              <p>Preparando el pago...</p>
+            )}
             {paymentMethod === "card" && clientSecret && stripePromise && (
               <Elements stripe={stripePromise} options={{ clientSecret }}>
                 <StripeCheckoutForm
@@ -383,19 +543,40 @@ export default function CartPage() {
 
             {paymentMethod === "bank" && (
               <div>
-                <div className="payment-modal-details" style={{ marginTop: "10px" }}>
-                  <strong className="payment-method-title">Pago por transferencia bancaria</strong>
-                  <p><strong>Beneficiario:</strong> {bankInfo.beneficiary}</p>
-                  <p><strong>IBAN:</strong> {bankInfo.iban}</p>
-                  <p><strong>SWIFT/BIC:</strong> {bankInfo.bic}</p>
-                  <p className="payment-reference-row"><strong>Referencia:</strong> Pedido #{currentOrderRef}</p>
+                <div
+                  className="payment-modal-details"
+                  style={{ marginTop: "10px" }}
+                >
+                  <strong className="payment-method-title">
+                    Pago por transferencia bancaria
+                  </strong>
+                  <p>
+                    <strong>Beneficiario:</strong> {bankInfo.beneficiary}
+                  </p>
+                  <p>
+                    <strong>IBAN:</strong> {bankInfo.iban}
+                  </p>
+                  <p>
+                    <strong>SWIFT/BIC:</strong> {bankInfo.bic}
+                  </p>
+                  <p className="payment-reference-row">
+                    <strong>Referencia:</strong> Pedido #{currentOrderRef}
+                  </p>
                 </div>
-                <div className="payment-modal-notice" style={{ margin: "15px 0" }}>
-                  <i className="fas fa-info-circle"></i> 
-                  El pedido quedará pendiente hasta verificar la transferencia. Envíe el justificante a{" "}
-                  <strong>{STORE.email}</strong>.
+                <div
+                  className="payment-modal-notice"
+                  style={{ margin: "15px 0" }}
+                >
+                  <i className="fas fa-info-circle"></i>
+                  El pedido quedará pendiente hasta verificar la transferencia.
+                  Envíe el justificante a <strong>{STORE.email}</strong>.
                 </div>
-                <button onClick={handleFinalizeOrder} className="btn-modal-confirm" style={{ width: "100%" }} type="button">
+                <button
+                  onClick={handleFinalizeOrder}
+                  className="btn-modal-confirm"
+                  style={{ width: "100%" }}
+                  type="button"
+                >
                   Confirmar pedido pendiente de pago
                 </button>
               </div>
@@ -406,24 +587,66 @@ export default function CartPage() {
 
       {showEmailPromptPopup && (
         <div className="payment-modal-overlay" style={{ zIndex: 9999 }}>
-          <div className="payment-modal-card" style={{ textAlign: "center", padding: "40px 30px", maxWidth: "450px" }}>
-            <div style={{ fontSize: "50px", color: "#0070f3", marginBottom: "20px" }}>
+          <div
+            className="payment-modal-card"
+            style={{
+              textAlign: "center",
+              padding: "40px 30px",
+              maxWidth: "450px",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "50px",
+                color: "#0070f3",
+                marginBottom: "20px",
+              }}
+            >
               <i className="fas fa-envelope-open-text"></i>
             </div>
-            <h2 style={{ fontSize: "22px", color: "#1a1a1a", marginBottom: "12px" }}>
-              {paymentMethod === "bank" ? "Pedido registrado" : "Pago confirmado"}
-            </h2>
-            <p style={{ color: "#666", marginBottom: "25px", fontSize: "15px", lineHeight: "1.5" }}>
+            <h2
+              style={{
+                fontSize: "22px",
+                color: "#1a1a1a",
+                marginBottom: "12px",
+              }}
+            >
               {paymentMethod === "bank"
-                ? <>El pedido <strong>#{currentOrderRef}</strong> queda pendiente hasta que se verifique la transferencia.</>
-                : <>El pago del pedido <strong>#{currentOrderRef}</strong> se ha confirmado.</>}
+                ? "Pedido registrado"
+                : "Pago confirmado"}
+            </h2>
+            <p
+              style={{
+                color: "#666",
+                marginBottom: "25px",
+                fontSize: "15px",
+                lineHeight: "1.5",
+              }}
+            >
+              {paymentMethod === "bank" ? (
+                <>
+                  El pedido <strong>#{currentOrderRef}</strong> queda pendiente
+                  hasta que se verifique la transferencia.
+                </>
+              ) : (
+                <>
+                  El pago del pedido <strong>#{currentOrderRef}</strong> se ha
+                  confirmado.
+                </>
+              )}
             </p>
-            
+
             {paymentMethod === "bank" && (
               <a
                 href={`mailto:${STORE.email}?subject=${encodeURIComponent(`Justificante de transferencia - Pedido ${currentOrderRef}`)}`}
                 className="btn-see-more"
-                style={{ display: "inline-flex", width: "100%", marginBottom: "12px", textDecoration: "none", boxSizing: "border-box" }}
+                style={{
+                  display: "inline-flex",
+                  width: "100%",
+                  marginBottom: "12px",
+                  textDecoration: "none",
+                  boxSizing: "border-box",
+                }}
               >
                 Enviar justificante por correo
               </a>
@@ -431,7 +654,15 @@ export default function CartPage() {
 
             <button
               onClick={handleFinalizeOrder}
-              style={{ background: "none", border: "none", color: "#0070f3", cursor: "pointer", fontSize: "14px", fontWeight: "500", textDecoration: "underline" }}
+              style={{
+                background: "none",
+                border: "none",
+                color: "#0070f3",
+                cursor: "pointer",
+                fontSize: "14px",
+                fontWeight: "500",
+                textDecoration: "underline",
+              }}
               type="button"
             >
               Volver a la tienda

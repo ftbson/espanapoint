@@ -23,7 +23,7 @@ function toCartItem(product: Product, quantity: number): CartItem {
     id: product.id,
     name: product.name,
     price: product.price,
-    image: product.image[0],
+    image: product.images[0],
     category: product.category,
     quantity,
   };
@@ -132,7 +132,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const cart = useSyncExternalStore(
     subscribeToCart,
     getCartSnapshot,
-    getServerCartSnapshot
+    getServerCartSnapshot,
   );
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
 
@@ -144,8 +144,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         current.map((item) =>
           item.id === product.id
             ? { ...item, quantity: Math.min(item.quantity + 1, 99) }
-            : item
-        )
+            : item,
+        ),
       );
       return;
     }
@@ -163,8 +163,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
     commitCart(
       getCartSnapshot().map((item) =>
-        item.id === id ? { ...item, quantity: Math.min(quantity, 99) } : item
-      )
+        item.id === id ? { ...item, quantity: Math.min(quantity, 99) } : item,
+      ),
     );
   };
 
@@ -172,7 +172,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, cartCount }}
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+        cartCount,
+      }}
     >
       {children}
     </CartContext.Provider>

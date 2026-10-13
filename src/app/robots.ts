@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { STORE } from "@/lib/store";
+import { SITE_URL } from "@/lib/siteConfig";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/admin", "/api/", "/panier"],
     },
-    sitemap: `${STORE.website}/sitemap.xml`,
+    sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }

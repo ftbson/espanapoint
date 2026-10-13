@@ -94,13 +94,10 @@ export default function ProductsPage() {
       <div className="products-grid">
         {filteredAndSortedProducts.map((product) => (
           <div key={product.id} className="product-card">
-            <Link
-              href={getProductUrl(product)}
-              className="product-card-link"
-            >
+            <Link href={getProductUrl(product)} className="product-card-link">
               <div className="product-image-wrapper">
                 <Image
-                  src={product.image[0]}
+                  src={product.images[0]}
                   alt={product.name}
                   className="product-img"
                   width={320}

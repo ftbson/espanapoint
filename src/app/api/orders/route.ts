@@ -25,12 +25,12 @@ export async function GET(request: Request) {
           .select()
           .from(orderItems)
           .where(eq(orderItems.orderId, order.id));
-          
+
         return {
           ...order,
           items,
         };
-      })
+      }),
     );
 
     return NextResponse.json(result, {
@@ -40,7 +40,7 @@ export async function GET(request: Request) {
     console.error("Error en GET /api/orders:", error);
     return NextResponse.json(
       { error: "Error al recuperar los pedidos" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -52,7 +52,7 @@ export async function POST(req: Request) {
     if (!isRecord(body) || !("items" in body)) {
       return NextResponse.json(
         { error: "Datos incompletos para procesar el pedido" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -72,7 +72,7 @@ export async function POST(req: Request) {
     ) {
       return NextResponse.json(
         { error: "Los datos del pedido no son válidos" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -84,7 +84,7 @@ export async function POST(req: Request) {
       price: product.price,
       quantity,
       category: product.category,
-      image: product.image[0],
+      image: product.images[0],
     }));
 
     await db.insert(orders).values({
@@ -124,13 +124,15 @@ export async function POST(req: Request) {
         return entities[character];
       });
     const itemsTableRows = items
-      .map((item) => `
+      .map(
+        (item) => `
           <tr>
             <td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(item.name)}</td>
             <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: center;">x${item.quantity}</td>
             <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">${item.price.toFixed(2)} €</td>
             <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right; font-weight: bold;">${(item.price * item.quantity).toFixed(2)} €</td>
-          </tr>`)
+          </tr>`,
+      )
       .join("");
 
     let notificationSent = false;
@@ -140,10 +142,10 @@ export async function POST(req: Request) {
       try {
         const resend = new Resend(process.env.RESEND_API_KEY);
         await resend.emails.send({
-        from: sender,
-        to: recipient,
-        subject: `Nueva orden recibida #${id} - ${customerName || "Cliente"}`,
-        html: `
+          from: sender,
+          to: recipient,
+          subject: `Nueva orden recibida #${id} - ${customerName || "Cliente"}`,
+          html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px;">
             <h2 style="color: #0070f3; text-align: center; border-bottom: 2px solid #0070f3; padding-bottom: 10px;">
               ¡Nuevo Pedido Recibido! 🎉
@@ -190,15 +192,20 @@ export async function POST(req: Request) {
         console.error("Error enviando el correo de pedido:", emailError);
       }
     } else {
-      console.error("Notificación de pedido desactivada: falta configurar Resend y sus direcciones.");
+      console.error(
+        "Notificación de pedido desactivada: falta configurar Resend y sus direcciones.",
+      );
     }
 
-    return NextResponse.json({ success: true, orderId: id, notificationSent }, { status: 201 });
+    return NextResponse.json(
+      { success: true, orderId: id, notificationSent },
+      { status: 201 },
+    );
   } catch (error) {
     console.error("Error en POST /api/orders:", error);
     return NextResponse.json(
       { error: "Error al crear el pedido" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

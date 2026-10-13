@@ -10,6 +10,7 @@ import {
   GUARANTEE_NEW_YEARS,
   GUARANTEE_REFURBISHED_YEARS,
 } from "@/lib/store-config";
+import { SITE_URL, siteConfig } from "@/lib/siteConfig";
 
 export {
   STORE_CONFIG,
@@ -26,7 +27,8 @@ export {
 
 export const STORE = {
   name: STORE_CONFIG.STORE_NAME,
-  cif: STORE_CONFIG.COMPANY.cif,
+  companyName: siteConfig.legal.companyName || "<TODO: completar razón social>",
+  cif: siteConfig.legal.taxId || "<TODO: completar NIF/CIF>",
   address: {
     street: STORE_CONFIG.COMPANY.address,
     postalCode: "28013",
@@ -35,6 +37,6 @@ export const STORE = {
   },
   phone: STORE_CONFIG.COMPANY.phone,
   phoneLink: STORE_CONFIG.COMPANY.phone.replace(/\s+/g, ""),
-  email: STORE_CONFIG.COMPANY.email,
-  website: STORE_CONFIG.WEBSITE,
+  email: siteConfig.legal.email,
+  website: SITE_URL,
 } as const;

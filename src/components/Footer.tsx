@@ -1,6 +1,7 @@
 // src/components/Footer.tsx
 import Link from "next/link";
 import { STORE } from "@/lib/store";
+import { siteConfig } from "@/lib/siteConfig";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -8,18 +9,29 @@ export default function Footer() {
   return (
     <footer className="main-footer">
       <div className="footer-container">
-        
         {/* Colonne 1 : Entreprise et adresse complète */}
         <div className="footer-col">
           <h3>{STORE.name}</h3>
           <p className="footer-company-info">
-            {STORE.address.street}<br />
-            {STORE.address.postalCode} {STORE.address.locality}, {STORE.address.country}
+            {STORE.address.street}
+            <br />
+            {STORE.address.postalCode} {STORE.address.locality},{" "}
+            {STORE.address.country}
           </p>
           <p className="footer-contact-info">
-            <strong>Teléfono:</strong> <a href={`tel:${STORE.phoneLink}`}>{STORE.phone}</a><br />
-            <strong>Email:</strong> <a href={`mailto:${STORE.email}`}>{STORE.email}</a><br />
-            <strong>CIF:</strong> {STORE.cif}
+            <strong>Razón social:</strong>{" "}
+            {siteConfig.legal.companyName || "<TODO: completar razón social>"}
+            <br />
+            <strong>Teléfono:</strong>{" "}
+            <a href={`tel:${STORE.phoneLink}`}>{STORE.phone}</a>
+            <br />
+            <strong>Email:</strong>{" "}
+            <a href={`mailto:${siteConfig.legal.email}`}>
+              {siteConfig.legal.email}
+            </a>
+            <br />
+            <strong>CIF:</strong>{" "}
+            {siteConfig.legal.taxId || "<TODO: completar NIF/CIF>"}
           </p>
         </div>
 
@@ -33,29 +45,19 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/politica-de-envio">
-                Política de Envío
-              </Link>
+              <Link href="/politica-de-envio">Política de Envío</Link>
             </li>
             <li>
-              <Link href="/cgv">
-                Términos y Condiciones (CGV)
-              </Link>
+              <Link href="/cgv">Términos y Condiciones (CGV)</Link>
             </li>
             <li>
-              <Link href="/politica-de-privacidad">
-                Política de Privacidad
-              </Link>
+              <Link href="/politica-de-privacidad">Política de Privacidad</Link>
             </li>
             <li>
-              <Link href="/politica-de-cookies">
-                Política de Cookies
-              </Link>
+              <Link href="/politica-de-cookies">Política de Cookies</Link>
             </li>
             <li>
-              <Link href="/aviso-legal">
-                Aviso Legal
-              </Link>
+              <Link href="/aviso-legal">Aviso Legal</Link>
             </li>
           </ul>
         </div>
@@ -65,9 +67,7 @@ export default function Footer() {
           <h4>Atención al Cliente</h4>
           <ul className="footer-links-list">
             <li>
-              <Link href="/contact">
-                Contáctenos
-              </Link>
+              <Link href="/contact">Contáctenos</Link>
             </li>
             <li>
               <span>Horario: Lun–Vie 8:00–19:00; sábado 9:00–17:00</span>
@@ -77,12 +77,14 @@ export default function Footer() {
             </li>
           </ul>
         </div>
-
       </div>
 
       <div className="footer-bottom">
         <div className="footer-copyright">
-          <p>Copyright {currentYear} — <strong>{STORE.name}</strong>. Todos los derechos reservados.</p>
+          <p>
+            Copyright {currentYear} — <strong>{STORE.name}</strong>. Todos los
+            derechos reservados.
+          </p>
         </div>
       </div>
     </footer>

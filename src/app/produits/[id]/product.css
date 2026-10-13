@@ -22,18 +22,19 @@
 
 .product-detail-image {
   width: 100%;
-  aspect-ratio: 1 / 1;
   background: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  align-content: start;
   overflow: hidden;
 }
 
 .product-detail-image img {
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
   object-fit: contain;
+  padding: 12px;
   transition: transform 0.4s ease;
 }
 
@@ -123,6 +124,45 @@
   line-height: 1.8;
   margin: -15px 0 30px;
   padding-left: 18px;
+}
+
+.product-specifications,
+.product-shipping-info {
+  margin: 0 0 24px;
+}
+
+.product-specifications h2,
+.product-shipping-info h2 {
+  margin: 0 0 10px;
+  color: #1c1c1e;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.product-specifications dl {
+  display: grid;
+  grid-template-columns: minmax(100px, 0.7fr) 1.3fr;
+  gap: 8px 16px;
+  margin: 0;
+}
+
+.product-specifications dl div {
+  display: contents;
+}
+
+.product-specifications dt {
+  color: #666;
+}
+
+.product-specifications dd {
+  margin: 0;
+  color: #222;
+}
+
+.product-shipping-info p {
+  margin: 6px 0;
+  color: #555;
+  line-height: 1.5;
 }
 
 /* BOUTONS */

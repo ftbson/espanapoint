@@ -5,9 +5,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/context/CartContext";
 import CookieConsent from "@/components/CookieConsent";
+import { SITE_URL } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://espanapoint.es"),
+  metadataBase: new URL(SITE_URL),
 
   title: {
     default: "Espanapoint | Catálogo online",
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
   authors: [
     {
       name: "Espanapoint",
-      url: "https://espanapoint.es",
+      url: SITE_URL,
     },
   ],
 
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
     title: "Espanapoint | Catálogo online",
     description:
       "Consulta el catálogo de Espanapoint y la información disponible de cada producto.",
-    url: "https://espanapoint.es",
+    url: SITE_URL,
     siteName: "Espanapoint",
     locale: "es_ES",
     type: "website",
@@ -94,7 +95,6 @@ export default function RootLayout({
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
-
       </head>
 
       <body>

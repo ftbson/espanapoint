@@ -17,7 +17,7 @@ export interface Product {
   condition: ProductCondition;
   grade?: "A+" | "A" | "B";
   storage?: string;
-  batteryHealth?: number;
+  batteryHealth?: number | string;
   warrantyMonths: number;
   price: number;
   priceCurrency: "EUR";
@@ -27,12 +27,46 @@ export interface Product {
   canonicalOf?: string;
 }
 
-type ProductSeedEntry = {
+export type ProductSeedEntry = {
   id: number;
   name: string;
   price: number;
   category: string;
   image: string;
+  /** Color del producto (ej: "Negro", "Azul Sierra", "Blanco Estrella") */
+  color?: string;
+  /** Colores disponibles adicionales si aplica */
+  colorsAvailable?: string[];
+  /** Salud o capacidad de la batería (ej: 88, 100, "95%", "85-100%", "Excelente") */
+  batteryHealth?: number | string;
+  /** Alias conveniente para batteryHealth (ej: battery: "100%" o battery: 88) */
+  battery?: number | string;
+  /** Capacidad de almacenamiento (ej: "128 GB", "256 GB", "1 TB") */
+  storage?: string;
+  /** Modelo del producto si se quiere forzar un texto específico */
+  model?: string;
+  /** Marca del producto si se quiere forzar una marca específica */
+  brand?: string;
+  /** Grado estético para reacondicionados: "A+" | "A" | "B" */
+  grade?: "A+" | "A" | "B";
+  /** Meses de garantía */
+  warrantyMonths?: number;
+  /** Estado del producto: "new" | "refurbished" | "used" */
+  condition?: ProductCondition;
+  /** Lista de imágenes adicionales si se desean varias fotos */
+  images?: string[];
+  /** Descripción personalizada (si no se especifica, se generará automáticamente) */
+  description?: string;
+  /** Disponibilidad del producto */
+  availability?: ProductAvailability;
+  /** Código GTIN/EAN */
+  gtin13?: string;
+  /** Número de pieza del fabricante */
+  mpn?: string;
+  /** Ruta canónica / slug alternativo si aplica */
+  canonicalOf?: string;
+  /** Slug personalizado opcional */
+  slug?: string;
 };
 
 const PRODUCT_SEED: ProductSeedEntry[] = [
@@ -45,7 +79,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 331.99,
     category: "Dispositivos electrónicos",
     image:
-      "https://c0.lestechnophiles.com/images.frandroid.com/wp-content/uploads/2021/09/apple-iphone-13-pro-max-frandroid-2021-768x768.png?webp=1&key=33af98cc",
+      "/img/apple-iphone-13-pro-max-frandroid-2021-768x768.webp",
+    storage: "128 GB",
+    color: "Azul Sierra",
+    batteryHealth: 88,
+    grade: "A",
   },
   {
     id: 2,
@@ -53,7 +91,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 421.99,
     category: "Dispositivos electrónicos",
     image:
-      "https://c0.lestechnophiles.com/images.frandroid.com/wp-content/uploads/2022/09/iphone-14-pro-max-officiel-frandroid-2022-768x768.png?webp=1&key=1e26da76",
+      "/img/iphone-14-pro-max-officiel-frandroid-2022-768x768.webp",
+    storage: "128 GB",
+    color: "Negro Espacial",
+    batteryHealth: 90,
+    grade: "A+",
   },
   {
     id: 3,
@@ -61,7 +103,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 461.99,
     category: "Dispositivos electrónicos",
     image:
-      "https://c0.lestechnophiles.com/images.frandroid.com/wp-content/uploads/2023/09/iphone-15-768x768.png?webp=1&key=62513184",
+      "/img/iphone-15-768x768.webp",
+    storage: "128 GB",
+    color: "Negro",
+    batteryHealth: 95,
+    grade: "A+",
   },
   {
     id: 4,
@@ -69,7 +115,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 521.99,
     category: "Dispositivos electrónicos",
     image:
-      "https://c0.lestechnophiles.com/images.frandroid.com/wp-content/uploads/2023/09/iphone-15-pro-max-768x768.png?webp=1&key=6d7ed62f",
+      "/img/iphone-15-pro-768x768.webp",
+    storage: "256 GB",
+    color: "Titanio Natural",
+    batteryHealth: 94,
+    grade: "A+",
   },
   {
     id: 5,
@@ -77,6 +127,10 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 671.99,
     category: "Dispositivos electrónicos",
     image: "/img/iPhone16.jpg",
+    storage: "128 GB",
+    color: "Cian",
+    batteryHealth: 100,
+    grade: "A+",
   },
   {
     id: 6,
@@ -84,7 +138,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 691.99,
     category: "Dispositivos electrónicos",
     image:
-      "https://c0.lestechnophiles.com/images.frandroid.com/wp-content/uploads/2024/08/apple-iphone-16-pro-max-frandroid-2024-hd-768x768.png?webp=1&key=ce4d50e3",
+      "/img/apple-iphone-16-pro-frandroid-2024-768x768.webp",
+    storage: "256 GB",
+    color: "Titanio Negro",
+    batteryHealth: 98,
+    grade: "A+",
   },
   {
     id: 7,
@@ -134,6 +192,10 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 371.0,
     category: "Dispositivos electrónicos",
     image: "/img/AppleWatchSeries9.jpg",
+    storage: "64 GB",
+    color: "Blanco Estrella",
+    batteryHealth: 95,
+    grade: "A+",
   },
   {
     id: 14,
@@ -148,7 +210,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 71.99,
     category: "Dispositivos electrónicos",
     image:
-      "https://c0.lestechnophiles.com/images.frandroid.com/wp-content/uploads/2025/12/realme-buds-clip-frandroid-2025-300x300.png?webp=1&key=4be0b994",
+      "/img/realme-buds-clip-frandroid-2025-300x300.webp",
   },
   {
     id: 16,
@@ -487,7 +549,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
   },
   {
     id: 63,
-    name: "Lenovo Yoga Slim 7 14ILL10 (83JX00AHFR) Intel Core Ultra 7 258V 32 GB SSD 1 TB 14 OLED 2.8K Wi-Fi 7/Bluetooth Webcam Windows 11 Home",
+    name: "Lenovo Yoga Slim 7 14ILL10 (83JX00AHFR), Intel Core Ultra 7 258V, 32 GB de RAM, SSD de 1 TB, pantalla OLED de 14\" (2.8K), Wi-Fi 7/Bluetooth, cámara web, Windows 11 Home",
     price: 1141.99,
     category: "Dispositivos electrónicos",
     image: "/img/LenovoYogaSlim7.jpg",
@@ -593,7 +655,50 @@ function getStorage(name: string): string | undefined {
   return match?.[1].replace(/\s+/g, " ");
 }
 
+function detectColor(name: string): string | undefined {
+  const colorPatterns: [RegExp, string][] = [
+    [/\bnegro volc[aá]nico\b/i, "Negro volcánico"],
+    [/\bnegro obsidiana\b/i, "Negro obsidiana"],
+    [/\bnegro espacial\b/i, "Negro espacial"],
+    [/\bgris espacial\b|\bgris sid[eé]ral\b/i, "Gris espacial"],
+    [/\bblanco estrella\b|\bblanc stellaire\b/i, "Blanco estrella"],
+    [/\btitanio natural\b/i, "Titanio natural"],
+    [/\btitanio negro\b/i, "Titanio negro"],
+    [/\btitanio blanco\b/i, "Titanio blanco"],
+    [/\btitanio azul\b/i, "Titanio azul"],
+    [/\bazul sierra\b/i, "Azul sierra"],
+    [/\bazul pac[ií]fico\b/i, "Azul pacífico"],
+    [/\bazul medianoche\b/i, "Azul medianoche"],
+    [/\bverde alpino\b/i, "Verde alpino"],
+    [/\boro rosa\b/i, "Oro rosa"],
+    [/\bnegro\b|\bnoir\b|\bblack\b/i, "Negro"],
+    [/\bblanco\b|\bblanc\b|\bwhite\b/i, "Blanco"],
+    [/\bplata\b|\bsilver\b/i, "Plata"],
+    [/\boro\b|\bgold\b/i, "Oro"],
+    [/\bazul\b|\bbleu\b|\bblue\b/i, "Azul"],
+    [/\brojo\b|\bred\b|\brouge\b/i, "Rojo"],
+    [/\bverde\b|\bgreen\b|\bvert\b/i, "Verde"],
+    [/\brosa\b|\bpink\b|\brose\b/i, "Rosa"],
+    [/\bcian\b|\bcyan\b/i, "Cian"],
+    [/\bamari(?:llo|lla)\b|\byellow\b|\bjaune\b/i, "Amarillo"],
+    [/\bmorado\b|\bp[uú]rpura\b|\bpurple\b|\bviolet\b/i, "Morado"],
+    [/\bnaranja\b|\borange\b/i, "Naranja"],
+    [/\bgri(?:s|ses)\b|\bgrey\b|\bgray\b/i, "Gris"],
+  ];
+
+  for (const [pattern, label] of colorPatterns) {
+    if (pattern.test(name)) {
+      return label;
+    }
+  }
+  return undefined;
+}
+
 export function buildDescription(product: Product): string {
+  if (product.description && product.description.trim() !== "") {
+    return product.description;
+  }
+
   const clauses: string[] = [];
   const productModel = product.model || product.name;
 
@@ -611,8 +716,20 @@ export function buildDescription(product: Product): string {
     clauses.push(`${productModel}.`);
   }
 
-  if (product.batteryHealth !== undefined) {
-    clauses.push(`Batería con ${product.batteryHealth} % de capacidad.`);
+  if (product.color) {
+    clauses.push(`Color: ${product.color}.`);
+  }
+
+  if (product.batteryHealth !== undefined && product.batteryHealth !== "") {
+    const batteryText =
+      typeof product.batteryHealth === "number"
+        ? `${product.batteryHealth} %`
+        : String(product.batteryHealth).trim();
+    clauses.push(
+      batteryText.includes("%")
+        ? `Batería con ${batteryText} de capacidad.`
+        : `Batería: ${batteryText}.`,
+    );
   }
   if (product.warrantyMonths > 0) {
     clauses.push(
@@ -629,26 +746,34 @@ export function buildDescription(product: Product): string {
 }
 
 export const PRODUCTS_DATA: Product[] = PRODUCT_SEED.map((entry) => {
-  const brand = detectBrand(entry.name);
-  const condition: ProductCondition = /reacondicionado/i.test(entry.name)
-    ? "refurbished"
-    : /\busad[oa]s?\b|\bused\b/i.test(entry.name)
-      ? "used"
-      : "new";
-  const model = getModel(entry.name, brand);
-  const storage = getStorage(entry.name);
+  const brand = entry.brand ?? detectBrand(entry.name);
+  const condition: ProductCondition =
+    entry.condition ??
+    (/reacondicionado/i.test(entry.name)
+      ? "refurbished"
+      : /\busad[oa]s?\b|\bused\b/i.test(entry.name)
+        ? "used"
+        : "new");
+  const model = entry.model ?? getModel(entry.name, brand);
+  const storage = entry.storage ?? getStorage(entry.name);
   const warrantyMonths =
-    condition === "refurbished"
+    entry.warrantyMonths ??
+    (condition === "refurbished"
       ? siteConfig.warranty.refurbishedMonths
       : condition === "used"
         ? siteConfig.warranty.usedMonths
-        : siteConfig.warranty.newMonths;
+        : siteConfig.warranty.newMonths);
   const isRefurbishedIPhone =
     condition === "refurbished" && /\biphone\b/i.test(entry.name);
+
+  // Preserve historical slug structure unless a custom slug is specified
+  const nameForSlug = isRefurbishedIPhone
+    ? `Apple ${model}${getStorage(entry.name) ? ` ${getStorage(entry.name)}` : ""} Reacondicionado – Garantía ${warrantyMonths} meses`
+    : entry.name;
   const name = isRefurbishedIPhone
     ? `Apple ${model}${storage ? ` ${storage}` : ""} Reacondicionado – Garantía ${warrantyMonths} meses`
     : entry.name;
-  const baseSlug = slugifyProductName(name) || `producto-${entry.id}`;
+  const baseSlug = entry.slug || slugifyProductName(nameForSlug) || `producto-${entry.id}`;
   let slug = baseSlug;
   let collisionIndex = 1;
   while (usedSlugs.has(slug)) {
@@ -656,6 +781,11 @@ export const PRODUCTS_DATA: Product[] = PRODUCT_SEED.map((entry) => {
     collisionIndex += 1;
   }
   usedSlugs.add(slug);
+
+  const images =
+    entry.images && entry.images.length > 0 ? entry.images : [entry.image];
+  const color = entry.color ?? detectColor(entry.name);
+  const batteryHealth = entry.batteryHealth ?? entry.battery;
 
   const product: Product = {
     id: entry.id,
@@ -665,24 +795,23 @@ export const PRODUCTS_DATA: Product[] = PRODUCT_SEED.map((entry) => {
     model,
     category: entry.category,
     description: "",
-    images: [entry.image],
+    images,
+    color,
+    colorsAvailable: entry.colorsAvailable,
     condition,
-    // TODO: confirmar el grado individual de cada producto reacondicionado.
-    grade: undefined,
+    grade: entry.grade,
     storage,
-    // TODO: confirmar la salud de batería individual de los productos reacondicionados.
-    batteryHealth: undefined,
+    batteryHealth,
     warrantyMonths,
     price: entry.price,
     priceCurrency: "EUR",
-    availability: "InStock",
-    // TODO: completar GTIN/EAN únicamente con identificadores verificados.
-    gtin13: undefined,
-    // TODO: completar MPN únicamente con referencias verificadas del fabricante.
-    mpn: undefined,
+    availability: entry.availability ?? "InStock",
+    gtin13: entry.gtin13,
+    mpn: entry.mpn,
+    canonicalOf: entry.canonicalOf,
   };
 
-  product.description = buildDescription(product);
+  product.description = entry.description || buildDescription(product);
   return product;
 });
 

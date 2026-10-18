@@ -165,22 +165,36 @@ export default async function ProductPage({
               <dt>Modelo</dt>
               <dd>{product.model || "No especificado"}</dd>
             </div>
-            <div>
-              <dt>Capacidad</dt>
-              <dd>{product.storage || "No especificada"}</dd>
-            </div>
+            {(product.storage || product.category === "Dispositivos electrónicos") && (
+              <div>
+                <dt>Capacidad</dt>
+                <dd>{product.storage || "No especificada"}</dd>
+              </div>
+            )}
             <div>
               <dt>Estado</dt>
               <dd>{getProductConditionLabel(product)}</dd>
             </div>
-            <div>
-              <dt>Batería</dt>
-              <dd>
-                {product.batteryHealth === undefined
-                  ? "No especificada"
-                  : `${product.batteryHealth} %`}
-              </dd>
-            </div>
+            {(product.batteryHealth !== undefined && product.batteryHealth !== "") ? (
+              <div>
+                <dt>Batería</dt>
+                <dd>
+                  {typeof product.batteryHealth === "number"
+                    ? `${product.batteryHealth} %`
+                    : String(product.batteryHealth).includes("%")
+                      ? product.batteryHealth
+                      : /^\d+$/.test(String(product.batteryHealth).trim())
+                        ? `${String(product.batteryHealth).trim()} %`
+                        : product.batteryHealth}
+                </dd>
+              </div>
+            ) : product.category === "Dispositivos electrónicos" &&
+              (product.condition === "refurbished" || product.condition === "used") ? (
+              <div>
+                <dt>Batería</dt>
+                <dd>No especificada</dd>
+              </div>
+            ) : null}
             <div>
               <dt>Garantía</dt>
               <dd>{product.warrantyMonths} meses</dd>

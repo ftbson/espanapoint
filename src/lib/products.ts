@@ -79,7 +79,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 331.99,
     category: "Dispositivos electrónicos",
     image:
-      "/img/apple-iphone-13-pro-max-frandroid-2021-768x768.webp",
+      "/img/apple-iphone-13-pro-max-1.avif",
     images: [
       "/img/apple-iphone-13-pro-max-1.avif",
       "/img/apple-iphone-13-pro-max-2.avif",
@@ -102,8 +102,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/iphone-14-pro-3.avif",
     ],
     storage: "128 GB",
-    color: "Negro Espacial",
-    batteryHealth: 90,
+    color: "marrón",
+    batteryHealth: 95,
     grade: "A+",
   },
   {
@@ -136,13 +136,13 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/iphone-15-pro-4.avif",
     ],
     storage: "256 GB",
-    color: "Titanio Natural",
+    color: "Negro",
     batteryHealth: 94,
     grade: "A+",
   },
   {
     id: 5,
-    name: "Apple iPhone 16 (128 GB) (Reacondicionado) - Cian + Funda Transparente con MagSafe",
+    name: "Apple iPhone 16 (128 GB) (Reacondicionado) - Negro + Funda Transparente con MagSafe",
     price: 671.99,
     category: "Dispositivos electrónicos",
     image: "/img/iPhone16-1.avif",
@@ -151,7 +151,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/iPhone16-3.avif",
     ],
     storage: "128 GB",
-    color: "Cian",
+    color: "Negro",
     batteryHealth: 100,
     grade: "A+",
   },
@@ -164,6 +164,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/apple-iphone-16-pro-.avif",
     images: [
       "/img/apple-iphone-16-pro-1.avif",
+      "/img/apple-iphone-16-pro-.avif",
       "/img/apple-iphone-16-pro-2.avif",
     ],
     storage: "256 GB",
@@ -181,6 +182,9 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/GooglePixel11Pro-1.avif",
       "/img/GooglePixel11Pro-2.avif",
     ],
+    storage: "256 GB",
+    color: "Negro",
+    batteryHealth: 94,
   },
   { 
     id: 8,
@@ -191,7 +195,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     images: [
       "/img/GooglePixel10ProXL-1.avif",
       "/img/GooglePixel10ProXL-2.avif",
+      "/img/GooglePixel10ProXL.avif",
     ],
+    storage: "256 GB",
+    color: "Negro",
+    batteryHealth: 94,
   },
   {
     id: 9,
@@ -205,17 +213,21 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/AppleMacBookPro-2.avif",
 
     ],
+    color: "Blanco",
   },
   {
     id: 10,
     name: "PC gaming Shark RGBeast Mini R502",
     price: 1299.0,
     category: "Dispositivos electrónicos",
-    image: "/img/SharkRGBeastMiniR502.jpg",
+    image: "/img/SharkRGBeastMiniR502.jpg", 
     images: [
       "/img/SharkRGBeastMiniR502-1.jpg",
       "/img/SharkRGBeastMiniR502-2.jpg",
+      "/img/SharkRGBeastMiniR502.jpg",
     ],
+    storage: "1 T",
+    color: "Negro",
   },
   {
     id: 11,
@@ -227,6 +239,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/AppleAirPodsPro3-1.jpg",
       "/img/AppleAirPodsPro3.jpg",
     ],
+    storage: "95 % ",
+    color: "Blanco",
   },
   {
     id: 12,
@@ -237,7 +251,10 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     images: [
       "/img/SonyWH-1000XM5SA-1.jpg",
       "/img/SonyWH-1000XM5SA-2.jpg",
+      "/img/SonyWH-1000XM5SA.jpg",
     ],
+    color : "Negro",
+    
   },
   {
     id: 13,
@@ -247,6 +264,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     image: "/img/AppleWatchSeries9.avif",
      images: [
       "/img/AppleWatchSeries9-1.avif",
+      "/img/AppleWatchSeries9.avif",
       "/img/AppleWatchSeries9-2.avif",
     ],
     storage: "64 GB",
@@ -264,6 +282,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/SHOKZOpenFitProOpen.jpg",
       "/img/SHOKZOpenFitProOpen-1.jpg",
     ],
+    color : "Negro",
   },
   {
     id: 15,
@@ -271,42 +290,16 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 71.99,
     category: "Dispositivos electrónicos",
     image:
-      "/img/realme-buds-clip-frandroid-2025-300x300.webp",
+      "/img/realme-buds-clip-2025-300x300.jpg",
     images: [
-      "/img/realme-buds-clip-frandroid-2025-300x300.webp",
-      "/img/realme-buds-clip-frandroid-2025-300x300.webp",
+      "/img/realme-buds-clip-2025-300x300.jpg",
+      "/img/realme-buds-clip-2025-300x300-1.jpg",
+      "/img/realme-buds-clip-2025-300x300-2.jpg",
     ],
+    batteryHealth: 90,
+    storage: "128 GB",
+    color : "Negro",
   },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -323,13 +316,15 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/JBLWaveBeam2.jpg",
       "/img/JBLWaveBeam2-1.jpg",
     ],
+     color: "Azur",
   },
   {
     id: 17,
     name: "Auriculares inalámbricos para Apple iPhone - Auriculares Bluetooth 5.4 con ganchos para el oído, Estéreo",
     price: 30.0,
     category: "Dispositivos electrónicos",
-    image: "/img/ecouteurssansfilpourApple.jpg", 
+    image: "/img/ecouteurssansfilpourApple.jpg",
+     color: "Negro", 
   },
   {
     id: 18,
@@ -341,6 +336,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/SoundcoreSpaceOneCasque-2.avif",
       "/img/SoundcoreSpaceOneCasque-1.avif",
     ],
+     color: "Negro",
   },
   {
     id: 19,
@@ -353,6 +349,9 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/DJIOsmoPocket3-1.jpg",
       "/img/DJIOsmoPocket3.jpg",
     ],
+    color: "Negro",
+
+
   },
   {
     id: 20,
@@ -365,6 +364,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/BundleEssentielDJIOsmoPocket4-1.jpg",
       "/img/BundleEssentielDJIOsmoPocket4.jpg",
     ],
+    color: "Negro",
   },
   {
     id: 21,
@@ -377,6 +377,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/SonyConsolePlayStation5-1.jpg",
       "/img/SonyConsolePlayStation5.jpg",
     ],
+    color: "Blanco",
   },
   {
     id: 22,
@@ -389,6 +390,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/PlaystationSonyLecteur-1.jpg",
       "/img/PlaystationSonyLecteur-2.jpg",
     ],
+    color: "Blanco",
   },
   {
     id: 23,
@@ -402,6 +404,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/NintendoSwitch-2.jpg",
       "/img/NintendoSwitch-3.jpg",
     ],
+    color: "Arcoíris",
   },
   {
     id: 24,
@@ -482,7 +485,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/SkechersUnoStandonAir-1.jpg",
       "/img/SkechersUnoStandonAir-2.jpg",
     ],
-    color: "Blue",
+    color: "Azul",
   },
   {
     id: 30,
@@ -495,6 +498,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/SkechersUno-NightShades-1.jpg",
       "/img/SkechersUno-NightShades-2.jpg",
     ],
+    color: "Blanco",
   },
   {
     id: 31,
@@ -506,6 +510,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/Halteres-reglables.jpg",
       "/img/Halteres-reglables-1.jpg",
     ],
+    color: "Negro",
   },
   {
     id: 32,
@@ -543,7 +548,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/DskeuzeewVélo-1.jpg",
       "/img/DskeuzeewVélo-2.jpg",
     ],
-    color: "Blanco",  
+    color: "Negro",  
 
   },
 
@@ -566,6 +571,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/TapisdeGymnastique.jpg",
       "/img/TapisdeGymnastique-1.jpg",
     ],
+    color: "Rosa",
   },
   {
     id: 36,
@@ -573,6 +579,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 24.99,
     category: "Deporte / Fitness",
     image: "/img/PROIRONTapis.jpg",
+    color: "Negro",
   },
   {
     id: 37,
@@ -580,6 +587,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 20.99,
     category: "Deporte / Fitness",
     image: "/img/AmazonBasics.jpg",
+    color: "Negro",
   },
   {
     id: 38,
@@ -587,6 +595,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 87.0,
     category: "Deporte / Fitness",
     image: "/img/QIANBAIYISupport.jpg",
+    color: "Multicolor",
   },
 
   // ==========================================
@@ -598,6 +607,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 9.99,
     category: "Belleza y cuidado personal",
     image: "/img/MIXASérumBooste.jpg",
+    color: "Blanco",
   },
   {
     id: 40,
@@ -605,6 +615,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 18.99,
     category: "Belleza y cuidado personal",
     image: "/img/CeraVeBaume.jpg",
+    color: "Blanco",
   },
   {
     id: 41,
@@ -612,6 +623,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 48.0,
     category: "Belleza y cuidado personal",
     image: "/img/TYMOBrosse.jpg",
+    color: "Negro",
+
   },
 
   // ==========================================
@@ -623,6 +636,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 151.0,
     category: "Cocina",
     image: "/img/NinjaFoodiFlexDrawerAir.jpg",
+    color: "Gris",
   },
   {
     id: 43,
@@ -630,6 +644,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 85.0,
     category: "Cocina",
     image: "/img/CosoriTurboBlaze.jpg",
+    color: "Negro",
   },
   {
     id: 44,
@@ -637,6 +652,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 199.99,
     category: "Cocina",
     image: "/img/NinjaCafetera.jpg",
+    color: "Negro",
   },
   {
     id: 45,
@@ -644,6 +660,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 271.0,
     category: "Hogar",
     image: "/img/ECOVACST50OmniGEN2Aspirateur.jpg",
+    color: "Negro",
   },
   {
     id: 46,
@@ -651,6 +668,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 221.99,
     category: "Hogar",
     image: "/img/BissellPowerClean.jpg",
+    color: "Negro",
   },
   {
     id: 47,
@@ -658,7 +676,9 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 361.99,
     category: "Hogar",
     image: "/img/DREAMEH15Pro.jpg",
+    color: "Negro",
   },
+
 
   {
     id: 48,
@@ -669,25 +689,9 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     images: [
       "/img/roborockH60Ultra.jpg",
       "/img/roborockH60Ultra-1.jpg",
-      "/img/roborockH60Ultra-2.jpg", 
     ],
-    color: "azul",
+    color: "Negro",
   },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -841,7 +845,6 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
      images: [
       "/img/Asistentevirtual.jpg",
       "/img/Asistentevirtual-1.jpg",
-      "/img/Asistentevirtual-2.jpg",
     ],
     color: "Azul",
   },
@@ -883,7 +886,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/LenovoYogaSlim7-1.jpg",
     ],
     color: "Negro",
-
+    storage: "1 TB",
   },
   {
     id: 64,
@@ -897,6 +900,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/ASUSZenbook14-1.jpg",
     ],
     color: "Negro",
+    storage: "512 GB",
   },
 ];
 

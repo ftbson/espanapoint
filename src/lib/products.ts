@@ -543,7 +543,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/DskeuzeewVélo-1.jpg",
       "/img/DskeuzeewVélo-2.jpg",
     ],
-    color: "Blanco",
+    color: "Blanco",  
 
   },
 
@@ -555,7 +555,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
 
 
 
-  
+
   {
     id: 35,
     name: "UrbanLuxe Colchoneta de Gimnasia Inflable Air Tumble Track para Volteretas y Acrobacias",

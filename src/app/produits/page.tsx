@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { PRODUCTS_DATA } from "@/lib/products";
 import { getProductUrl } from "@/lib/products";
 import Link from "next/link";
-import Image from "next/image";
+import ProductCardImage from "@/components/ProductCardImage";
 
 export default function ProductsPage() {
   const { addToCart } = useCart();
@@ -96,15 +96,9 @@ export default function ProductsPage() {
           <div key={product.id} className="product-card">
             <Link href={getProductUrl(product)} className="product-card-link">
               <div className="product-image-wrapper">
-                <Image
-                  src={product.images[0]}
+                <ProductCardImage
+                  images={product.images}
                   alt={product.name}
-                  className="product-img"
-                  width={320}
-                  height={320}
-                  sizes="(max-width: 600px) 46vw, (max-width: 1000px) 30vw, 280px"
-                  loading="lazy"
-                  decoding="async"
                 />
               </div>
 

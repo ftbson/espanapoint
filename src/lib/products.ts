@@ -53,7 +53,7 @@ export type ProductSeedEntry = {
   warrantyMonths?: number;
   /** Estado del producto: "new" | "refurbished" | "used" */
   condition?: ProductCondition;
-  /** Lista de imágenes adicionales si se desean varias fotos */
+  /** Lista de imágenes (hasta 3 imágenes diferentes por producto) */
   images?: string[];
   /** Descripción personalizada (si no se especifica, se generará automáticamente) */
   description?: string;
@@ -80,6 +80,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     category: "Dispositivos electrónicos",
     image:
       "/img/apple-iphone-13-pro-max-frandroid-2021-768x768.webp",
+    images: [
+      "/img/apple-iphone-13-pro-max-1.avif",
+      "/img/apple-iphone-13-pro-max-2.avif",
+      "/img/apple-iphone-13-pro-max-3.avif",
+    ],
     storage: "128 GB",
     color: "Azul Sierra",
     batteryHealth: 88,
@@ -91,7 +96,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 421.99,
     category: "Dispositivos electrónicos",
     image:
-      "/img/iphone-14-pro-max-officiel-frandroid-2022-768x768.webp",
+      "/img/iphone-14-pro-1.avif",
+    images: [
+      "/img/iphone-14-pro-2.avif",
+      "/img/iphone-14-pro-3.avif",
+    ],
     storage: "128 GB",
     color: "Negro Espacial",
     batteryHealth: 90,
@@ -103,7 +112,12 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 461.99,
     category: "Dispositivos electrónicos",
     image:
-      "/img/iphone-15-768x768.webp",
+      "/img/iphone-15-768x768-1.avif",
+    images: [
+      "/img/iphone-15-768x768-2.avif",
+      "/img/iphone-15-768x768-1.avif",
+      "/img/iPhone16.jpg",
+    ],
     storage: "128 GB",
     color: "Negro",
     batteryHealth: 95,
@@ -115,7 +129,12 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 521.99,
     category: "Dispositivos electrónicos",
     image:
-      "/img/iphone-15-pro-768x768.webp",
+      "/img/iphone-15-pro-1.avif",
+    images: [
+      "/img/iphone-15-pro-2.avif",
+      "/img/iphone-15-pro-3.avif", 
+      "/img/iphone-15-pro-4.avif",
+    ],
     storage: "256 GB",
     color: "Titanio Natural",
     batteryHealth: 94,
@@ -126,7 +145,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     name: "Apple iPhone 16 (128 GB) (Reacondicionado) - Cian + Funda Transparente con MagSafe",
     price: 671.99,
     category: "Dispositivos electrónicos",
-    image: "/img/iPhone16.jpg",
+    image: "/img/iPhone16-1.avif",
+    images: [
+      "/img/iPhone16-2.avif",
+      "/img/iPhone16-3.avif",
+    ],
     storage: "128 GB",
     color: "Cian",
     batteryHealth: 100,
@@ -138,7 +161,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 691.99,
     category: "Dispositivos electrónicos",
     image:
-      "/img/apple-iphone-16-pro-frandroid-2024-768x768.webp",
+      "/img/apple-iphone-16-pro-.avif",
+    images: [
+      "/img/apple-iphone-16-pro-1.avif",
+      "/img/apple-iphone-16-pro-2.avif",
+    ],
     storage: "256 GB",
     color: "Titanio Negro",
     batteryHealth: 98,
@@ -149,21 +176,35 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     name: "Google Pixel 11 Pro - Smartphone Android libre - Negro volcánico, 256 GB | Con inteligencia Gemini, más de 30 horas de autonomía y pantalla Super",
     price: 1150.0,
     category: "Dispositivos electrónicos",
-    image: "/img/GooglePixel11Pro.jpg",
+    image: "/img/GooglePixel11Pro.avif",
+    images: [
+      "/img/GooglePixel11Pro-1.avif",
+      "/img/GooglePixel11Pro-2.avif",
+    ],
   },
-  {
+  { 
     id: 8,
     name: "Google Pixel 10 Pro XL – Smartphone Android libre con Gemini, triple cámara trasera, más de 24 horas de autonomía y pantalla Super Actua de 6,8 pulgadas.",
     price: 929.0,
     category: "Dispositivos electrónicos",
-    image: "/img/GooglePixel10ProXL.jpg",
+    image: "/img/GooglePixel10ProXL.avif",
+    images: [
+      "/img/GooglePixel10ProXL-1.avif",
+      "/img/GooglePixel10ProXL-2.avif",
+    ],
   },
   {
     id: 9,
     name: "Apple MacBook Pro - Ordenador portátil con chip M5, CPU de 10 núcleos y GPU de 10 núcleos: diseñado para Apple Intelligence, pantalla Liquid Retina XDR de 14,2 pulgadas, 1 TB de almacenamiento; plata, inglés.",
     price: 2199.0,
     category: "Dispositivos electrónicos",
-    image: "/img/AppleMacBookPro-Ordinateur.jpg",
+    image: "/img/AppleMacBookPro.avif",
+    images: [
+      "/img/AppleMacBookPro.avif",
+      "/img/AppleMacBookPro-1.avif",
+      "/img/AppleMacBookPro-2.avif",
+
+    ],
   },
   {
     id: 10,
@@ -171,6 +212,10 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 1299.0,
     category: "Dispositivos electrónicos",
     image: "/img/SharkRGBeastMiniR502.jpg",
+    images: [
+      "/img/SharkRGBeastMiniR502-1.jpg",
+      "/img/SharkRGBeastMiniR502-2.jpg",
+    ],
   },
   {
     id: 11,
@@ -178,6 +223,10 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 151.0,
     category: "Dispositivos electrónicos",
     image: "/img/AppleAirPodsPro3.jpg",
+    images: [
+      "/img/AppleAirPodsPro3-1.jpg",
+      "/img/AppleAirPodsPro3.jpg",
+    ],
   },
   {
     id: 12,
@@ -185,13 +234,21 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 211.0,
     category: "Dispositivos electrónicos",
     image: "/img/SonyWH-1000XM5SA.jpg",
+    images: [
+      "/img/SonyWH-1000XM5SA-1.jpg",
+      "/img/SonyWH-1000XM5SA-2.jpg",
+    ],
   },
   {
     id: 13,
     name: "Apple Watch Series 9 (GPS + Cellular, 45 MM) Caja de Aluminio Blanco Estrella con Correa Deportiva Blanco Estrella, M/L (Reacondicionado)",
     price: 371.0,
     category: "Dispositivos electrónicos",
-    image: "/img/AppleWatchSeries9.jpg",
+    image: "/img/AppleWatchSeries9.avif",
+     images: [
+      "/img/AppleWatchSeries9-1.avif",
+      "/img/AppleWatchSeries9-2.avif",
+    ],
     storage: "64 GB",
     color: "Blanco Estrella",
     batteryHealth: 95,
@@ -203,6 +260,10 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 271.0,
     category: "Dispositivos electrónicos",
     image: "/img/SHOKZOpenFitProOpen.jpg",
+    images: [
+      "/img/SHOKZOpenFitProOpen.jpg",
+      "/img/SHOKZOpenFitProOpen-1.jpg",
+    ],
   },
   {
     id: 15,
@@ -211,27 +272,75 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     category: "Dispositivos electrónicos",
     image:
       "/img/realme-buds-clip-frandroid-2025-300x300.webp",
+    images: [
+      "/img/realme-buds-clip-frandroid-2025-300x300.webp",
+      "/img/realme-buds-clip-frandroid-2025-300x300.webp",
+    ],
   },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   {
     id: 16,
     name: "JBL Wave Beam 2, Auriculares Inalámbricos Bluetooth, Cancelación de Ruido, 40 horas de autonomía",
     price: 51.99,
     category: "Dispositivos electrónicos",
     image: "/img/JBLWaveBeam2.jpg",
+    images: [
+      "/img/JBLWaveBeam2.jpg",
+      "/img/JBLWaveBeam2-1.jpg",
+    ],
   },
   {
     id: 17,
     name: "Auriculares inalámbricos para Apple iPhone - Auriculares Bluetooth 5.4 con ganchos para el oído, Estéreo",
     price: 30.0,
     category: "Dispositivos electrónicos",
-    image: "/img/ecouteurssansfilpourApple.jpg",
+    image: "/img/ecouteurssansfilpourApple.jpg", 
   },
   {
     id: 18,
-    name: "Soundcore Space One Auricules de Diadema Bluetooth Inalámbricos con Cancelación Activa de Ruido Adaptativa de Anker",
-    price: 21.99,
+    name: "Auriculares con cancelación de ruido, con y sin cable, con micrófono Bose QuietComfort Ultra 2.ª generación - Negro",
+    price: 220,
     category: "Dispositivos electrónicos",
-    image: "/img/SoundcoreSpaceOneCasque.jpg",
+    image: "/img/SoundcoreSpaceOneCasque.avif",
+    images: [
+      "/img/SoundcoreSpaceOneCasque-2.avif",
+      "/img/SoundcoreSpaceOneCasque-1.avif",
+    ],
   },
   {
     id: 19,
@@ -239,6 +348,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 401.0,
     category: "Dispositivos electrónicos",
     image: "/img/DJIOsmoPocket3.jpg",
+    images: [
+      "/img/DJIOsmoPocket3-2.jpg",
+      "/img/DJIOsmoPocket3-1.jpg",
+      "/img/DJIOsmoPocket3.jpg",
+    ],
   },
   {
     id: 20,
@@ -246,13 +360,23 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 471.0,
     category: "Dispositivos electrónicos",
     image: "/img/BundleEssentielDJIOsmoPocket4.jpg",
+    images: [
+      "/img/BundleEssentielDJIOsmoPocket4-2.jpg",
+      "/img/BundleEssentielDJIOsmoPocket4-1.jpg",
+      "/img/BundleEssentielDJIOsmoPocket4.jpg",
+    ],
   },
   {
     id: 21,
     name: "Sony, Consola PlayStation 5 Edición Estándar 1 TB con lector Blu-ray 4K, SSD Ultrarrápido, Audio 3D",
     price: 481.99,
-    category: "Dispositivos electrónicos",
+    category: "Dispositivos electrónicos", 
     image: "/img/SonyConsolePlayStation5.jpg",
+    images: [
+      "/img/SonyConsolePlayStation5-2.jpg",
+      "/img/SonyConsolePlayStation5-1.jpg",
+      "/img/SonyConsolePlayStation5.jpg",
+    ],
   },
   {
     id: 22,
@@ -260,6 +384,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 211.0,
     category: "Dispositivos electrónicos",
     image: "/img/PlaystationSonyLecteur.jpg",
+    images: [
+      "/img/PlaystationSonyLecteur.jpg",
+      "/img/PlaystationSonyLecteur-1.jpg",
+      "/img/PlaystationSonyLecteur-2.jpg",
+    ],
   },
   {
     id: 23,
@@ -267,6 +396,12 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 201.0,
     category: "Dispositivos electrónicos",
     image: "/img/NintendoSwitch.jpg",
+    images: [
+      "/img/NintendoSwitch.jpg",
+      "/img/NintendoSwitch-1.jpg",
+      "/img/NintendoSwitch-2.jpg",
+      "/img/NintendoSwitch-3.jpg",
+    ],
   },
   {
     id: 24,
@@ -274,6 +409,12 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 29.0,
     category: "Dispositivos electrónicos",
     image: "/img/TheG-LabKeyz.jpg",
+    images: [
+      "/img/TheG-LabKeyz.jpg",
+      "/img/TheG-LabKeyz-1.jpg",
+      "/img/TheG-LabKeyz-2.jpg",
+      "/img/TheG-LabKeyz-3.jpg",
+    ],
   },
   {
     id: 25,
@@ -281,6 +422,12 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 159.0,
     category: "Dispositivos electrónicos",
     image: "/img/SANDISKextremeDisqueSSD.jpg",
+    images: [
+      "/img/SANDISKextremeDisqueSSD.jpg",
+      "/img/SANDISKextremeDisqueSSD-1.jpg",
+      "/img/SANDISKextremeDisqueSSD-2.jpg",
+    ],
+    color: "Negro",
   },
 
   // ==========================================
@@ -291,14 +438,25 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     name: "PUMA Tazon 6 Fracture FM, Zapatillas para Hombre",
     price: 41.99,
     category: "Deporte / Fitness",
-    image: "/img/PUMATazon6FractureFM.jpg",
+    image: "/img/PumaSmashV2LBasketsMixte-2.jpg",
+    images: [
+      "/img/PumaSmashV2LBasketsMixte-2.jpg",
+      "/img/PumaSmashV2LBasketsMixte-3.jpg",
+    ],
+    color: "Negro",
   },
   {
     id: 27,
     name: "Puma Smash V2 L Zapatillas Unisex",
     price: 31.99,
     category: "Deporte / Fitness",
-    image: "/img/PumaSmashV2LBasketsMixte.jpg",
+    image: "/img/PumaSmashV2.jpg",
+    images: [
+      "/img/PumaSmashV2.jpg",
+      "/img/PumaSmashV2-1.jpg",
+      "/img/PumaSmashV2-2.jpg",
+    ], 
+    color: "Blanco",
   },
   {
     id: 28,
@@ -306,6 +464,12 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 36.99,
     category: "Deporte / Fitness",
     image: "/img/adidasUnisexChaussure.jpg",
+    images: [
+      "/img/adidasUnisexChaussure.jpg",
+      "/img/adidasUnisexChaussure-1.jpg",
+      "/img/adidasUnisexChaussure-2.jpg",
+    ], 
+    color: "Blanco",
   },
   {
     id: 29,
@@ -313,6 +477,12 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 51.0,
     category: "Deporte / Fitness",
     image: "/img/SkechersUnoStandonAir.jpg",
+    images: [
+      "/img/SkechersUnoStandonAir.jpg",
+      "/img/SkechersUnoStandonAir-1.jpg",
+      "/img/SkechersUnoStandonAir-2.jpg",
+    ],
+    color: "Blue",
   },
   {
     id: 30,
@@ -320,6 +490,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 56.99,
     category: "Deporte / Fitness",
     image: "/img/SkechersUno-NightShades.jpg",
+    images: [
+      "/img/SkechersUno-NightShades.jpg",
+      "/img/SkechersUno-NightShades-1.jpg",
+      "/img/SkechersUno-NightShades-2.jpg",
+    ],
   },
   {
     id: 31,
@@ -327,13 +502,23 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 47.0,
     category: "Deporte / Fitness",
     image: "/img/Halteres-reglables.jpg",
+    images: [
+      "/img/Halteres-reglables.jpg",
+      "/img/Halteres-reglables-1.jpg",
+    ],
   },
   {
     id: 32,
-    name: 'URLIFE Bicicleta Eléctrica para Adultos, Neumáticos Anchos de 16"',
+    name: 'URLIFE Bicicleta Eléctrica para Adultos, Neumáticos Anchos de 16',
     price: 1201.0,
     category: "Deporte / Fitness",
     image: "/img/URLIFEVeloelectrique.jpg",
+    images: [
+      "/img/URLIFEVeloelectrique.jpg",
+      "/img/URLIFEVeloelectrique-1.jpg",
+      "/img/URLIFEVeloelectrique-2.jpg",
+    ],
+    color: "Blanco",
   },
   {
     id: 33,
@@ -341,6 +526,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 111.0,
     category: "Deporte / Fitness",
     image: "/img/ZIPROVelo.jpg",
+    images: [
+      "/img/ZIPROVelo.jpg",
+      "/img/ZIPROVelo-1.jpg",
+    ],
+    color: "Negro",
   },
   {
     id: 34,
@@ -348,13 +538,34 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 241.0,
     category: "Deporte / Fitness",
     image: "/img/DskeuzeewVélo.jpg",
+    images: [
+      "/img/DskeuzeewVélo.jpg",
+      "/img/DskeuzeewVélo-1.jpg",
+      "/img/DskeuzeewVélo-2.jpg",
+    ],
+    color: "Blanco",
+
   },
+
+
+
+
+
+
+
+
+
+  
   {
     id: 35,
     name: "UrbanLuxe Colchoneta de Gimnasia Inflable Air Tumble Track para Volteretas y Acrobacias",
     price: 91.0,
-    category: "Deporte / Fitness",
+    category: "Deporte / Fitness", 
     image: "/img/TapisdeGymnastique.jpg",
+    images: [
+      "/img/TapisdeGymnastique.jpg",
+      "/img/TapisdeGymnastique-1.jpg",
+    ],
   },
   {
     id: 36,
@@ -448,19 +659,50 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     category: "Hogar",
     image: "/img/DREAMEH15Pro.jpg",
   },
+
   {
     id: 48,
     name: "Aspiradora escoba inalámbrica Roborock H60 Ultra, 210 AW, 90 min de autonomía | Tubo plegable a 90°, filtración del 99,9%, cepillo antienredos para alfombras y suelos duros",
     price: 129.0,
     category: "Hogar",
     image: "/img/roborockH60Ultra.jpg",
+    images: [
+      "/img/roborockH60Ultra.jpg",
+      "/img/roborockH60Ultra-1.jpg",
+      "/img/roborockH60Ultra-2.jpg", 
+    ],
+    color: "azul",
   },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   {
     id: 49,
     name: "HORION Roku TV 40 QLED Smart FHD Televisión con Quantum Dot Color | Más de 500 canales en vivo gratis, Dolby Audio, compatible con Apple AirPlay",
     price: 179.0,
     category: "Hogar",
     image: "/img/TV4K.jpg",
+    images: [
+      "/img/TV4K.jpg",
+      "/img/TV4K-1.jpg",
+      "/img/TV4K-2.jpg", 
+    ],
+    color: "azul",
   },
   {
     id: 50,
@@ -468,6 +710,12 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 79.0,
     category: "Hogar",
     image: "/img/Minirefrigerador.jpg",
+    images: [
+      "/img/Minirefrigerador.jpg",
+      "/img/Minirefrigerador-1.jpg",
+      "/img/Minirefrigerador-3.jpg", 
+    ],
+    color: "azul",
   },
   {
     id: 51,
@@ -475,6 +723,13 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 72.0,
     category: "Hogar",
     image: "/img/EZVIZC8c4K.jpg",
+    images: [
+      "/img/EZVIZC8c4K.jpg",
+      "/img/EZVIZC8c4K-1.jpg",
+      "/img/EZVIZC8c4K-2.jpg", 
+      "/img/EZVIZC8c4K-3.jpg", 
+    ],
+    color: "Blanco",
   },
   {
     id: 52,
@@ -482,6 +737,12 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 28.0,
     category: "Hogar",
     image: "/img/MERCUSYS2K.jpg",
+    images: [
+      "/img/MERCUSYS2K.jpg",
+      "/img/MERCUSYS2K-1.jpg",
+      "/img/MERCUSYS2K-2.jpg", 
+    ],
+    color: "Blanco", 
   },
   {
     id: 53,
@@ -489,20 +750,47 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 9.0,
     category: "Hogar",
     image: "/img/TP-LinkTapo.jpg",
+    images: [
+      "/img/TP-LinkTapo.jpg",
+      "/img/TP-LinkTapo-1.jpg",
+      "/img/TP-LinkTapo-2.jpg", 
+    ],
+    color: "Blanco", 
   },
   {
     id: 54,
     name: "SNDOAS Placa de Gas de 4 Fuegos Cristal Blanco, Placa de Gas Integrable",
     price: 131.0,
     category: "Cocina",
-    image: "/img/SNDOASPlaque.jpg",
+    image: "/img/SNDOASPlaque.jpg", 
+    images: [
+      "/img/SNDOASPlaque.jpg",
+      "/img/SNDOASPlaque-1.jpg",
+      "/img/SNDOASPlaque-2.jpg", 
+    ],
+    color: "Blanco", 
   },
+
+
+
+
+
+
+
+
+
   {
     id: 55,
     name: "GASLAND GIH604BF Placa Mixta de Gas e Inducción 60 cm, Gas 5200 W con quemador wok",
     price: 341.99,
     category: "Cocina",
     image: "/img/GASLANDGIH604BF.jpg",
+    images: [
+      "/img/GASLANDGIH604BF.jpg",
+      "/img/GASLANDGIH604BF-1.jpg",
+      "/img/GASLANDGIH604BF-2.jpg", 
+    ],
+    color: "Black",
   },
 
   {
@@ -510,28 +798,52 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     name: "Tumbona Bali de diseño cosmopolita - Beige. Chaise longue derecha - 1 plaza - tapicería de terciopelo - no convertible",
     price: 799.99,
     category: "Hogar",
-    image: "/img/TumbonaBali.webp",
+    image: "/img/TumbonaBali.jpg",
+    images: [
+      "/img/TumbonaBali.jpg",
+      "/img/TumbonaBali-1.jpg",
+      "/img/TumbonaBali-2.jpg",
+    ],
+    color: "Beige",
   },
   {
     id: 57,
     name: "Juego de 6 sillas de comedor Smartue color beige, patas de madera, 81 × 56,4 × 52,6 cm. Juego de 6 sillas de comedor color beige - Patas de madera maciza, respaldo curvo, asiento de tela",
     price: 409.0,
     category: "Hogar",
-    image: "/img/Juegode6sillas.webp",
+    image: "/img/Juegode6sillas.jpg",
+    images: [
+      "/img/Juegode6sillas.jpg",
+      "/img/Juegode6sillas-1.jpg",
+      "/img/Juegode6sillas-2.jpg",
+    ],
+    color: "Beige",
   },
   {
     id: 58,
-    name: "Aurlane DUALIDAD Mampara de ducha rectangular - Aluminio negro mate - Puerta corredera - Hidromasaje - 80 x 110 x 215 cm",
+    name: "Aurlane DUALIDAD Mampara de ducha rectangular - Aluminio Blanco mate - Puerta corredera - Hidromasaje - 80 x 110 x 215 cm",
     price: 599.0,
     category: "Hogar",
-    image: "/img/AurlaneDUALIDAD.webp",
+    image: "/img/AurlaneDUALIDAD.jpg",
+     images: [
+      "/img/AurlaneDUALIDAD.jpg",
+      "/img/AurlaneDUALIDAD-1.jpg",
+      "/img/AurlaneDUALIDAD-2.jpg",
+    ],
+    color: "Blanco",
   },
   {
     id: 60,
     name: "Asistente virtual Amazon Alexa Echo Spot 2024 Azul Amazon Echo Spot (modelo 2024): despertador inteligente azul, pantalla de 2,83 pulgadasy Alexa.",
     price: 76.0,
     category: "Hogar",
-    image: "/img/Asistentevirtual.webp",
+    image: "/img/Asistentevirtual.jpg",
+     images: [
+      "/img/Asistentevirtual.jpg",
+      "/img/Asistentevirtual-1.jpg",
+      "/img/Asistentevirtual-2.jpg",
+    ],
+    color: "Azul",
   },
   {
     id: 61,
@@ -539,6 +851,12 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 86.99,
     category: "Cocina",
     image: "/img/NespressoInissia.jpg",
+     images: [
+      "/img/NespressoInissia.jpg",
+      "/img/NespressoInissia-2.jpg",
+      "/img/NespressoInissia-1.jpg",
+    ],
+    color: "Negro",
   },
   {
     id: 62,
@@ -546,6 +864,12 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 351.99,
     category: "Dispositivos electrónicos",
     image: "/img/SamsungOLEDde27.jpg",
+    images: [
+      "/img/SamsungOLEDde27.jpg",
+      "/img/SamsungOLEDde27-2.jpg",
+      "/img/SamsungOLEDde27-1.jpg",
+    ],
+    color: "Negro",
   },
   {
     id: 63,
@@ -553,6 +877,13 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 1141.99,
     category: "Dispositivos electrónicos",
     image: "/img/LenovoYogaSlim7.jpg",
+    images: [
+      "/img/LenovoYogaSlim7.jpg",
+      "/img/LenovoYogaSlim7-2.jpg",
+      "/img/LenovoYogaSlim7-1.jpg",
+    ],
+    color: "Negro",
+
   },
   {
     id: 64,
@@ -560,6 +891,12 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 999.99,
     category: "Dispositivos electrónicos",
     image: "/img/ASUSZenbook14.jpg",
+    images: [
+      "/img/ASUSZenbook14.jpg",
+      "/img/ASUSZenbook14-2.jpg",
+      "/img/ASUSZenbook14-1.jpg",
+    ],
+    color: "Negro",
   },
 ];
 
@@ -782,8 +1119,21 @@ export const PRODUCTS_DATA: Product[] = PRODUCT_SEED.map((entry) => {
   }
   usedSlugs.add(slug);
 
-  const images =
-    entry.images && entry.images.length > 0 ? entry.images : [entry.image];
+  // Supporte jusqu'à 3 images différentes par produit
+  const rawImages: string[] = [];
+  if (entry.images && Array.isArray(entry.images) && entry.images.length > 0) {
+    rawImages.push(...entry.images);
+  } else if (entry.image) {
+    rawImages.push(entry.image);
+  }
+  const uniqueImages: string[] = [];
+  for (const img of rawImages) {
+    if (img && typeof img === "string" && !uniqueImages.includes(img)) {
+      uniqueImages.push(img);
+    }
+    if (uniqueImages.length >= 3) break;
+  }
+  const images = uniqueImages.length > 0 ? uniqueImages : [entry.image || "/img/log.png"];
   const color = entry.color ?? detectColor(entry.name);
   const batteryHealth = entry.batteryHealth ?? entry.battery;
 

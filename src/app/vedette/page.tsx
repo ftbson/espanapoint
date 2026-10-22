@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import ProductCardImage from "@/components/ProductCardImage";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { getProductUrl, PRODUCTS_DATA } from "@/lib/products";
@@ -36,15 +36,9 @@ export default function FeaturedPage() {
           <article key={product.id} className="product-card">
             <Link href={getProductUrl(product)} className="product-card-link">
               <div className="product-image-wrapper">
-                <Image
-                  src={product.images[0]}
+                <ProductCardImage
+                  images={product.images}
                   alt={product.name}
-                  className="product-img"
-                  width={320}
-                  height={320}
-                  sizes="(max-width: 600px) 46vw, (max-width: 1000px) 30vw, 280px"
-                  loading="lazy"
-                  decoding="async"
                 />
               </div>
               <div className="product-info">

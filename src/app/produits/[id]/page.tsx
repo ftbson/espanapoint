@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import { permanentRedirect } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
 import ProductActions from "./ProductActions";
+import ProductGallery from "@/components/ProductGallery";
 import "./product.css";
 import { getProductJsonLd } from "@/lib/productSchema";
 import { SITE_URL, siteConfig } from "@/lib/siteConfig";
@@ -107,21 +107,8 @@ export default async function ProductPage({
         <i className="fas fa-arrow-left"></i> Ver todos los productos
       </Link>
 
-      <div className="product-detail-image">
-        {product.images.map((image, index) => (
-          <Image
-            key={`${image}-${index}`}
-            src={image}
-            alt={`${product.name}${product.images.length > 1 ? ` - imagen ${index + 1}` : ""}`}
-            width={600}
-            height={600}
-            sizes="(max-width: 768px) 100vw, 50vw"
-            fetchPriority={index === 0 ? "high" : "auto"}
-            loading={index === 0 ? "eager" : "lazy"}
-            decoding="async"
-          />
-        ))}
-      </div>
+      {/* Galerie interactive avec au plus 3 images, flèches FontAwesome et tactile */}
+      <ProductGallery images={product.images} name={product.name} />
 
       <div className="product-detail-info">
         <span className="product-detail-cat">{product.category}</span>

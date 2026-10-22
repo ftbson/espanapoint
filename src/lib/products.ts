@@ -418,6 +418,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/TheG-LabKeyz-2.jpg",
       "/img/TheG-LabKeyz-3.jpg",
     ],
+    color: "Negro",
   },
   {
     id: 25,

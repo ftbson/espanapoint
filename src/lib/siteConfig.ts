@@ -5,7 +5,7 @@ export const SITE_URL = (
 ).replace(/\/$/, "");
 
 const returnDays = 14;
-const shippingCost = 0;
+const shippingCost: number = 0; // typé number pour éviter le type littéral 0
 
 export const siteConfig = {
   shipping: {
@@ -20,10 +20,11 @@ export const siteConfig = {
   returns: {
     days: returnDays,
     // Aucun frais de gestion : le client ne paie que le transport retour
-    label: `Devolución en ${returnDays} días naturales`,
+    label: `Devolución en ${returnDays} días naturales, gastos de devolución a cargo del cliente`,
     shippingPaidBy: "customer",
   },
-  // À remplacer dès que le paiement par carte est actif
+  // ⚠️ Ne mentionner la carte que si le paiement par carte est réellement actif.
+  // En attendant : "Pago por transferencia bancaria"
   paymentLabel: "Pago seguro con tarjeta o transferencia bancaria",
   warranty: {
     newMonths: 36,

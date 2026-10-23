@@ -12,6 +12,9 @@ export const metadata: Metadata = {
     description:
       "Devolución en 14 días naturales. Reembolso íntegro del precio pagado.",
     url: "/politica-de-devoluciones",
+    siteName: "Espanapoint",
+    locale: "es_ES",
+    type: "website",
   },
 };
 

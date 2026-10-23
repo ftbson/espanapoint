@@ -20,14 +20,11 @@ export default function PoliticaEnvio() {
       <p>Última actualización: octubre de 2026</p>
 
       <h2>1. Ámbito y cobertura</h2>
-      <p>
-        Los pedidos se envían desde España a clientes ubicados en territorio
-        español. En este momento, la cobertura principal es la península y las
-        Islas Baleares; Canarias, Ceuta y Melilla se gestionan según
-        disponibilidad y condiciones específicas del transporte y se informarán
-        antes de la confirmación del pedido. TODO: confirmar cobertura exacta en
-        los destinos no asumidos por la política general.
-      </p>
+<p>
+  Los pedidos se envían desde España a clientes ubicados en territorio
+  español. La cobertura incluye la península y las Islas Baleares.
+  Actualmente no realizamos envíos a Canarias, Ceuta ni Melilla.
+</p>
 
       <h2>2. Coste de envío</h2>
       <p>

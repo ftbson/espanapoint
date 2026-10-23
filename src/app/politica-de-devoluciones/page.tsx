@@ -9,8 +9,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/politica-de-devoluciones" },
   openGraph: {
     title: "Política de Devoluciones y Reembolsos | Espanapoint",
-    description:
-      "Devolución en 14 días naturales. Reembolso íntegro del precio pagado.",
+    description: "Devolución en 14 días naturales. Reembolso íntegro del precio pagado.",
     url: "/politica-de-devoluciones",
     siteName: "Espanapoint",
     locale: "es_ES",
@@ -27,9 +26,7 @@ export default function PoliticaDevoluciones() {
       style={{ padding: "40px 20px", maxWidth: "900px", margin: "0 auto" }}
     >
       <h1>Política de Devoluciones y Reembolsos</h1>
-      <p>
-        <em>Última actualización: octubre de 2026</em>
-      </p>
+      <p><em>Última actualización: octubre de 2026</em></p>
 
       <h2>1. Derecho de desistimiento</h2>
       <p>
@@ -44,16 +41,13 @@ export default function PoliticaDevoluciones() {
       <h2>2. Cómo ejercer el derecho</h2>
       <p>
         Para iniciar la devolución, comunica tu decisión de desistir mediante
-        un correo a <a href={`mailto:${STORE.email}`}>{STORE.email}</a> o por
+        un correo a <a href={`mailto:${legal.email}`}>{legal.email}</a> o por
         teléfono al <a href={`tel:${STORE.phoneLink}`}>{STORE.phone}</a>,
         indicando tu número de pedido. Después deberás devolver el producto en
         un plazo máximo de 14 días naturales desde esa comunicación.
       </p>
       <ul>
-        <li>
-          El producto debe devolverse con el embalaje y los accesorios
-          originales, si existen.
-        </li>
+        <li>El producto debe devolverse con el embalaje y los accesorios originales, si existen.</li>
         <li>
           Si el producto ha sido manipulado más allá de lo necesario para
           comprobar su naturaleza, características y funcionamiento, podrás
@@ -100,14 +94,9 @@ export default function PoliticaDevoluciones() {
         <br />
         {STORE.address.street}
         <br />
-        {STORE.address.postalCode} {STORE.address.locality},{" "}
-        {STORE.address.country}
-        {legal.taxId && (
-          <>
-            <br />
-            CIF/NIF: {legal.taxId}
-          </>
-        )}
+        {STORE.address.postalCode} {STORE.address.locality}, {STORE.address.country}
+        <br />
+        {legal.companyName} · CIF/NIF: {legal.taxId}
       </p>
     </div>
   );

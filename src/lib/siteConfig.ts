@@ -5,7 +5,10 @@ export const SITE_URL = (
 ).replace(/\/$/, "");
 
 const returnDays = 14;
-const shippingCost: number = 0; // typé number pour éviter le type littéral 0
+const shippingCost: number = 0;
+
+// ⚠️ Passer à true UNIQUEMENT quand le paiement par carte est réellement actif au checkout
+const cardPaymentEnabled = false;
 
 export const siteConfig = {
   shipping: {
@@ -19,13 +22,13 @@ export const siteConfig = {
   },
   returns: {
     days: returnDays,
-    // Aucun frais de gestion : le client ne paie que le transport retour
     label: `Devolución en ${returnDays} días naturales, gastos de devolución a cargo del cliente`,
     shippingPaidBy: "customer",
   },
-  // ⚠️ Ne mentionner la carte que si le paiement par carte est réellement actif.
-  // En attendant : "Pago por transferencia bancaria"
-  paymentLabel: "Pago seguro con tarjeta o transferencia bancaria",
+  cardPaymentEnabled,
+  paymentLabel: cardPaymentEnabled
+    ? "Pago seguro con tarjeta o transferencia bancaria"
+    : "Pago por transferencia bancaria",
   warranty: {
     newMonths: 36,
     refurbishedMonths: 12,
@@ -33,8 +36,7 @@ export const siteConfig = {
   },
   legal: {
     email: "contact@espanapoint.es",
-    companyName:
-      process.env.NEXT_PUBLIC_COMPANY_NAME?.trim() || "Espana Point",
+    companyName: process.env.NEXT_PUBLIC_COMPANY_NAME?.trim() || "Espana Point",
     taxId: process.env.NEXT_PUBLIC_TAX_ID?.trim() || "B73940157",
   },
 } as const;

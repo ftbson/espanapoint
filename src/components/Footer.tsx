@@ -1,15 +1,14 @@
-// src/components/Footer.tsx
 import Link from "next/link";
 import { STORE } from "@/lib/store";
 import { siteConfig } from "@/lib/siteConfig";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const { legal } = siteConfig;
 
   return (
     <footer className="main-footer">
       <div className="footer-container">
-        {/* Colonne 1 : Entreprise et adresse complète */}
         <div className="footer-col">
           <h3>{STORE.name}</h3>
           <p className="footer-company-info">
@@ -19,62 +18,36 @@ export default function Footer() {
             {STORE.address.country}
           </p>
           <p className="footer-contact-info">
-            <strong>Razón social:</strong>{" "}
-            {siteConfig.legal.companyName || "Espana Point"}
+            <strong>Razón social:</strong> {legal.companyName}
             <br />
             <strong>Teléfono:</strong>{" "}
             <a href={`tel:${STORE.phoneLink}`}>{STORE.phone}</a>
             <br />
             <strong>Email:</strong>{" "}
-            <a href={`mailto:${siteConfig.legal.email}`}>
-              {siteConfig.legal.email}
-            </a>
+            <a href={`mailto:${legal.email}`}>{legal.email}</a>
             <br />
-            <strong>NIF/CIF:</strong>{" "}
-            {siteConfig.legal.taxId || "B73940157"}
+            <strong>NIF/CIF:</strong> {legal.taxId}
           </p>
         </div>
 
-        {/* Colonne 2 : Politiques légales */}
         <div className="footer-col">
           <h4>Políticas Legales</h4>
           <ul className="footer-links-list">
-            <li>
-              <Link href="/politica-de-devoluciones">
-                Política de Devoluciones y Reembolso
-              </Link>
-            </li>
-            <li>
-              <Link href="/politica-de-envio">Política de Envío</Link>
-            </li>
-            <li>
-              <Link href="/cgv">Términos y Condiciones (CGV)</Link>
-            </li>
-            <li>
-              <Link href="/politica-de-privacidad">Política de Privacidad</Link>
-            </li>
-            <li>
-              <Link href="/politica-de-cookies">Política de Cookies</Link>
-            </li>
-            <li>
-              <Link href="/aviso-legal">Aviso Legal</Link>
-            </li>
+            <li><Link href="/politica-de-devoluciones">Política de Devoluciones y Reembolso</Link></li>
+            <li><Link href="/politica-de-envio">Política de Envío</Link></li>
+            <li><Link href="/cgv">Términos y Condiciones (CGV)</Link></li>
+            <li><Link href="/politica-de-privacidad">Política de Privacidad</Link></li>
+            <li><Link href="/politica-de-cookies">Política de Cookies</Link></li>
+            <li><Link href="/aviso-legal">Aviso Legal</Link></li>
           </ul>
         </div>
 
-        {/* Colonne 3 : Support & Contact */}
         <div className="footer-col">
           <h4>Atención al Cliente</h4>
           <ul className="footer-links-list">
-            <li>
-              <Link href="/contact">Contáctenos</Link>
-            </li>
-            <li>
-              <span>Horario: Lun–Vie 8:00–19:00; sábado 9:00–17:00</span>
-            </li>
-            <li>
-              <Link href="/politica-de-envio">Información de envío</Link>
-            </li>
+            <li><Link href="/contact">Contáctenos</Link></li>
+            <li><span>Horario: Lun–Vie 8:00–19:00; sábado 9:00–17:00</span></li>
+            <li><Link href="/politica-de-envio">Información de envío</Link></li>
           </ul>
         </div>
       </div>

@@ -17,18 +17,13 @@ export function getProductJsonLd(product: Product) {
     OutOfStock: "OutOfStock",
     PreOrder: "PreOrder",
   }[product.availability];
-  const returnPolicy = {
+    const returnPolicy = {
     "@type": "MerchantReturnPolicy",
     applicableCountry: siteConfig.shipping.country,
     returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
     merchantReturnDays: siteConfig.returns.days,
-    returnFees:
-      siteConfig.returns.feeRate > 0
-        ? "https://schema.org/RestockingFees"
-        : "https://schema.org/FreeReturn",
-    ...(siteConfig.returns.feeRate > 0
-      ? { restockingFee: siteConfig.returns.feeRate }
-      : {}),
+    returnMethod: "https://schema.org/ReturnByMail",
+    returnFees: "https://schema.org/ReturnShippingFees",
   };
 
   return {

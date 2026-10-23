@@ -7,9 +7,7 @@ export const STORE_CONFIG = {
   SHIPPING_COUNTRY: siteConfig.shipping.country,
   RETURN_DAYS: siteConfig.returns.days,
   REFUND_DAYS: siteConfig.returns.days,
-  RETURN_FEES_PAYER: (siteConfig.returns.feeRate > 0
-    ? "customer"
-    : "seller") as "customer" | "seller",
+  RETURN_FEES_PAYER: siteConfig.returns.shippingPaidBy as "customer" | "seller",
   GUARANTEE_NEW_YEARS: siteConfig.warranty.newMonths / 12,
   GUARANTEE_REFURBISHED_YEARS: siteConfig.warranty.refurbishedMonths / 12,
   COMPANY: {

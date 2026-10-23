@@ -268,10 +268,9 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/AppleWatchSeries9.avif",
       "/img/AppleWatchSeries9-2.avif",
     ],
-    storage: "64 GB",
-    color: "Negro",
-    batteryHealth: 95,
-    grade: "A+",
+    color: "Blanco Estrella",   // au lieu de "Negro" (contredit le titre)
+batteryHealth: 95,
+grade: "A+",
   },
 
   {

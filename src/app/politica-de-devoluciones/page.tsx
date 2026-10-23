@@ -3,13 +3,20 @@ import type { Metadata } from "next";
 import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
-  title: "Política de Devoluciones y Reembolsos",
-  description: `${siteConfig.returns.label}. Procedimientos de devolución y reembolso de Espanapoint.`,
+  title: "Política de Devoluciones y Reembolsos | Espanapoint",
+  description:
+    "Dispones de 14 días naturales para devolver tu pedido sin justificación. Consulta cómo solicitar tu devolución y reembolso en Espanapoint.",
   alternates: { canonical: "/politica-de-devoluciones" },
+  openGraph: {
+    title: "Política de Devoluciones y Reembolsos | Espanapoint",
+    description:
+      "Devolución en 14 días naturales. Reembolso íntegro del precio pagado.",
+    url: "/politica-de-devoluciones",
+  },
 };
 
 export default function PoliticaDevoluciones() {
-  const { returns, legal } = siteConfig;
+  const { legal } = siteConfig;
 
   return (
     <div
@@ -23,56 +30,65 @@ export default function PoliticaDevoluciones() {
 
       <h2>1. Derecho de desistimiento</h2>
       <p>
-        {returns.label} desde la recepción del producto, sin necesidad de
-        justificarlo, salvo las excepciones legales previstas en la normativa
-        vigente.
+        Tienes derecho a desistir de tu compra en un plazo de{" "}
+        <strong>14 días naturales</strong> desde la recepción del producto, sin
+        necesidad de justificación, salvo las excepciones legales previstas en
+        la normativa vigente (por ejemplo, productos precintados que no sean
+        aptos para su devolución por razones de higiene o protección de la
+        salud y que hayan sido desprecintados tras la entrega).
       </p>
 
       <h2>2. Cómo ejercer el derecho</h2>
       <p>
-        Para iniciar la devolución, el cliente debe contactar con nuestro
-        servicio de atención al cliente en{" "}
-        <a href={`mailto:${STORE.email}`}>{STORE.email}</a> o mediante teléfono{" "}
-        <a href={`tel:${STORE.phoneLink}`}>{STORE.phone}</a>. Debe indicar el
-        número de pedido y el motivo de la devolución.
+        Para iniciar la devolución, comunica tu decisión de desistir mediante
+        un correo a <a href={`mailto:${STORE.email}`}>{STORE.email}</a> o por
+        teléfono al <a href={`tel:${STORE.phoneLink}`}>{STORE.phone}</a>,
+        indicando tu número de pedido. Después deberás devolver el producto en
+        un plazo máximo de 14 días naturales desde esa comunicación.
       </p>
       <ul>
         <li>
-          El producto debe devolverse en condiciones razonables y con el
-          embalaje y accesorios originales, si existen.
+          El producto debe devolverse con el embalaje y los accesorios
+          originales, si existen.
         </li>
         <li>
-          Si el producto ya ha sido usado más allá de lo necesario para
-          comprobar su naturaleza, características y funcionamiento, el cliente
-          puede responder de la disminución de valor del bien.
+          Si el producto ha sido manipulado más allá de lo necesario para
+          comprobar su naturaleza, características y funcionamiento, podrás
+          responder de la disminución de valor del bien.
         </li>
         <li>
-          Si es un dispositivo electrónico, se recomienda borrar datos
-          personales y desvincular cuentas antes de devolverlo.
+          En dispositivos electrónicos, te recomendamos borrar tus datos
+          personales y desvincular tus cuentas antes de devolverlos.
         </li>
       </ul>
 
       <h2>3. Gastos de devolución</h2>
       <p>
-        {returns.label}. Los derechos legales por producto defectuoso o error
-        del vendedor se mantienen.
+        Los gastos directos de devolución del producto corren a cargo del
+        cliente. En productos voluminosos (por ejemplo, bicicletas), te
+        informaremos del coste estimado de la devolución antes de que la
+        solicites. No aplicamos ningún otro cargo ni gasto de gestión. Si el
+        producto es defectuoso, no conforme o hubo un error por nuestra parte,
+        los gastos de devolución serán siempre a nuestro cargo.
       </p>
 
       <h2>4. Reembolso</h2>
       <p>
-        El reembolso se realizará mediante el mismo medio de pago que se utilizó
-        para la compra, en un plazo máximo de{" "}
-        <strong>{returns.days} días</strong> desde la recepción del bien o la
-        confirmación de la devolución, siempre que se cumplan las condiciones
-        legales y la información pactada en esta política.
+        Reembolsaremos el <strong>importe íntegro</strong> pagado, incluidos
+        los gastos de envío estándar iniciales, mediante el mismo medio de pago
+        utilizado en la compra, en un plazo máximo de{" "}
+        <strong>14 días naturales</strong> desde que tengamos constancia de tu
+        decisión de desistir. Podremos retener el reembolso hasta recibir el
+        producto o hasta que acredites haberlo enviado, lo que ocurra primero.
       </p>
 
       <h2>5. Productos defectuosos y garantía legal</h2>
       <p>
-        Si el artículo presenta un defecto, error de entrega o falta de
-        conformidad, el cliente puede reclamar la reparación, sustitución o
-        devolución conforme a la normativa vigente. La garantía legal se aplica
-        con independencia del derecho de desistimiento.
+        Si el artículo presenta un defecto o falta de conformidad, puedes
+        reclamar su reparación, sustitución, rebaja del precio o resolución del
+        contrato conforme a la normativa vigente. La garantía legal de 3 años
+        para productos nuevos se aplica con independencia del derecho de
+        desistimiento.
       </p>
 
       <h2>6. Dirección de devolución</h2>
@@ -83,8 +99,12 @@ export default function PoliticaDevoluciones() {
         <br />
         {STORE.address.postalCode} {STORE.address.locality},{" "}
         {STORE.address.country}
-        <br />
-        CIF/NIF: {legal.taxId || "B73940157"}
+        {legal.taxId && (
+          <>
+            <br />
+            CIF/NIF: {legal.taxId}
+          </>
+        )}
       </p>
     </div>
   );

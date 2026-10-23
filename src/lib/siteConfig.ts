@@ -4,9 +4,8 @@ export const SITE_URL = (
   configuredSiteUrl || "https://www.espanapoint.es"
 ).replace(/\/$/, "");
 
-const returnFeeRate: number = 0.02;
-const returnDays: number = 14;
-const shippingCost: number = 0;
+const returnDays = 14;
+const shippingCost = 0;
 
 export const siteConfig = {
   shipping: {
@@ -16,17 +15,16 @@ export const siteConfig = {
     transitMinDays: 1,
     transitMaxDays: 3,
     cost: shippingCost,
-    label: "Envío en 24–72 h",
+    label: "Envío gratuito en 24–72 h",
   },
   returns: {
     days: returnDays,
-    feeRate: returnFeeRate,
-    label:
-      returnFeeRate === 0
-        ? `Devolución gratuita en ${returnDays} días`
-        : `Devolución en ${returnDays} días, con gastos de gestión del ${returnFeeRate * 100} %`,
+    // Aucun frais de gestion : le client ne paie que le transport retour
+    label: `Devolución en ${returnDays} días naturales`,
+    shippingPaidBy: "customer",
   },
-  paymentLabel: "Pago por transferencia bancaria",
+  // À remplacer dès que le paiement par carte est actif
+  paymentLabel: "Pago seguro con tarjeta o transferencia bancaria",
   warranty: {
     newMonths: 36,
     refurbishedMonths: 12,
@@ -35,10 +33,8 @@ export const siteConfig = {
   legal: {
     email: "contact@espanapoint.es",
     companyName:
-      process.env.NEXT_PUBLIC_COMPANY_NAME?.trim() ||
-      "Espana Point ",
-    taxId:
-      process.env.NEXT_PUBLIC_TAX_ID?.trim() || "B73940157",
+      process.env.NEXT_PUBLIC_COMPANY_NAME?.trim() || "Espana Point",
+    taxId: process.env.NEXT_PUBLIC_TAX_ID?.trim() || "B73940157",
   },
 } as const;
 

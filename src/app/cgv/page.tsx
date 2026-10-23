@@ -54,9 +54,9 @@ export default function CGV() {
             Los precios se muestran en euros y incluyen el IVA. El precio final
             de cada producto es el que aparece publicado en la ficha y en el
             carrito. {shipping.label} con coste{" "}
-            <strong>
-              {shipping.cost === 0 ? "0 €" : `${shipping.cost.toFixed(2)} €`}
-            </strong>{" "}
+<strong>
+  {Number(shipping.cost) === 0 ? "0 €" : `${Number(shipping.cost).toFixed(2)} €`}
+</strong>{" "}
             para entregas en{" "}
             {shipping.country === "ES" ? "España" : shipping.country}.
           </p>

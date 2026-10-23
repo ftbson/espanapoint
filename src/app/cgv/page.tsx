@@ -37,10 +37,10 @@ export default function CGV() {
           </p>
           <p>
             <strong>
-              {legal.companyName || "<TODO: completar razón social>"}
+              {legal.companyName || "Espana Point "}
             </strong>{" "}
             · CIF/NIF:{" "}
-            <strong>{legal.taxId || "<TODO: completar NIF/CIF>"}</strong> ·{" "}
+            <strong>{legal.taxId || "B73940157"}</strong> ·{" "}
             {STORE.address.street}, {STORE.address.postalCode}{" "}
             {STORE.address.locality}, {STORE.address.country}. · Contacto:{" "}
             <a href={`mailto:${legal.email}`}>{legal.email}</a> ·{" "}

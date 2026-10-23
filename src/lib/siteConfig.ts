@@ -36,9 +36,9 @@ export const siteConfig = {
     email: "contact@espanapoint.es",
     companyName:
       process.env.NEXT_PUBLIC_COMPANY_NAME?.trim() ||
-      "<TODO: completar razón social>",
+      "Espana Point ",
     taxId:
-      process.env.NEXT_PUBLIC_TAX_ID?.trim() || "<TODO: completar NIF/CIF>",
+      process.env.NEXT_PUBLIC_TAX_ID?.trim() || "B73940157",
   },
 } as const;
 

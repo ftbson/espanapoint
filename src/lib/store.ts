@@ -27,8 +27,8 @@ export {
 
 export const STORE = {
   name: STORE_CONFIG.STORE_NAME,
-  companyName: siteConfig.legal.companyName || "<TODO: completar razón social>",
-  cif: siteConfig.legal.taxId || "<TODO: completar NIF/CIF>",
+  companyName: siteConfig.legal.companyName || "Espana Point",
+  cif: siteConfig.legal.taxId || "B73940157",
   address: {
     street: STORE_CONFIG.COMPANY.address,
     postalCode: "28013",

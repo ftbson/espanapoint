@@ -20,7 +20,7 @@ export default function Footer() {
           </p>
           <p className="footer-contact-info">
             <strong>Razón social:</strong>{" "}
-            {siteConfig.legal.companyName || "<TODO: completar razón social>"}
+            {siteConfig.legal.companyName || "Espana Point"}
             <br />
             <strong>Teléfono:</strong>{" "}
             <a href={`tel:${STORE.phoneLink}`}>{STORE.phone}</a>
@@ -30,8 +30,8 @@ export default function Footer() {
               {siteConfig.legal.email}
             </a>
             <br />
-            <strong>CIF:</strong>{" "}
-            {siteConfig.legal.taxId || "<TODO: completar NIF/CIF>"}
+            <strong>NIF/CIF:</strong>{" "}
+            {siteConfig.legal.taxId || "B73940157"}
           </p>
         </div>
 

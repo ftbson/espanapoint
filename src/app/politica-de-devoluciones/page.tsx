@@ -84,7 +84,7 @@ export default function PoliticaDevoluciones() {
         {STORE.address.postalCode} {STORE.address.locality},{" "}
         {STORE.address.country}
         <br />
-        CIF/NIF: {legal.taxId || "<TODO: completar NIF/CIF>"}
+        CIF/NIF: {legal.taxId || "B73940157"}
       </p>
     </div>
   );

@@ -19,9 +19,9 @@ export default function AvisoLegalPage() {
       <h1>Aviso Legal</h1>
       <h2>Datos del titular</h2>
       <p>
-        Razón social: {companyName || "<TODO: completar razón social>"}
+        Razón social: {companyName || "Espana Point"}
         <br />
-        NIF/CIF: {taxId || "<TODO: completar NIF/CIF>"}
+        NIF/CIF: {taxId || "B73940157"}
         <br />
         Domicilio: {STORE.address.street}, {STORE.address.postalCode}{" "}
         {STORE.address.locality}, {STORE.address.country}

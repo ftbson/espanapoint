@@ -86,7 +86,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/apple-iphone-13-pro-max-3.avif",
     ],
     storage: "128 GB",
-    color: "Azul Sierra",
+    color: "Negro",
     batteryHealth: 88,
     grade: "A",
   },
@@ -253,6 +253,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/SonyWH-1000XM5SA-2.jpg",
       "/img/SonyWH-1000XM5SA.jpg",
     ],
+    storage: "Hasta 30 horas (con cancelación de ruido activa)",
     color : "Negro",
     
   },
@@ -268,10 +269,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/AppleWatchSeries9-2.avif",
     ],
     storage: "64 GB",
-    color: "Blanco Estrella",
+    color: "Negro",
     batteryHealth: 95,
     grade: "A+",
   },
+
   {
     id: 14,
     name: "SHOKZ OpenFit Pro Open Ear Auriculares Inalámbricos Negro",
@@ -283,6 +285,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/SHOKZOpenFitProOpen-1.jpg",
     ],
     color : "Negro",
+      storage: "Hasta 12 horas (50 horas con el estuche de carga)",
   },
   {
     id: 15,
@@ -297,7 +300,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/realme-buds-clip-2025-300x300-2.jpg",
     ],
     batteryHealth: 90,
-    storage: "128 GB",
+    storage: "Hasta 12 horas (hasta 48 horas con el estuche de carga)",
     color : "Negro",
   },
 
@@ -317,15 +320,17 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/JBLWaveBeam2-1.jpg",
     ],
      color: "Azur",
+       storage: "Hasta 40 horas en total (con el estuche de carga)",
   },
-  {
-    id: 17,
-    name: "Auriculares inalámbricos para Apple iPhone - Auriculares Bluetooth 5.4 con ganchos para el oído, Estéreo",
-    price: 30.0,
-    category: "Dispositivos electrónicos",
-    image: "/img/ecouteurssansfilpourApple.jpg",
-     color: "Negro", 
-  },
+  // {
+  //   id: 17,
+  //   name: "Auriculares inalámbricos para Apple iPhone - Auriculares Bluetooth 5.4 con ganchos para el oído, Estéreo",
+  //   price: 30.0,
+  //   category: "Dispositivos electrónicos",
+  //   image: "/img/ecouteurssansfilpourApple.jpg",
+  //    color: "Negro", 
+  //    storage: "64 GB",
+  // },
   {
     id: 18,
     name: "Auriculares con cancelación de ruido, con y sin cable, con micrófono Bose QuietComfort Ultra 2.ª generación - Negro",
@@ -337,6 +342,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/SoundcoreSpaceOneCasque-1.avif",
     ],
      color: "Negro",
+     storage: "Hasta 30 horas (con cancelación de ruido activa)",
   },
   {
     id: 19,
@@ -350,7 +356,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/DJIOsmoPocket3.jpg",
     ],
     color: "Negro",
-
+storage: "Ranura microSD (hasta 1 TB, tarjeta no incluida)",
+battery: "Hasta 166 minutos de grabación",
 
   },
   {
@@ -365,6 +372,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/BundleEssentielDJIOsmoPocket4.jpg",
     ],
     color: "Negro",
+    storage: "107 GB internos (ampliable con microSD hasta 1 TB)",
   },
   {
     id: 21,
@@ -378,6 +386,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/SonyConsolePlayStation5.jpg",
     ],
     color: "Blanco",
+     storage: "1 TB",
   },
   {
     id: 22,
@@ -390,6 +399,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/PlaystationSonyLecteur-1.jpg",
       "/img/PlaystationSonyLecteur-2.jpg",
     ],
+     storage: "Pantalla LCD Full HD 1080p de 8",
     color: "Blanco",
   },
   {
@@ -404,7 +414,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/NintendoSwitch-2.jpg",
       "/img/NintendoSwitch-3.jpg",
     ],
-    color: "Arcoíris",
+     storage: "64 GB",
+    color: "Blanco",
   },
   {
     id: 24,
@@ -418,6 +429,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/TheG-LabKeyz-2.jpg",
       "/img/TheG-LabKeyz-3.jpg",
     ],
+       storage: "Interruptores mecánicos rojos (lineales)",
     color: "Negro",
   },
   {
@@ -432,6 +444,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/SANDISKextremeDisqueSSD-2.jpg",
     ],
     color: "Negro",
+    storage: "1 TB",
   },
 
   // ==========================================

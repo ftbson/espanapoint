@@ -72,8 +72,8 @@ export default function PoliticaEnvio() {
 
       <h2>5. Datos del vendedor</h2>
       <p>
-        {legal.companyName || "<TODO: completar razón social>"} · CIF/NIF:{" "}
-        {legal.taxId || "<TODO: completar NIF/CIF>"}
+        {legal.companyName || "Espana Point "} · CIF/NIF:{" "}
+        {legal.taxId || "B73940157"}
         <br />
         {STORE.address.street}
         <br />

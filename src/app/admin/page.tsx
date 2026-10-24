@@ -385,9 +385,9 @@ export default function AdminPage() {
                       <tr key={item.id}>
                         <td className="product-name-cell">{item.name}</td>
                         <td className="product-cat-cell">{item.category}</td>
-                        <td>{item.price} €</td>
+                        <td>{item.price} € TTC</td>
                         <td className="text-center">x{item.quantity}</td>
-                        <td className="text-right subtotal-cell">{(item.price * item.quantity).toLocaleString()} €</td>
+                        <td className="text-right subtotal-cell">{(item.price * item.quantity).toLocaleString()} € TTC</td>
                       </tr>
                     ))}
                   </tbody>
@@ -411,7 +411,7 @@ export default function AdminPage() {
                 <div className="admin-actions-summary">
                   <div className="admin-total-amount">
                     <span>Monto Total a Recibir: </span>
-                    <strong className="total-price-display">{order.total.toLocaleString()} €</strong>
+                    <strong className="total-price-display">{order.total.toLocaleString()} € TTC</strong>
                   </div>
                   <button onClick={() => handleDeleteOrder(order.id)} className="admin-delete-btn" title="Eliminar historial">
                     <i className="far fa-trash-alt"></i>

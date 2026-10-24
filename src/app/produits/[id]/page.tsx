@@ -125,7 +125,8 @@ export default async function ProductPage({
           {product.price.toLocaleString("es-ES", {
             style: "currency",
             currency: "EUR",
-          })}
+          })}{" "}
+          TTC
         </p>
 
         <section
@@ -202,7 +203,7 @@ export default async function ProductPage({
             {siteConfig.shipping.label} ·{" "}
             {siteConfig.shipping.cost === 0
               ? "Envío gratuito"
-              : `${siteConfig.shipping.cost.toFixed(2)} €`}
+              : `${siteConfig.shipping.cost.toFixed(2)} € TTC`}
           </p>
           <p>{siteConfig.returns.label}</p>
         </section>

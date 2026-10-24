@@ -129,8 +129,8 @@ export async function POST(req: Request) {
           <tr>
             <td style="padding: 8px; border-bottom: 1px solid #eee;">${escapeHtml(item.name)}</td>
             <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: center;">x${item.quantity}</td>
-            <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">${item.price.toFixed(2)} €</td>
-            <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right; font-weight: bold;">${(item.price * item.quantity).toFixed(2)} €</td>
+            <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">${item.price.toFixed(2)} € TTC</td>
+            <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right; font-weight: bold;">${(item.price * item.quantity).toFixed(2)} € TTC</td>
           </tr>`,
       )
       .join("");
@@ -182,7 +182,7 @@ export async function POST(req: Request) {
 
             <div style="text-align: right; background-color: #eaf5ea; padding: 10px; border-radius: 6px;">
               <span style="font-size: 16px;">Monto Total a Recibir: </span>
-              <strong style="font-size: 20px; color: #2ecc71;">${total.toFixed(2)} €</strong>
+              <strong style="font-size: 20px; color: #2ecc71;">${total.toFixed(2)} € TTC</strong>
             </div>
           </div>
         `,

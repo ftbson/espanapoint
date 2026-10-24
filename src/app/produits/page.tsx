@@ -109,7 +109,8 @@ export default function ProductsPage() {
                   {product.price.toLocaleString("es-ES", {
                     style: "currency",
                     currency: "EUR",
-                  })}
+                  })}{" "}
+                  TTC
                 </p>
               </div>
             </Link>

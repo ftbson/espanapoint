@@ -102,7 +102,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/iphone-14-pro-3.avif",
     ],
     storage: "128 GB",
-    color: "marrón",
+    color: "oro",
     batteryHealth: 95,
     grade: "A+",
   },

@@ -1,28 +1,32 @@
-import React from "react";
-import { STORE } from "@/lib/store";
+import Link from "next/link";
 import type { Metadata } from "next";
+import { STORE } from "@/lib/store";
 import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
-  title: "Condiciones Generales de Venta",
-  description: `Condiciones de compra, ${siteConfig.shipping.label}, ${siteConfig.returns.label} y garantías de Espanapoint.`,
+  title: "Condiciones Generales de Venta | Espanapoint",
+  description: `Condiciones de compra, ${siteConfig.shipping.label}, devolución en 14 días naturales y garantía legal de Espanapoint.`,
   alternates: { canonical: "/cgv" },
+  openGraph: {
+    title: "Condiciones Generales de Venta | Espanapoint",
+    description:
+      "Condiciones de compra, envío, devoluciones y garantías de Espanapoint.",
+    url: "/cgv",
+    siteName: "Espanapoint",
+    locale: "es_ES",
+    type: "website",
+  },
 };
 
 export default function CGV() {
-  const { shipping, returns, warranty, paymentLabel, legal } = siteConfig;
+  const { shipping, warranty, paymentLabel, legal } = siteConfig;
+  const cost = Number(shipping.cost);
 
   return (
-    <div className="cgv-container">
+    <main className="cgv-container">
       <header className="cgv-header">
         <h1 className="cgv-title">Condiciones Generales de Venta</h1>
-        <p className="cgv-subtitle">
-          Última actualización:{" "}
-          {new Date().toLocaleDateString("es-ES", {
-            month: "long",
-            year: "numeric",
-          })}
-        </p>
+        <p className="cgv-subtitle">Última actualización: octubre de 2026</p>
       </header>
 
       <div className="cgv-content">
@@ -36,13 +40,10 @@ export default function CGV() {
             envío y devoluciones.
           </p>
           <p>
-            <strong>
-              {legal.companyName || "Espana Point "}
-            </strong>{" "}
-            · CIF/NIF:{" "}
-            <strong>{legal.taxId || "B73940157"}</strong> ·{" "}
-            {STORE.address.street}, {STORE.address.postalCode}{" "}
-            {STORE.address.locality}, {STORE.address.country}. · Contacto:{" "}
+            <strong>{legal.companyName}</strong> · CIF/NIF:{" "}
+            <strong>{legal.taxId}</strong> · {STORE.address.street},{" "}
+            {STORE.address.postalCode} {STORE.address.locality},{" "}
+            {STORE.address.country}. · Contacto:{" "}
             <a href={`mailto:${legal.email}`}>{legal.email}</a> ·{" "}
             <a href={`tel:${STORE.phoneLink}`}>{STORE.phone}</a>.
           </p>
@@ -53,17 +54,14 @@ export default function CGV() {
           <p>
             Los precios se muestran en euros y incluyen el IVA. El precio final
             de cada producto es el que aparece publicado en la ficha y en el
-            carrito. {shipping.label} con coste{" "}
-<strong>
-  {Number(shipping.cost) === 0 ? "0 €" : `${Number(shipping.cost).toFixed(2)} €`}
-</strong>{" "}
-            para entregas en{" "}
-            {shipping.country === "ES" ? "España" : shipping.country}.
+            carrito. {shipping.label}, con coste de{" "}
+            <strong>{cost === 0 ? "0 €" : `${cost.toFixed(2)} €`}</strong> para
+            entregas en España peninsular y Baleares.
           </p>
           <p>
             La disponibilidad real del producto se comunica en la ficha y en el
             checkout. Si el stock no está disponible o queda agotado, el pedido
-            no podrá tramitarse.
+            no podrá tramitarse y se reembolsará cualquier importe abonado.
           </p>
         </section>
 
@@ -73,20 +71,19 @@ export default function CGV() {
             El pedido se realiza por medio del carrito de la web. Antes de
             confirmar la compra, el cliente debe aceptar expresamente las
             presentes CGV y la{" "}
-            <a href="/politica-de-privacidad">Política de Privacidad</a>.
+            <Link href="/politica-de-privacidad">Política de Privacidad</Link>.
           </p>
           <p>
-            Una vez confirmado el pedido, se genera la confirmación y se procede
-            al pago. Los productos pendientes de confirmación por falta de stock
-            no se pueden vender ni reservar sin validación previa.
+            Una vez confirmado el pedido, se envía la confirmación por correo
+            electrónico y se procede al pago.
           </p>
         </section>
 
         <section className="cgv-section">
           <h2>4. Pago</h2>
           <p>
-            {paymentLabel}. En caso de transferencia, la compra se considera
-            pendiente hasta que el ingreso sea verificado.
+            {paymentLabel}. En caso de transferencia bancaria, el pedido se
+            considera pendiente hasta que el ingreso sea verificado.
           </p>
         </section>
 
@@ -101,11 +98,9 @@ export default function CGV() {
             se ponga en tránsito.
           </p>
           <p>
-            Las entregas se realizan en la península y en las Islas Baleares
-            salvo indicación expresa de la zona o de los términos de transporte
-            aplicables; cualquier excepción se comunica antes de la confirmación
-            del pedido. Consulte la{" "}
-            <a href="/politica-de-envio">Política de Envío</a> para más
+            Las entregas se realizan en la península y en las Islas Baleares.
+            No realizamos envíos a Canarias, Ceuta ni Melilla. Consulta la{" "}
+            <Link href="/politica-de-envio">Política de Envío</Link> para más
             detalles.
           </p>
         </section>
@@ -113,65 +108,75 @@ export default function CGV() {
         <section className="cgv-section">
           <h2>6. Derecho de desistimiento y devoluciones</h2>
           <p>
-            {returns.label} desde la recepción del producto, sin necesidad de
-            justificarlo, de acuerdo con la normativa vigente.
+            El cliente dispone de <strong>14 días naturales</strong> desde la
+            recepción del producto para desistir de la compra, sin necesidad de
+            justificación, de acuerdo con la normativa vigente. Los gastos
+            directos de devolución corren a cargo del cliente, y no se aplica
+            ningún otro cargo ni gasto de gestión. El reembolso será íntegro.
           </p>
           <p>
-            {returns.label}. El procedimiento para devolver un producto y la
-            dirección de devolución se especifican en la{" "}
-            <a href="/politica-de-devoluciones">Política de Devoluciones</a>.
-            Los derechos legales por defecto o error del vendedor se mantienen.
+            El procedimiento y la dirección de devolución se especifican en la{" "}
+            <Link href="/politica-de-devoluciones">
+              Política de Devoluciones
+            </Link>
+            . Los derechos legales por producto defectuoso o error del vendedor
+            se mantienen.
           </p>
+          <p>
+            <strong>Modelo de formulario de desistimiento</strong> (rellenar y
+            enviar solo si desea desistir del contrato):
+          </p>
+          <ul>
+            <li>A la atención de: {legal.companyName}, {STORE.address.street}, {STORE.address.postalCode} {STORE.address.locality}, {legal.email}</li>
+            <li>Por la presente le comunico que desisto de mi contrato de venta del siguiente bien: ____________</li>
+            <li>Pedido el / recibido el: ____________</li>
+            <li>Nombre del consumidor: ____________</li>
+            <li>Domicilio del consumidor: ____________</li>
+            <li>Fecha y firma (solo si se presenta en papel): ____________</li>
+          </ul>
         </section>
 
         <section className="cgv-section">
           <h2>7. Garantía</h2>
           <p>
-            La garantía indicada para cada producto es de {warranty.newMonths}{" "}
-            meses para productos nuevos y {warranty.refurbishedMonths} meses
-            para productos reacondicionados, sin perjuicio de los derechos
-            legales aplicables.
+            Los productos nuevos cuentan con la garantía legal de{" "}
+            {warranty.newMonths} meses, y los productos reacondicionados con{" "}
+            {warranty.refurbishedMonths} meses, sin perjuicio de los derechos
+            legales aplicables al consumidor.
           </p>
           <p>
             Para cualquier incidencia, el cliente puede contactarnos a través de{" "}
-            <a href={`mailto:${STORE.email}`}>{STORE.email}</a> o por teléfono{" "}
-            <a href={`tel:${STORE.phoneLink}`}>{STORE.phone}</a>.
+            <a href={`mailto:${legal.email}`}>{legal.email}</a> o por teléfono
+            al <a href={`tel:${STORE.phoneLink}`}>{STORE.phone}</a>.
           </p>
         </section>
 
         <section className="cgv-section">
-          <h2>8. Atención al cliente y servicio de reclamaciones</h2>
+          <h2>8. Atención al cliente y reclamaciones</h2>
           <p>
-            Cualquier duda, incidencia o consulta puede resolverse a través del
-            formulario de contacto o por teléfono en el horario indicado. La
-            dirección de contacto del vendedor y la información legal están
-            disponibles en la web.
+            Cualquier duda, incidencia o reclamación puede dirigirse a{" "}
+            <a href={`mailto:${legal.email}`}>{legal.email}</a>, por teléfono
+            al <a href={`tel:${STORE.phoneLink}`}>{STORE.phone}</a> o mediante
+            el <Link href="/contact">formulario de contacto</Link>, en el
+            horario indicado en la web. Nos comprometemos a responder en el
+            menor plazo posible.
           </p>
           <p>
-            Si el cliente desea presentar una reclamación fuera de la vía
-            extrajudicial, puede hacerlo en la plataforma de resolución de
-            conflictos de la Unión Europea:{" "}
-            <a
-              href="https://ec.europa.eu/consumers/odr"
-              target="_blank"
-              rel="noreferrer"
-            >
-              https://ec.europa.eu/consumers/odr
-            </a>
-            .
+            El consumidor también puede acudir a los organismos de consumo de
+            su Comunidad Autónoma o a los servicios de resolución alternativa
+            de litigios disponibles.
           </p>
         </section>
 
         <section className="cgv-section">
           <h2>9. Ley aplicable</h2>
           <p>
-            Las presentes condiciones se rigen por la legislación española y, en
-            su caso, por el marco normativo aplicable a la venta online de
-            bienes. Cualquier conflicto se resolverá conforme a la legislación
-            vigente en España.
+            Las presentes condiciones se rigen por la legislación española. Si
+            el cliente es consumidor, serán competentes los tribunales de su
+            domicilio, conforme a la normativa de protección de consumidores.
           </p>
         </section>
       </div>
-    </div>
+    </main>
   );
 }

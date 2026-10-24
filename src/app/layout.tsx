@@ -7,6 +7,7 @@ import { CartProvider } from "@/context/CartContext";
 import CookieConsent from "@/components/CookieConsent";
 import { SITE_URL } from "@/lib/siteConfig";
 
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 

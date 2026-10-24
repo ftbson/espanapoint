@@ -78,12 +78,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     name: "iPhone 13 Pro Max (Reacondicionado)",
     price: 331.99,
     category: "Dispositivos electrónicos",
-    image:
-      "/img/apple-iphone-13-pro-max-1.avif",
+    image: "/img/apple-iphone-13-pro-max-1.jpg",
     images: [
-      "/img/apple-iphone-13-pro-max-1.avif",
-      "/img/apple-iphone-13-pro-max-2.avif",
-      "/img/apple-iphone-13-pro-max-3.avif",
+      "/img/apple-iphone-13-pro-max-1.jpg",
+      "/img/apple-iphone-13-pro-max-2.jpg",
+      "/img/apple-iphone-13-pro-max-3.jpg",
     ],
     storage: "128 GB",
     color: "Negro",
@@ -95,12 +94,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     name: "iPhone 14 Pro (Reacondicionado)",
     price: 421.99,
     category: "Dispositivos electrónicos",
-    image:
-      "/img/iphone-14-pro-1.avif",
-    images: [
-      "/img/iphone-14-pro-2.avif",
-      "/img/iphone-14-pro-3.avif",
-    ],
+    image: "/img/iphone-14-pro-1.jpg",
+    images: ["/img/iphone-14-pro-2.jpg", "/img/iphone-14-pro-3.jpg"],
     storage: "128 GB",
     color: "oro",
     batteryHealth: 95,
@@ -111,11 +106,10 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     name: "iPhone 15 (Reacondicionado)",
     price: 461.99,
     category: "Dispositivos electrónicos",
-    image:
-      "/img/iphone-15-768x768-1.avif",
+    image: "/img/iphone-15-768x768-1.jpg",
     images: [
-      "/img/iphone-15-768x768-2.avif",
-      "/img/iphone-15-768x768-1.avif",
+      "/img/iphone-15-768x768-2.jpg",
+      "/img/iphone-15-768x768-1.jpg",
       "/img/iPhone16.jpg",
     ],
     storage: "128 GB",
@@ -128,12 +122,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     name: "iPhone 15 Pro Max (Reacondicionado)",
     price: 521.99,
     category: "Dispositivos electrónicos",
-    image:
-      "/img/iphone-15-pro-1.avif",
+    image: "/img/iphone-15-pro-1.jpg",
     images: [
-      "/img/iphone-15-pro-2.avif",
-      "/img/iphone-15-pro-3.avif", 
-      "/img/iphone-15-pro-4.avif",
+      "/img/iphone-15-pro-2.jpg",
+      "/img/iphone-15-pro-3.jpg",
+      "/img/iphone-15-pro-4.jpg",
     ],
     storage: "256 GB",
     color: "Negro",
@@ -145,11 +138,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     name: "Apple iPhone 16 (128 GB) (Reacondicionado) - Negro + Funda Transparente con MagSafe",
     price: 671.99,
     category: "Dispositivos electrónicos",
-    image: "/img/iPhone16-1.avif",
-    images: [
-      "/img/iPhone16-2.avif",
-      "/img/iPhone16-3.avif",
-    ],
+    image: "/img/iPhone16-1.jpg",
+    images: ["/img/iPhone16-2.jpg", "/img/iPhone16-3.jpg"],
     storage: "128 GB",
     color: "Negro",
     batteryHealth: 100,
@@ -160,12 +150,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     name: "iPhone 16 Pro Max (Reacondicionado)",
     price: 691.99,
     category: "Dispositivos electrónicos",
-    image:
-      "/img/apple-iphone-16-pro-.avif",
+    image: "/img/apple-iphone-16-pro-.jpg",
     images: [
-      "/img/apple-iphone-16-pro-1.avif",
-      "/img/apple-iphone-16-pro-.avif",
-      "/img/apple-iphone-16-pro-2.avif",
+      "/img/apple-iphone-16-pro-1.jpg",
+      "/img/apple-iphone-16-pro-.jpg",
+      "/img/apple-iphone-16-pro-2.jpg",
     ],
     storage: "256 GB",
     color: "Titanio Negro",
@@ -177,25 +166,22 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     name: "Google Pixel 11 Pro - Smartphone Android libre - Negro volcánico, 256 GB | Con inteligencia Gemini, más de 30 horas de autonomía y pantalla Super",
     price: 1150.0,
     category: "Dispositivos electrónicos",
-    image: "/img/GooglePixel11Pro.avif",
-    images: [
-      "/img/GooglePixel11Pro-1.avif",
-      "/img/GooglePixel11Pro-2.avif",
-    ],
+    image: "/img/GooglePixel11Pro.jpg",
+    images: ["/img/GooglePixel11Pro-1.jpg", "/img/GooglePixel11Pro-2.jpg"],
     storage: "256 GB",
     color: "Negro",
     batteryHealth: 94,
   },
-  { 
+  {
     id: 8,
     name: "Google Pixel 10 Pro XL – Smartphone Android libre con Gemini, triple cámara trasera, más de 24 horas de autonomía y pantalla Super Actua de 6,8 pulgadas.",
     price: 929.0,
     category: "Dispositivos electrónicos",
-    image: "/img/GooglePixel10ProXL.avif",
+    image: "/img/GooglePixel10ProXL.jpg",
     images: [
-      "/img/GooglePixel10ProXL-1.avif",
-      "/img/GooglePixel10ProXL-2.avif",
-      "/img/GooglePixel10ProXL.avif",
+      "/img/GooglePixel10ProXL-1.jpg",
+      "/img/GooglePixel10ProXL-2.jpg",
+      "/img/GooglePixel10ProXL.jpg",
     ],
     storage: "256 GB",
     color: "Negro",
@@ -206,12 +192,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     name: "Apple MacBook Pro - Ordenador portátil con chip M5, CPU de 10 núcleos y GPU de 10 núcleos: diseñado para Apple Intelligence, pantalla Liquid Retina XDR de 14,2 pulgadas, 1 TB de almacenamiento; plata, inglés.",
     price: 2199.0,
     category: "Dispositivos electrónicos",
-    image: "/img/AppleMacBookPro.avif",
+    image: "/img/AppleMacBookPro-1.jpg",
     images: [
-      "/img/AppleMacBookPro.avif",
-      "/img/AppleMacBookPro-1.avif",
-      "/img/AppleMacBookPro-2.avif",
-
+      // "/img/AppleMacBookPro.jpg",
+      "/img/AppleMacBookPro-1.jpg",
+      "/img/AppleMacBookPro-2.jpg",
     ],
     color: "Blanco",
   },
@@ -220,7 +205,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     name: "PC gaming Shark RGBeast Mini R502",
     price: 1299.0,
     category: "Dispositivos electrónicos",
-    image: "/img/SharkRGBeastMiniR502.jpg", 
+    image: "/img/SharkRGBeastMiniR502.jpg",
     images: [
       "/img/SharkRGBeastMiniR502-1.jpg",
       "/img/SharkRGBeastMiniR502-2.jpg",
@@ -235,10 +220,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 151.0,
     category: "Dispositivos electrónicos",
     image: "/img/AppleAirPodsPro3.jpg",
-    images: [
-      "/img/AppleAirPodsPro3-1.jpg",
-      "/img/AppleAirPodsPro3.jpg",
-    ],
+    images: ["/img/AppleAirPodsPro3-1.jpg", "/img/AppleAirPodsPro3.jpg"],
     storage: "95 % ",
     color: "Blanco",
   },
@@ -254,23 +236,22 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/SonyWH-1000XM5SA.jpg",
     ],
     storage: "Hasta 30 horas (con cancelación de ruido activa)",
-    color : "Negro",
-    
+    color: "Negro",
   },
   {
     id: 13,
     name: "Apple Watch Series 9 (GPS + Cellular, 45 MM) Caja de Aluminio Blanco Estrella con Correa Deportiva Blanco Estrella, M/L (Reacondicionado)",
     price: 371.0,
     category: "Dispositivos electrónicos",
-    image: "/img/AppleWatchSeries9.avif",
-     images: [
-      "/img/AppleWatchSeries9-1.avif",
-      "/img/AppleWatchSeries9.avif",
-      "/img/AppleWatchSeries9-2.avif",
+    image: "/img/AppleWatchSeries9.jpg",
+    images: [
+      "/img/AppleWatchSeries9-1.jpg",
+      "/img/AppleWatchSeries9.jpg",
+      "/img/AppleWatchSeries9-2.jpg",
     ],
-    color: "Blanco Estrella",   // au lieu de "Negro" (contredit le titre)
-batteryHealth: 95,
-grade: "A+",
+    color: "Blanco Estrella", // au lieu de "Negro" (contredit le titre)
+    batteryHealth: 95,
+    grade: "A+",
   },
 
   {
@@ -279,20 +260,16 @@ grade: "A+",
     price: 271.0,
     category: "Dispositivos electrónicos",
     image: "/img/SHOKZOpenFitProOpen.jpg",
-    images: [
-      "/img/SHOKZOpenFitProOpen.jpg",
-      "/img/SHOKZOpenFitProOpen-1.jpg",
-    ],
-    color : "Negro",
-      storage: "Hasta 12 horas (50 horas con el estuche de carga)",
+    images: ["/img/SHOKZOpenFitProOpen.jpg", "/img/SHOKZOpenFitProOpen-1.jpg"],
+    color: "Negro",
+    storage: "Hasta 12 horas (50 horas con el estuche de carga)",
   },
   {
     id: 15,
     name: "Realme Buds Clip",
     price: 71.99,
     category: "Dispositivos electrónicos",
-    image:
-      "/img/realme-buds-clip-2025-300x300.jpg",
+    image: "/img/realme-buds-clip-2025-300x300.jpg",
     images: [
       "/img/realme-buds-clip-2025-300x300.jpg",
       "/img/realme-buds-clip-2025-300x300-1.jpg",
@@ -300,26 +277,18 @@ grade: "A+",
     ],
     batteryHealth: 90,
     storage: "Hasta 12 horas (hasta 48 horas con el estuche de carga)",
-    color : "Negro",
+    color: "Negro",
   },
 
-
-
-
-
-  
   {
     id: 16,
     name: "JBL Wave Beam 2, Auriculares Inalámbricos Bluetooth, Cancelación de Ruido, 40 horas de autonomía",
     price: 51.99,
     category: "Dispositivos electrónicos",
     image: "/img/JBLWaveBeam2.jpg",
-    images: [
-      "/img/JBLWaveBeam2.jpg",
-      "/img/JBLWaveBeam2-1.jpg",
-    ],
-     color: "Azur",
-       storage: "Hasta 40 horas en total (con el estuche de carga)",
+    images: ["/img/JBLWaveBeam2.jpg", "/img/JBLWaveBeam2-1.jpg"],
+    color: "Azur",
+    storage: "Hasta 40 horas en total (con el estuche de carga)",
   },
   // {
   //   id: 17,
@@ -327,7 +296,7 @@ grade: "A+",
   //   price: 30.0,
   //   category: "Dispositivos electrónicos",
   //   image: "/img/ecouteurssansfilpourApple.jpg",
-  //    color: "Negro", 
+  //    color: "Negro",
   //    storage: "64 GB",
   // },
   {
@@ -335,13 +304,13 @@ grade: "A+",
     name: "Auriculares con cancelación de ruido, con y sin cable, con micrófono Bose QuietComfort Ultra 2.ª generación - Negro",
     price: 220,
     category: "Dispositivos electrónicos",
-    image: "/img/SoundcoreSpaceOneCasque.avif",
+    image: "/img/SoundcoreSpaceOneCasque.jpg",
     images: [
-      "/img/SoundcoreSpaceOneCasque-2.avif",
-      "/img/SoundcoreSpaceOneCasque-1.avif",
+      "/img/SoundcoreSpaceOneCasque-2.jpg",
+      "/img/SoundcoreSpaceOneCasque-1.jpg",
     ],
-     color: "Negro",
-     storage: "Hasta 30 horas (con cancelación de ruido activa)",
+    color: "Negro",
+    storage: "Hasta 30 horas (con cancelación de ruido activa)",
   },
   {
     id: 19,
@@ -355,9 +324,8 @@ grade: "A+",
       "/img/DJIOsmoPocket3.jpg",
     ],
     color: "Negro",
-storage: "Ranura microSD (hasta 1 TB, tarjeta no incluida)",
-battery: "Hasta 166 minutos de grabación",
-
+    storage: "Ranura microSD (hasta 1 TB, tarjeta no incluida)",
+    battery: "Hasta 166 minutos de grabación",
   },
   {
     id: 20,
@@ -377,7 +345,7 @@ battery: "Hasta 166 minutos de grabación",
     id: 21,
     name: "Sony, Consola PlayStation 5 Edición Estándar 1 TB con lector Blu-ray 4K, SSD Ultrarrápido, Audio 3D",
     price: 481.99,
-    category: "Dispositivos electrónicos", 
+    category: "Dispositivos electrónicos",
     image: "/img/SonyConsolePlayStation5.jpg",
     images: [
       "/img/SonyConsolePlayStation5-2.jpg",
@@ -385,7 +353,7 @@ battery: "Hasta 166 minutos de grabación",
       "/img/SonyConsolePlayStation5.jpg",
     ],
     color: "Blanco",
-     storage: "1 TB",
+    storage: "1 TB",
   },
   {
     id: 22,
@@ -398,7 +366,7 @@ battery: "Hasta 166 minutos de grabación",
       "/img/PlaystationSonyLecteur-1.jpg",
       "/img/PlaystationSonyLecteur-2.jpg",
     ],
-     storage: "Pantalla LCD Full HD 1080p de 8",
+    storage: "Pantalla LCD Full HD 1080p de 8",
     color: "Blanco",
   },
   {
@@ -413,7 +381,7 @@ battery: "Hasta 166 minutos de grabación",
       "/img/NintendoSwitch-2.jpg",
       "/img/NintendoSwitch-3.jpg",
     ],
-     storage: "64 GB",
+    storage: "64 GB",
     color: "Blanco",
   },
   {
@@ -428,7 +396,7 @@ battery: "Hasta 166 minutos de grabación",
       "/img/TheG-LabKeyz-2.jpg",
       "/img/TheG-LabKeyz-3.jpg",
     ],
-       storage: "Interruptores mecánicos rojos (lineales)",
+    storage: "Interruptores mecánicos rojos (lineales)",
     color: "Negro",
   },
   {
@@ -471,7 +439,7 @@ battery: "Hasta 166 minutos de grabación",
       "/img/PumaSmashV2.jpg",
       "/img/PumaSmashV2-1.jpg",
       "/img/PumaSmashV2-2.jpg",
-    ], 
+    ],
     color: "Blanco",
   },
   {
@@ -484,7 +452,7 @@ battery: "Hasta 166 minutos de grabación",
       "/img/adidasUnisexChaussure.jpg",
       "/img/adidasUnisexChaussure-1.jpg",
       "/img/adidasUnisexChaussure-2.jpg",
-    ], 
+    ],
     color: "Blanco",
   },
   {
@@ -519,15 +487,12 @@ battery: "Hasta 166 minutos de grabación",
     price: 47.0,
     category: "Deporte / Fitness",
     image: "/img/Halteres-reglables.jpg",
-    images: [
-      "/img/Halteres-reglables.jpg",
-      "/img/Halteres-reglables-1.jpg",
-    ],
+    images: ["/img/Halteres-reglables.jpg", "/img/Halteres-reglables-1.jpg"],
     color: "Negro",
   },
   {
     id: 32,
-    name: 'URLIFE Bicicleta Eléctrica para Adultos, Neumáticos Anchos de 16',
+    name: "URLIFE Bicicleta Eléctrica para Adultos, Neumáticos Anchos de 16",
     price: 1201.0,
     category: "Deporte / Fitness",
     image: "/img/URLIFEVeloelectrique.jpg",
@@ -544,10 +509,7 @@ battery: "Hasta 166 minutos de grabación",
     price: 111.0,
     category: "Deporte / Fitness",
     image: "/img/ZIPROVelo.jpg",
-    images: [
-      "/img/ZIPROVelo.jpg",
-      "/img/ZIPROVelo-1.jpg",
-    ],
+    images: ["/img/ZIPROVelo.jpg", "/img/ZIPROVelo-1.jpg"],
     color: "Negro",
   },
   {
@@ -561,29 +523,16 @@ battery: "Hasta 166 minutos de grabación",
       "/img/DskeuzeewVélo-1.jpg",
       "/img/DskeuzeewVélo-2.jpg",
     ],
-    color: "Negro",  
-
+    color: "Negro",
   },
-
-
-
-
-
-
-
-
-
 
   {
     id: 35,
     name: "UrbanLuxe Colchoneta de Gimnasia Inflable Air Tumble Track para Volteretas y Acrobacias",
     price: 91.0,
-    category: "Deporte / Fitness", 
+    category: "Deporte / Fitness",
     image: "/img/TapisdeGymnastique.jpg",
-    images: [
-      "/img/TapisdeGymnastique.jpg",
-      "/img/TapisdeGymnastique-1.jpg",
-    ],
+    images: ["/img/TapisdeGymnastique.jpg", "/img/TapisdeGymnastique-1.jpg"],
     color: "Rosa",
   },
   {
@@ -637,7 +586,6 @@ battery: "Hasta 166 minutos de grabación",
     category: "Belleza y cuidado personal",
     image: "/img/TYMOBrosse.jpg",
     color: "Negro",
-
   },
 
   // ==========================================
@@ -692,21 +640,15 @@ battery: "Hasta 166 minutos de grabación",
     color: "Negro",
   },
 
-
   {
     id: 48,
     name: "Aspiradora escoba inalámbrica Roborock H60 Ultra, 210 AW, 90 min de autonomía | Tubo plegable a 90°, filtración del 99,9%, cepillo antienredos para alfombras y suelos duros",
     price: 129.0,
     category: "Hogar",
     image: "/img/roborockH60Ultra.jpg",
-    images: [
-      "/img/roborockH60Ultra.jpg",
-      "/img/roborockH60Ultra-1.jpg",
-    ],
+    images: ["/img/roborockH60Ultra.jpg", "/img/roborockH60Ultra-1.jpg"],
     color: "Negro",
   },
-
-
 
   {
     id: 49,
@@ -714,11 +656,7 @@ battery: "Hasta 166 minutos de grabación",
     price: 179.0,
     category: "Hogar",
     image: "/img/TV4K.jpg",
-    images: [
-      "/img/TV4K.jpg",
-      "/img/TV4K-1.jpg",
-      "/img/TV4K-2.jpg", 
-    ],
+    images: ["/img/TV4K.jpg", "/img/TV4K-1.jpg", "/img/TV4K-2.jpg"],
     color: "azul",
   },
   {
@@ -730,7 +668,7 @@ battery: "Hasta 166 minutos de grabación",
     images: [
       "/img/Minirefrigerador.jpg",
       "/img/Minirefrigerador-1.jpg",
-      "/img/Minirefrigerador-3.jpg", 
+      "/img/Minirefrigerador-3.jpg",
     ],
     color: "azul",
   },
@@ -743,8 +681,8 @@ battery: "Hasta 166 minutos de grabación",
     images: [
       "/img/EZVIZC8c4K.jpg",
       "/img/EZVIZC8c4K-1.jpg",
-      "/img/EZVIZC8c4K-2.jpg", 
-      "/img/EZVIZC8c4K-3.jpg", 
+      "/img/EZVIZC8c4K-2.jpg",
+      "/img/EZVIZC8c4K-3.jpg",
     ],
     color: "Blanco",
   },
@@ -757,9 +695,9 @@ battery: "Hasta 166 minutos de grabación",
     images: [
       "/img/MERCUSYS2K.jpg",
       "/img/MERCUSYS2K-1.jpg",
-      "/img/MERCUSYS2K-2.jpg", 
+      "/img/MERCUSYS2K-2.jpg",
     ],
-    color: "Blanco", 
+    color: "Blanco",
   },
   {
     id: 53,
@@ -770,31 +708,23 @@ battery: "Hasta 166 minutos de grabación",
     images: [
       "/img/TP-LinkTapo.jpg",
       "/img/TP-LinkTapo-1.jpg",
-      "/img/TP-LinkTapo-2.jpg", 
+      "/img/TP-LinkTapo-2.jpg",
     ],
-    color: "Blanco", 
+    color: "Blanco",
   },
   {
     id: 54,
     name: "SNDOAS Placa de Gas de 4 Fuegos Cristal Blanco, Placa de Gas Integrable",
     price: 131.0,
     category: "Cocina",
-    image: "/img/SNDOASPlaque.jpg", 
+    image: "/img/SNDOASPlaque.jpg",
     images: [
       "/img/SNDOASPlaque.jpg",
       "/img/SNDOASPlaque-1.jpg",
-      "/img/SNDOASPlaque-2.jpg", 
+      "/img/SNDOASPlaque-2.jpg",
     ],
-    color: "Blanco", 
+    color: "Blanco",
   },
-
-
-
-
-
-
-
-
 
   {
     id: 55,
@@ -805,7 +735,7 @@ battery: "Hasta 166 minutos de grabación",
     images: [
       "/img/GASLANDGIH604BF.jpg",
       "/img/GASLANDGIH604BF-1.jpg",
-      "/img/GASLANDGIH604BF-2.jpg", 
+      "/img/GASLANDGIH604BF-2.jpg",
     ],
     color: "Black",
   },
@@ -842,7 +772,7 @@ battery: "Hasta 166 minutos de grabación",
     price: 599.0,
     category: "Hogar",
     image: "/img/AurlaneDUALIDAD.jpg",
-     images: [
+    images: [
       "/img/AurlaneDUALIDAD.jpg",
       "/img/AurlaneDUALIDAD-1.jpg",
       "/img/AurlaneDUALIDAD-2.jpg",
@@ -855,10 +785,7 @@ battery: "Hasta 166 minutos de grabación",
     price: 76.0,
     category: "Hogar",
     image: "/img/Asistentevirtual.jpg",
-     images: [
-      "/img/Asistentevirtual.jpg",
-      "/img/Asistentevirtual-1.jpg",
-    ],
+    images: ["/img/Asistentevirtual.jpg", "/img/Asistentevirtual-1.jpg"],
     color: "Azul",
   },
   {
@@ -867,7 +794,7 @@ battery: "Hasta 166 minutos de grabación",
     price: 86.99,
     category: "Cocina",
     image: "/img/NespressoInissia.jpg",
-     images: [
+    images: [
       "/img/NespressoInissia.jpg",
       "/img/NespressoInissia-2.jpg",
       "/img/NespressoInissia-1.jpg",
@@ -889,7 +816,7 @@ battery: "Hasta 166 minutos de grabación",
   },
   {
     id: 63,
-    name: "Lenovo Yoga Slim 7 14ILL10 (83JX00AHFR), Intel Core Ultra 7 258V, 32 GB de RAM, SSD de 1 TB, pantalla OLED de 14\" (2.8K), Wi-Fi 7/Bluetooth, cámara web, Windows 11 Home",
+    name: 'Lenovo Yoga Slim 7 14ILL10 (83JX00AHFR), Intel Core Ultra 7 258V, 32 GB de RAM, SSD de 1 TB, pantalla OLED de 14" (2.8K), Wi-Fi 7/Bluetooth, cámara web, Windows 11 Home',
     price: 1141.99,
     category: "Dispositivos electrónicos",
     image: "/img/LenovoYogaSlim7.jpg",
@@ -1127,7 +1054,8 @@ export const PRODUCTS_DATA: Product[] = PRODUCT_SEED.map((entry) => {
   const name = isRefurbishedIPhone
     ? `Apple ${model}${storage ? ` ${storage}` : ""} Reacondicionado – Garantía ${warrantyMonths} meses`
     : entry.name;
-  const baseSlug = entry.slug || slugifyProductName(nameForSlug) || `producto-${entry.id}`;
+  const baseSlug =
+    entry.slug || slugifyProductName(nameForSlug) || `producto-${entry.id}`;
   let slug = baseSlug;
   let collisionIndex = 1;
   while (usedSlugs.has(slug)) {
@@ -1150,7 +1078,8 @@ export const PRODUCTS_DATA: Product[] = PRODUCT_SEED.map((entry) => {
     }
     if (uniqueImages.length >= 3) break;
   }
-  const images = uniqueImages.length > 0 ? uniqueImages : [entry.image || "/img/log.png"];
+  const images =
+    uniqueImages.length > 0 ? uniqueImages : [entry.image || "/img/log.png"];
   const color = entry.color ?? detectColor(entry.name);
   const batteryHealth = entry.batteryHealth ?? entry.battery;
 

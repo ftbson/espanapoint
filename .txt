@@ -1,0 +1,56 @@
+// {
+  //   id: 54,
+  //   name: "SNDOAS Placa de Gas de 4 Fuegos Cristal Blanco, Placa de Gas Integrable",
+  //   price: 131.0,
+  //   category: "Cocina",
+  //   image: "/img/SNDOASPlaque.jpg",
+  //   images: [
+  //     "/img/SNDOASPlaque.jpg",
+  //     "/img/SNDOASPlaque-1.jpg",
+  //     "/img/SNDOASPlaque-2.jpg",
+  //   ],
+  //   color: "Blanco",
+  // },
+
+
+
+  
+
+
+    // {
+  //   id: 25,
+  //   name: "SSD externo SanDisk Extreme de 1 TB (hasta 1050 MB/s de lectura, 1000 MB/s de escritura, USB-C, NVMe portátil, resistencia al polvo)",
+  //   price: 159.0,
+  //   category: "Dispositivos electrónicos",
+  //   image: "/img/SANDISKextremeDisqueSSD.jpg",
+  //   images: [
+  //     "/img/SANDISKextremeDisqueSSD.jpg",
+  //     "/img/SANDISKextremeDisqueSSD-1.jpg",
+  //     "/img/SANDISKextremeDisqueSSD-2.jpg",
+  //   ],
+  //   color: "Negro",
+  //   storage: "1 TB",
+  // },
+
+
+
+  // {
+  //   id: 43,
+  //   name: "Cosori TurboBlaze - Freidora de aire, 9 en 1, 6 cuartos de galón | 90°–450°F, 5 velocidades de ventilador de nivel, freír al aire 9 en 1, asar, hornear",
+  //   price: 85.0,
+  //   category: "Cocina",
+  //   image: "/img/CosoriTurboBlaze.jpg",
+  //   color: "Negro",
+  // },
+
+
+
+   // {
+  //   id: 17,
+  //   name: "Auriculares inalámbricos para Apple iPhone - Auriculares Bluetooth 5.4 con ganchos para el oído, Estéreo",
+  //   price: 30.0,
+  //   category: "Dispositivos electrónicos",
+  //   image: "/img/ecouteurssansfilpourApple.jpg",
+  //    color: "Negro",
+  //    storage: "64 GB",
+  // },

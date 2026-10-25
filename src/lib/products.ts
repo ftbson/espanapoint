@@ -139,7 +139,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     price: 671.99,
     category: "Dispositivos electrónicos",
     image: "/img/iPhone16-1.jpg",
-    images: ["/img/iPhone16-2.jpg", "/img/iPhone16-3.jpg"],
+    images: ["/img/iPhone16-2.jpg", "/img/iPhone16-1.jpg"],
     storage: "128 GB",
     color: "Negro",
     batteryHealth: 100,
@@ -290,15 +290,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     color: "Azur",
     storage: "Hasta 40 horas en total (con el estuche de carga)",
   },
-  // {
-  //   id: 17,
-  //   name: "Auriculares inalámbricos para Apple iPhone - Auriculares Bluetooth 5.4 con ganchos para el oído, Estéreo",
-  //   price: 30.0,
-  //   category: "Dispositivos electrónicos",
-  //   image: "/img/ecouteurssansfilpourApple.jpg",
-  //    color: "Negro",
-  //    storage: "64 GB",
-  // },
+ 
   {
     id: 18,
     name: "Auriculares con cancelación de ruido, con y sin cable, con micrófono Bose QuietComfort Ultra 2.ª generación - Negro",
@@ -399,20 +391,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     storage: "Interruptores mecánicos rojos (lineales)",
     color: "Negro",
   },
-  {
-    id: 25,
-    name: "SSD externo SanDisk Extreme de 1 TB (hasta 1050 MB/s de lectura, 1000 MB/s de escritura, USB-C, NVMe portátil, resistencia al polvo)",
-    price: 159.0,
-    category: "Dispositivos electrónicos",
-    image: "/img/SANDISKextremeDisqueSSD.jpg",
-    images: [
-      "/img/SANDISKextremeDisqueSSD.jpg",
-      "/img/SANDISKextremeDisqueSSD-1.jpg",
-      "/img/SANDISKextremeDisqueSSD-2.jpg",
-    ],
-    color: "Negro",
-    storage: "1 TB",
-  },
+
 
   // ==========================================
   // DEPORTE / FITNESS (13 Productos)
@@ -599,14 +578,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     image: "/img/NinjaFoodiFlexDrawerAir.jpg",
     color: "Gris",
   },
-  {
-    id: 43,
-    name: "Cosori TurboBlaze - Freidora de aire, 9 en 1, 6 cuartos de galón | 90°–450°F, 5 velocidades de ventilador de nivel, freír al aire 9 en 1, asar, hornear",
-    price: 85.0,
-    category: "Cocina",
-    image: "/img/CosoriTurboBlaze.jpg",
-    color: "Negro",
-  },
+  
   {
     id: 44,
     name: "Ninja Cafetera programable de 12 tazas, 2 estilos de preparación, plato caliente ajustable, depósito de agua de 60 onzas, preparación retardada, negro/acero",
@@ -712,19 +684,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     ],
     color: "Blanco",
   },
-  {
-    id: 54,
-    name: "SNDOAS Placa de Gas de 4 Fuegos Cristal Blanco, Placa de Gas Integrable",
-    price: 131.0,
-    category: "Cocina",
-    image: "/img/SNDOASPlaque.jpg",
-    images: [
-      "/img/SNDOASPlaque.jpg",
-      "/img/SNDOASPlaque-1.jpg",
-      "/img/SNDOASPlaque-2.jpg",
-    ],
-    color: "Blanco",
-  },
+  
 
   {
     id: 55,

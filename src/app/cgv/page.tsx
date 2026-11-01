@@ -4,8 +4,8 @@ import { STORE } from "@/lib/store";
 import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
-  title: "Condiciones Generales de Venta | Espanapoint",
-  description: `Condiciones de compra, ${siteConfig.shipping.label}, devolución en 14 días naturales y garantía legal de Espanapoint.`,
+  title: { absolute: "Condiciones Generales de Venta | Espanapoint" },
+  description: `Condiciones de compra, ${siteConfig.shipping.label}, devolución en 14 días naturales y garantía de Espanapoint.`,
   alternates: { canonical: "/cgv" },
   openGraph: {
     title: "Condiciones Generales de Venta | Espanapoint",
@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     siteName: "Espanapoint",
     locale: "es_ES",
     type: "website",
+    images: ["/img/log.png"],
   },
 };
 
@@ -54,9 +55,9 @@ export default function CGV() {
           <p>
             Los precios se muestran en euros y incluyen el IVA. El precio final
             de cada producto es el que aparece publicado en la ficha y en el
-            carrito. {shipping.label}, con coste de{" "}
-            <strong>{cost === 0 ? "0 €" : `${cost.toFixed(2)} €`}</strong> para
-            entregas en España peninsular y Baleares.
+            carrito. Gastos de envío:{" "}
+            <strong>{cost === 0 ? "0 € (envío gratuito)" : `${cost.toFixed(2)} €`}</strong>{" "}
+            para entregas en España peninsular y Baleares.
           </p>
           <p>
             La disponibilidad real del producto se comunica en la ficha y en el
@@ -82,8 +83,10 @@ export default function CGV() {
         <section className="cgv-section">
           <h2>4. Pago</h2>
           <p>
-            {paymentLabel}. En caso de transferencia bancaria, el pedido se
-            considera pendiente hasta que el ingreso sea verificado.
+            {paymentLabel}. Los pagos con tarjeta se procesan de forma segura
+            mediante Stripe; esta tienda no almacena los datos completos de la
+            tarjeta. En caso de transferencia bancaria, el pedido se considera
+            pendiente hasta que el ingreso sea verificado.
           </p>
         </section>
 
@@ -110,9 +113,20 @@ export default function CGV() {
           <p>
             El cliente dispone de <strong>14 días naturales</strong> desde la
             recepción del producto para desistir de la compra, sin necesidad de
-            justificación, de acuerdo con la normativa vigente. Los gastos
-            directos de devolución corren a cargo del cliente, y no se aplica
-            ningún otro cargo ni gasto de gestión. El reembolso será íntegro.
+            justificación, de acuerdo con la normativa vigente. Tras comunicar
+            su decisión, deberá devolver el producto en un plazo máximo de 14
+            días naturales. Los gastos directos de devolución corren a cargo del
+            cliente, y no se aplica ningún otro cargo ni gasto de gestión. El
+            reembolso será íntegro, incluidos los gastos de envío estándar
+            iniciales.
+          </p>
+          <p>
+            El derecho de desistimiento no se aplica en los supuestos
+            excluidos por la ley, como los bienes precintados que no sean aptos
+            para ser devueltos por razones de protección de la salud o de
+            higiene y que hayan sido desprecintados tras la entrega, o los
+            bienes confeccionados conforme a las especificaciones del
+            consumidor.
           </p>
           <p>
             El procedimiento y la dirección de devolución se especifican en la{" "}
@@ -127,8 +141,15 @@ export default function CGV() {
             enviar solo si desea desistir del contrato):
           </p>
           <ul>
-            <li>A la atención de: {legal.companyName}, {STORE.address.street}, {STORE.address.postalCode} {STORE.address.locality}, {legal.email}</li>
-            <li>Por la presente le comunico que desisto de mi contrato de venta del siguiente bien: ____________</li>
+            <li>
+              A la atención de: {legal.companyName}, {STORE.address.street},{" "}
+              {STORE.address.postalCode} {STORE.address.locality},{" "}
+              {legal.email}
+            </li>
+            <li>
+              Por la presente le comunico que desisto de mi contrato de venta
+              del siguiente bien: ____________
+            </li>
             <li>Pedido el / recibido el: ____________</li>
             <li>Nombre del consumidor: ____________</li>
             <li>Domicilio del consumidor: ____________</li>
@@ -140,9 +161,9 @@ export default function CGV() {
           <h2>7. Garantía</h2>
           <p>
             Los productos nuevos cuentan con la garantía legal de{" "}
-            {warranty.newMonths} meses, y los productos reacondicionados con{" "}
-            {warranty.refurbishedMonths} meses, sin perjuicio de los derechos
-            legales aplicables al consumidor.
+            {warranty.newMonths} meses. Los productos reacondicionados cuentan
+            con una garantía de {warranty.refurbishedMonths} meses, sin
+            perjuicio de los derechos que la ley reconoce al consumidor.
           </p>
           <p>
             Para cualquier incidencia, el cliente puede contactarnos a través de{" "}

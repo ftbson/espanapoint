@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { STORE } from "@/lib/store";
+import { siteConfig } from "@/lib/siteConfig";
 
 function escapeHtml(value: string): string {
   const entities: Record<string, string> = {
@@ -20,8 +20,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Formulario no válido" }, { status: 400 });
     }
 
-    const fields = body as Record<string, unknown>;
-    const { name, email, subject, message } = fields;
+    const { name, email, subject, message, privacy } = body as Record<string, unknown>;
+
     if (
       typeof name !== "string" ||
       typeof email !== "string" ||
@@ -39,6 +39,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Revise los campos del formulario." }, { status: 400 });
     }
 
+    if (privacy !== true) {
+      return NextResponse.json(
+        { error: "Debe aceptar la Política de Privacidad." },
+        { status: 400 }
+      );
+    }
+
     if (!process.env.RESEND_API_KEY || !process.env.RESEND_FROM_EMAIL) {
       return NextResponse.json(
         { error: "El formulario de contacto no está configurado temporalmente." },
@@ -46,17 +53,22 @@ export async function POST(request: Request) {
       );
     }
 
+    const cleanName = name.trim();
+    const cleanEmail = email.trim();
+    const cleanSubject = subject.trim().replace(/[\r\n]+/g, " ");
+    const cleanMessage = message.trim();
+
     const resend = new Resend(process.env.RESEND_API_KEY);
     const result = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL,
-      to: STORE.email,
-      replyTo: email.trim(),
-      subject: `Contacto web: ${subject.trim().replace(/[\r\n]+/g, " ")}`,
-      text: `Nombre: ${name.trim()}\nEmail: ${email.trim()}\n\n${message.trim()}`,
-      html: `<p><strong>Nombre:</strong> ${escapeHtml(name.trim())}</p>
-        <p><strong>Email:</strong> ${escapeHtml(email.trim())}</p>
-        <p><strong>Asunto:</strong> ${escapeHtml(subject.trim())}</p>
-        <p>${escapeHtml(message.trim()).replace(/\r?\n/g, "<br>")}</p>`,
+      to: siteConfig.legal.email,
+      replyTo: cleanEmail,
+      subject: `Contacto web: ${cleanSubject}`,
+      text: `Nombre: ${cleanName}\nEmail: ${cleanEmail}\nAsunto: ${cleanSubject}\n\n${cleanMessage}`,
+      html: `<p><strong>Nombre:</strong> ${escapeHtml(cleanName)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(cleanEmail)}</p>
+        <p><strong>Asunto:</strong> ${escapeHtml(cleanSubject)}</p>
+        <p>${escapeHtml(cleanMessage).replace(/\r?\n/g, "<br>")}</p>`,
     });
 
     if (result.error) {

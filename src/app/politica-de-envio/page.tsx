@@ -1,9 +1,10 @@
-import { STORE } from "@/lib/store";
+import Link from "next/link";
 import type { Metadata } from "next";
+import { STORE } from "@/lib/store";
 import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
-  title: "Política de Envío | Espanapoint",
+  title: { absolute: "Política de Envío | Espanapoint" },
   description: `${siteConfig.shipping.label}. Coste: ${Number(
     siteConfig.shipping.cost
   ).toFixed(2)} €. Entregas en península y Baleares.`,
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
     siteName: "Espanapoint",
     locale: "es_ES",
     type: "website",
+    images: ["/img/log.png"],
   },
 };
 
@@ -41,10 +43,16 @@ export default function PoliticaEnvio() {
 
       <h2>2. Coste de envío</h2>
       <p>
-        El coste del envío es <strong>{cost === 0 ? "0 € (envío gratuito)" : `${cost.toFixed(2)} €`}</strong>{" "}
-        para entregas en {shipping.country === "ES" ? "España peninsular y Baleares" : shipping.country}.
-        No se aplicarán gastos adicionales salvo que se indique expresamente en
-        el pedido.
+        El coste del envío es{" "}
+        <strong>
+          {cost === 0 ? "0 € (envío gratuito)" : `${cost.toFixed(2)} €`}
+        </strong>{" "}
+        para entregas en{" "}
+        {shipping.country === "ES"
+          ? "España peninsular y Baleares"
+          : shipping.country}
+        . No se aplicarán gastos adicionales salvo que se indique expresamente
+        en el pedido.
       </p>
 
       <h2>3. Plazo de entrega</h2>
@@ -60,6 +68,13 @@ export default function PoliticaEnvio() {
         .
       </p>
       <p>
+        Los productos voluminosos o pesados (por ejemplo, bicicletas, muebles,
+        televisores o grandes electrodomésticos) pueden requerir un plazo
+        adicional y una entrega concertada con el transportista. Te
+        informaremos de cualquier variación del plazo antes de la confirmación
+        del pedido.
+      </p>
+      <p>
         El transportista y la referencia de seguimiento se envían por correo
         electrónico cuando el pedido sale de nuestro almacén. Si se produce una
         incidencia, contacta con{" "}
@@ -67,13 +82,21 @@ export default function PoliticaEnvio() {
         <a href={`tel:${STORE.phoneLink}`}>{STORE.phone}</a>.
       </p>
 
-      <h2>4. Incidencias y reclamaciones</h2>
+      <h2>4. Recepción e incidencias</h2>
       <p>
-        Si el paquete llega dañado, incompleto o con retraso relevante, el
-        cliente debe comunicarnos la incidencia con la mayor brevedad posible y
-        facilitar los datos del pedido y la evidencia disponible. En estos
-        casos, revisaremos la entrega con el transportista y procederemos según
-        la normativa aplicable.
+        Te recomendamos comprobar el estado del paquete en el momento de la
+        entrega y, si presenta daños evidentes, indicarlo al transportista.
+      </p>
+      <p>
+        Si el paquete llega dañado, incompleto o con retraso relevante, debes
+        comunicarnos la incidencia con la mayor brevedad posible y facilitar el
+        número de pedido y la evidencia disponible (por ejemplo, fotografías).
+        Revisaremos la entrega con el transportista y procederemos según la
+        normativa aplicable. Consulta también nuestra{" "}
+        <Link href="/politica-de-devoluciones">
+          Política de Devoluciones y Reembolsos
+        </Link>
+        .
       </p>
 
       <h2>5. Datos del vendedor</h2>

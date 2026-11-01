@@ -1,16 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { STORE } from "@/lib/store";
+import { siteConfig } from "@/lib/siteConfig";
 
 export default function ContactPage() {
+  const { legal } = siteConfig;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
+    privacy: false,
   });
   const [formStatus, setFormStatus] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -25,31 +30,42 @@ export default function ContactPage() {
       });
       const result = await response.json();
       if (!response.ok) {
+        setIsSuccess(false);
         setFormStatus(result.error || "No se pudo enviar el mensaje.");
         return;
       }
+      setIsSuccess(true);
       setFormStatus("Su mensaje se ha enviado correctamente.");
-      setFormData({ name: "", email: "", subject: "", message: "" });
+      setFormData({ name: "", email: "", subject: "", message: "", privacy: false });
     } catch (error) {
       console.error("Error enviando el mensaje de contacto:", error);
+      setIsSuccess(false);
       setFormStatus("No se pudo conectar con el servidor. Inténtelo de nuevo.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, type, checked } = e.target as HTMLInputElement;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
     setFormStatus("");
   };
 
   return (
-    <div className="contact-page-container">
+    <main className="contact-page-container">
       <div className="featured-hero">
         <span className="featured-subtitle">Contáctenos</span>
         <h1>¿Tiene alguna pregunta? Estamos aquí para ayudarle</h1>
-        <p>Contacte con nosotros por correo electrónico o teléfono para consultas sobre productos y pedidos.</p>
+        <p>
+          Contacte con nosotros por correo electrónico o teléfono para
+          consultas sobre productos y pedidos.
+        </p>
       </div>
 
       <div className="contact-content-grid">
@@ -62,6 +78,7 @@ export default function ContactPage() {
                 type="text"
                 id="name"
                 name="name"
+                autoComplete="name"
                 required
                 value={formData.name}
                 onChange={handleChange}
@@ -75,6 +92,7 @@ export default function ContactPage() {
                 type="email"
                 id="email"
                 name="email"
+                autoComplete="email"
                 required
                 value={formData.email}
                 onChange={handleChange}
@@ -105,18 +123,35 @@ export default function ContactPage() {
                 value={formData.message}
                 onChange={handleChange}
                 placeholder="¿En qué podemos ayudarle?"
-              ></textarea>
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="privacy">
+                <input
+                  type="checkbox"
+                  id="privacy"
+                  name="privacy"
+                  required
+                  checked={formData.privacy}
+                  onChange={handleChange}
+                />{" "}
+                He leído y acepto la{" "}
+                <Link href="/politica-de-privacidad">Política de Privacidad</Link>.
+              </label>
             </div>
 
             {formStatus && (
-              <p role={formStatus.startsWith("Su mensaje") ? "status" : "alert"}>
-                {formStatus}
-              </p>
+              <p role={isSuccess ? "status" : "alert"}>{formStatus}</p>
             )}
 
-              <button type="submit" className="btn-send-message">
-                {isSubmitting ? "Enviando..." : "Enviar mensaje"}
-              </button>
+            <button
+              type="submit"
+              className="btn-send-message"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Enviando..." : "Enviar mensaje"}
+            </button>
           </form>
         </div>
 
@@ -124,12 +159,12 @@ export default function ContactPage() {
           <div className="info-status-card">
             <div className="info-item">
               <div className="info-icon">
-                <i className="fas fa-phone-alt"></i>
+                <i className="fas fa-phone-alt" aria-hidden="true"></i>
               </div>
               <div className="info-text">
                 <h3>Teléfono</h3>
                 <a href={`tel:${STORE.phoneLink}`} className="info-link">
-                      {STORE.phone}
+                  {STORE.phone}
                 </a>
                 <p>Horario: lunes a viernes, 8:00–19:00; sábado, 9:00–17:00.</p>
               </div>
@@ -137,34 +172,43 @@ export default function ContactPage() {
 
             <div className="info-item">
               <div className="info-icon">
-                <i className="far fa-envelope"></i>
+                <i className="far fa-envelope" aria-hidden="true"></i>
               </div>
               <div className="info-text">
                 <h3>Soporte por Email</h3>
-                <a href={`mailto:${STORE.email}`} className="info-link">
-                  {STORE.email}
+                <a href={`mailto:${legal.email}`} className="info-link">
+                  {legal.email}
                 </a>
-                <p>Puede contactar con nosotros por correo o teléfono para consultas sobre productos y pedidos.</p>
+                <p>
+                  Puede contactar con nosotros por correo o teléfono para
+                  consultas sobre productos y pedidos.
+                </p>
               </div>
             </div>
 
             <div className="info-item">
               <div className="info-icon">
-                <i className="fas fa-map-marker-alt"></i>
+                <i className="fas fa-map-marker-alt" aria-hidden="true"></i>
               </div>
               <div className="info-text">
-                <h3>Nuestra Sede Social</h3>
+                <h3>Datos de la empresa</h3>
                 <p className="info-address">
-                  {STORE.address.street}<br />
-                  {STORE.address.postalCode} {STORE.address.locality}, {STORE.address.country}
+                  <strong>{legal.companyName}</strong>
+                  <br />
+                  {STORE.address.street}
+                  <br />
+                  {STORE.address.postalCode} {STORE.address.locality},{" "}
+                  {STORE.address.country}
                 </p>
-                <p className="info-cif"><strong>CIF:</strong> {STORE.cif}</p>
+                <p className="info-cif">
+                  <strong>CIF:</strong> {legal.taxId}
+                </p>
               </div>
             </div>
 
             <div className="info-item">
               <div className="info-icon">
-                <i className="far fa-clock"></i>
+                <i className="far fa-clock" aria-hidden="true"></i>
               </div>
               <div className="info-text">
                 <h3>Horario de atención</h3>
@@ -175,6 +219,6 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

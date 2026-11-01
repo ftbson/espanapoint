@@ -1,5 +1,4 @@
-import { notFound } from "next/navigation";
-import { permanentRedirect } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import ProductActions from "./ProductActions";
@@ -20,6 +19,23 @@ import {
   toAbsoluteProductImage,
 } from "@/lib/products";
 
+/** Coupe à la limite d'un mot, sans casser la phrase en plein milieu. */
+function truncate(text: string, max = 155): string {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= max) return clean;
+  const cut = clean.slice(0, max);
+  const lastSpace = cut.lastIndexOf(" ");
+  return `${cut.slice(0, lastSpace > 100 ? lastSpace : max).trim()}…`;
+}
+
+function formatBattery(value: unknown): string | null {
+  if (value === undefined || value === null || value === "") return null;
+  if (typeof value === "number") return `${value} %`;
+  const text = String(value).trim();
+  if (text.includes("%")) return text;
+  return /^\d+$/.test(text) ? `${text} %` : text;
+}
+
 export function generateStaticParams() {
   return PRODUCTS_DATA.map((product) => ({ id: getProductSlug(product) }));
 }
@@ -31,31 +47,31 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params;
   const product = getProductByRouteId(id);
-  const image = product ? toAbsoluteProductImage(product.images[0]) : undefined;
+  if (!product) return { title: "Producto no encontrado" };
 
-  return product
-    ? {
-        title: product.name,
-        description: getProductDescription(product).slice(0, 160),
-        alternates: { canonical: getProductCanonicalUrl(product) },
-        openGraph: {
-          title: product.name,
-          description: getProductDescription(product).slice(0, 160),
-          url: getProductCanonicalUrl(product),
-          type: "website",
-          images: [{ url: image!, alt: product.name }],
-        },
-        twitter: {
-          card: "summary_large_image",
-          title: product.name,
-          description: getProductDescription(product).slice(0, 160),
-          images: [image!],
-        },
-        other: {
-          "og:type": "product",
-        },
-      }
-    : { title: "Producto no encontrado" };
+  const image = toAbsoluteProductImage(product.images[0]);
+  const description = truncate(getProductDescription(product));
+
+  return {
+    title: product.name,
+    description,
+    alternates: { canonical: getProductCanonicalUrl(product) },
+    openGraph: {
+      title: product.name,
+      description,
+      url: getProductCanonicalUrl(product),
+      siteName: "Espanapoint",
+      locale: "es_ES",
+      type: "website",
+      images: image ? [{ url: image, alt: product.name }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.name,
+      description,
+      images: image ? [image] : undefined,
+    },
+  };
 }
 
 export default async function ProductPage({
@@ -64,7 +80,6 @@ export default async function ProductPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-
   const product = getProductByRouteId(id);
 
   if (!product) {
@@ -72,14 +87,19 @@ export default async function ProductPage({
   }
 
   const canonicalSlug = product.canonicalOf || getProductSlug(product);
-  const canonicalPath = getProductUrl(product);
   if (id !== canonicalSlug) {
-    permanentRedirect(canonicalPath);
+    permanentRedirect(getProductUrl(product));
   }
 
   const brand = getProductBrand(product);
+  const hasRealBrand = brand !== "Genérico";
   const description = getProductDescription(product);
   const productJsonLd = getProductJsonLd(product);
+  const battery = formatBattery(product.batteryHealth);
+  const shippingCost = Number(siteConfig.shipping.cost);
+  const isUsedElectronics =
+    product.category === "Dispositivos electrónicos" &&
+    (product.condition === "refurbished" || product.condition === "used");
 
   if (
     process.env.NODE_ENV === "development" &&
@@ -104,17 +124,17 @@ export default async function ProductPage({
         }}
       />
       <Link href="/produits" className="product-detail-back">
-        <i className="fas fa-arrow-left"></i> Ver todos los productos
+        <i className="fas fa-arrow-left" aria-hidden="true"></i> Ver todos los
+        productos
       </Link>
 
-      {/* Galerie interactive avec au plus 3 images, flèches FontAwesome et tactile */}
       <ProductGallery images={product.images} name={product.name} />
 
       <div className="product-detail-info">
         <span className="product-detail-cat">{product.category}</span>
 
         <h1>{product.name}</h1>
-        <p>Marca: {brand}</p>
+        {hasRealBrand && <p>Marca: {brand}</p>}
         <p
           className={`product-availability product-availability-${product.availability.toLowerCase()}`}
         >
@@ -126,7 +146,7 @@ export default async function ProductPage({
             style: "currency",
             currency: "EUR",
           })}{" "}
-          TTC
+          <span className="product-vat">IVA incluido</span>
         </p>
 
         <section
@@ -137,60 +157,73 @@ export default async function ProductPage({
           <p className="product-detail-description">{description}</p>
         </section>
 
-        <p className="product-condition">{getProductConditionLabel(product)}</p>
-
         <section
           className="product-specifications"
           aria-labelledby="product-specifications-heading"
         >
           <h2 id="product-specifications-heading">Ficha técnica</h2>
           <dl>
-            <div>
-              <dt>Marca</dt>
-              <dd>{brand}</dd>
-            </div>
-            <div>
-              <dt>Modelo</dt>
-              <dd>{product.model || "No especificado"}</dd>
-            </div>
-            {(product.storage || product.category === "Dispositivos electrónicos") && (
+            {hasRealBrand && (
               <div>
-                <dt>Capacidad</dt>
-                <dd>{product.storage || "No especificada"}</dd>
+                <dt>Marca</dt>
+                <dd>{brand}</dd>
               </div>
             )}
+            {product.model && (
+              <div>
+                <dt>Modelo</dt>
+                <dd>{product.model}</dd>
+              </div>
+            )}
+            {product.mpn && (
+              <div>
+                <dt>Referencia del fabricante</dt>
+                <dd>{product.mpn}</dd>
+              </div>
+            )}
+            {product.gtin13 && (
+              <div>
+                <dt>EAN</dt>
+                <dd>{product.gtin13}</dd>
+              </div>
+            )}
+            {product.storage && (
+              <div>
+                <dt>Almacenamiento</dt>
+                <dd>{product.storage}</dd>
+              </div>
+            )}
+            {product.specs?.map((spec) => (
+              <div key={spec.label}>
+                <dt>{spec.label}</dt>
+                <dd>{spec.value}</dd>
+              </div>
+            ))}
             <div>
               <dt>Estado</dt>
               <dd>{getProductConditionLabel(product)}</dd>
             </div>
-            {(product.batteryHealth !== undefined && product.batteryHealth !== "") ? (
+            {battery ? (
               <div>
                 <dt>Batería</dt>
-                <dd>
-                  {typeof product.batteryHealth === "number"
-                    ? `${product.batteryHealth} %`
-                    : String(product.batteryHealth).includes("%")
-                      ? product.batteryHealth
-                      : /^\d+$/.test(String(product.batteryHealth).trim())
-                        ? `${String(product.batteryHealth).trim()} %`
-                        : product.batteryHealth}
-                </dd>
+                <dd>{battery}</dd>
               </div>
-            ) : product.category === "Dispositivos electrónicos" &&
-              (product.condition === "refurbished" || product.condition === "used") ? (
+            ) : isUsedElectronics ? (
               <div>
                 <dt>Batería</dt>
-                <dd>No especificada</dd>
+                <dd>Consultar</dd>
               </div>
             ) : null}
             <div>
               <dt>Garantía</dt>
               <dd>{product.warrantyMonths} meses</dd>
             </div>
-            <div>
-              <dt>Color</dt>
-              <dd>{product.color || "No especificado"}</dd>
-            </div>
+            {product.color && (
+              <div>
+                <dt>Color</dt>
+                <dd>{product.color}</dd>
+              </div>
+            )}
           </dl>
         </section>
 
@@ -201,11 +234,16 @@ export default async function ProductPage({
           <h2 id="shipping-returns-heading">Envío y devoluciones</h2>
           <p>
             {siteConfig.shipping.label} ·{" "}
-            {siteConfig.shipping.cost === 0
+            {shippingCost === 0
               ? "Envío gratuito"
-              : `${siteConfig.shipping.cost.toFixed(2)} € TTC`}
+              : `${shippingCost.toFixed(2)} € IVA incluido`}
           </p>
           <p>{siteConfig.returns.label}</p>
+          <p>
+            Consulta la{" "}
+            <Link href="/politica-de-devoluciones">política de devoluciones</Link>{" "}
+            y la <Link href="/politica-de-envio">política de envío</Link>.
+          </p>
         </section>
 
         <ProductActions product={product} />

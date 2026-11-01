@@ -106,12 +106,12 @@ export default function ProductsPage() {
                 <span className="product-cat">{product.category}</span>
                 <h3 className="product-name">{product.name}</h3>
                 <p className="product-price">
-                  {product.price.toLocaleString("es-ES", {
-                    style: "currency",
-                    currency: "EUR",
-                  })}{" "}
-                  TTC
-                </p>
+  {product.price.toLocaleString("es-ES", {
+    style: "currency",
+    currency: "EUR",
+  })}{" "}
+  IVA incluido
+</p>
               </div>
             </Link>
 

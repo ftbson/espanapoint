@@ -3,6 +3,11 @@ import { SITE_URL, siteConfig } from "./siteConfig";
 export type ProductCondition = "new" | "refurbished" | "used";
 export type ProductAvailability = "InStock" | "OutOfStock" | "PreOrder";
 
+export interface ProductSpec {
+  label: string;
+  value: string;
+}
+
 export interface Product {
   id: number;
   slug: string;
@@ -18,6 +23,7 @@ export interface Product {
   grade?: "A+" | "A" | "B";
   storage?: string;
   batteryHealth?: number | string;
+  specs?: ProductSpec[];
   warrantyMonths: number;
   price: number;
   priceCurrency: "EUR";
@@ -33,45 +39,32 @@ export type ProductSeedEntry = {
   price: number;
   category: string;
   image: string;
-  /** Color del producto (ej: "Negro", "Azul Sierra", "Blanco Estrella") */
   color?: string;
-  /** Colores disponibles adicionales si aplica */
   colorsAvailable?: string[];
-  /** Salud o capacidad de la batería (ej: 88, 100, "95%", "85-100%", "Excelente") */
+  /** Salud de la batería: SOLO para productos reacondicionados/usados */
   batteryHealth?: number | string;
-  /** Alias conveniente para batteryHealth (ej: battery: "100%" o battery: 88) */
-  battery?: number | string;
-  /** Capacidad de almacenamiento (ej: "128 GB", "256 GB", "1 TB") */
+  /** Capacidad de almacenamiento real (ej: "128 GB", "1 TB"). NO usar para autonomía u otros datos */
   storage?: string;
-  /** Modelo del producto si se quiere forzar un texto específico */
+  /** Características clave adicionales (autonomía, pantalla, tipo de interruptor…) */
+  specs?: ProductSpec[];
   model?: string;
-  /** Marca del producto si se quiere forzar una marca específica */
   brand?: string;
-  /** Grado estético para reacondicionados: "A+" | "A" | "B" */
   grade?: "A+" | "A" | "B";
-  /** Meses de garantía */
   warrantyMonths?: number;
-  /** Estado del producto: "new" | "refurbished" | "used" */
   condition?: ProductCondition;
-  /** Lista de imágenes (hasta 3 imágenes diferentes por producto) */
   images?: string[];
-  /** Descripción personalizada (si no se especifica, se generará automáticamente) */
+  /** Descripción propia (recomendado, mínimo ~150 caracteres, sin envío/pago/devoluciones) */
   description?: string;
-  /** Disponibilidad del producto */
   availability?: ProductAvailability;
-  /** Código GTIN/EAN */
   gtin13?: string;
-  /** Número de pieza del fabricante */
   mpn?: string;
-  /** Ruta canónica / slug alternativo si aplica */
   canonicalOf?: string;
-  /** Slug personalizado opcional */
   slug?: string;
 };
 
 const PRODUCT_SEED: ProductSeedEntry[] = [
   // ==========================================
-  // DISPOSITIVOS ELECTRÓNICOS & VIDEOJUEGOS (24 Productos)
+  // DISPOSITIVOS ELECTRÓNICOS
   // ==========================================
   {
     id: 1,
@@ -97,7 +90,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     image: "/img/iphone-14-pro-1.jpg",
     images: ["/img/iphone-14-pro-2.jpg", "/img/iphone-14-pro-3.jpg"],
     storage: "128 GB",
-    color: "oro",
+    color: "Oro",
     batteryHealth: 95,
     grade: "A+",
   },
@@ -135,7 +128,9 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
   },
   {
     id: 5,
-    name: "Apple iPhone 16 (128 GB) (Reacondicionado) - Negro + Funda Transparente con MagSafe",
+    name: "iPhone 16 con funda transparente MagSafe (Reacondicionado)",
+    model: "iPhone 16 con funda MagSafe",
+    slug: "apple-iphone-16-128-gb-negro",
     price: 671.99,
     category: "Dispositivos electrónicos",
     image: "/img/iPhone16-1.jpg",
@@ -157,24 +152,26 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/apple-iphone-16-pro-2.jpg",
     ],
     storage: "256 GB",
-    color: "Titanio Negro",
+    color: "Titanio negro",
     batteryHealth: 98,
     grade: "A+",
   },
   {
     id: 7,
-    name: "Google Pixel 11 Pro - Smartphone Android libre - Negro volcánico, 256 GB | Con inteligencia Gemini, más de 30 horas de autonomía y pantalla Super",
+    name: "Google Pixel 11 Pro - Smartphone Android libre, 256 GB, Negro volcánico, con Gemini",
+    slug: "google-pixel-11-pro-smartphone-android",
     price: 1150.0,
     category: "Dispositivos electrónicos",
     image: "/img/GooglePixel11Pro.jpg",
     images: ["/img/GooglePixel11Pro-1.jpg", "/img/GooglePixel11Pro-2.jpg"],
     storage: "256 GB",
-    color: "Negro",
-    batteryHealth: 94,
+    color: "Negro volcánico",
+    // batteryHealth supprimé : produit neuf
   },
   {
     id: 8,
-    name: "Google Pixel 10 Pro XL – Smartphone Android libre con Gemini, triple cámara trasera, más de 24 horas de autonomía y pantalla Super Actua de 6,8 pulgadas.",
+    name: "Google Pixel 10 Pro XL – Smartphone Android libre, 6,8 pulgadas, triple cámara, con Gemini",
+    slug: "google-pixel-10-pro-xl-smartphone",
     price: 929.0,
     category: "Dispositivos electrónicos",
     image: "/img/GooglePixel10ProXL.jpg",
@@ -185,20 +182,18 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     ],
     storage: "256 GB",
     color: "Negro",
-    batteryHealth: 94,
+    // batteryHealth supprimé : produit neuf
   },
   {
     id: 9,
-    name: "Apple MacBook Pro - Ordenador portátil con chip M5, CPU de 10 núcleos y GPU de 10 núcleos: diseñado para Apple Intelligence, pantalla Liquid Retina XDR de 14,2 pulgadas, 1 TB de almacenamiento; plata, inglés.",
+    name: "Apple MacBook Pro 14,2 pulgadas con chip M5, CPU 10 núcleos, GPU 10 núcleos, 1 TB, Plata (teclado inglés)",
+    slug: "apple-macbook-pro-ordenador-portatil-con",
     price: 2199.0,
     category: "Dispositivos electrónicos",
     image: "/img/AppleMacBookPro-1.jpg",
-    images: [
-      // "/img/AppleMacBookPro.jpg",
-      "/img/AppleMacBookPro-1.jpg",
-      "/img/AppleMacBookPro-2.jpg",
-    ],
-    color: "Blanco",
+    images: ["/img/AppleMacBookPro-1.jpg", "/img/AppleMacBookPro-2.jpg"],
+    storage: "1 TB",
+    color: "Plata",
   },
   {
     id: 10,
@@ -211,7 +206,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/SharkRGBeastMiniR502-2.jpg",
       "/img/SharkRGBeastMiniR502.jpg",
     ],
-    storage: "1 T",
+    storage: "1 TB",
     color: "Negro",
   },
   {
@@ -221,8 +216,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     category: "Dispositivos electrónicos",
     image: "/img/AppleAirPodsPro3.jpg",
     images: ["/img/AppleAirPodsPro3-1.jpg", "/img/AppleAirPodsPro3.jpg"],
-    storage: "95 % ",
     color: "Blanco",
+    // storage "95 %" supprimé (donnée erronée). Ajouter la spec d'autonomie officielle si disponible.
   },
   {
     id: 12,
@@ -235,8 +230,10 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/SonyWH-1000XM5SA-2.jpg",
       "/img/SonyWH-1000XM5SA.jpg",
     ],
-    storage: "Hasta 30 horas (con cancelación de ruido activa)",
     color: "Negro",
+    specs: [
+      { label: "Autonomía", value: "Hasta 30 horas (con cancelación de ruido activa)" },
+    ],
   },
   {
     id: 13,
@@ -249,11 +246,10 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/AppleWatchSeries9.jpg",
       "/img/AppleWatchSeries9-2.jpg",
     ],
-    color: "Blanco Estrella", // au lieu de "Negro" (contredit le titre)
+    color: "Blanco estrella",
     batteryHealth: 95,
     grade: "A+",
   },
-
   {
     id: 14,
     name: "SHOKZ OpenFit Pro Open Ear Auriculares Inalámbricos Negro",
@@ -262,7 +258,9 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     image: "/img/SHOKZOpenFitProOpen.jpg",
     images: ["/img/SHOKZOpenFitProOpen.jpg", "/img/SHOKZOpenFitProOpen-1.jpg"],
     color: "Negro",
-    storage: "Hasta 12 horas (50 horas con el estuche de carga)",
+    specs: [
+      { label: "Autonomía", value: "Hasta 12 horas (50 horas con el estuche de carga)" },
+    ],
   },
   {
     id: 15,
@@ -275,11 +273,12 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/realme-buds-clip-2025-300x300-1.jpg",
       "/img/realme-buds-clip-2025-300x300-2.jpg",
     ],
-    batteryHealth: 90,
-    storage: "Hasta 12 horas (hasta 48 horas con el estuche de carga)",
     color: "Negro",
+    specs: [
+      { label: "Autonomía", value: "Hasta 12 horas (hasta 48 horas con el estuche de carga)" },
+    ],
+    // batteryHealth supprimé : produit neuf
   },
-
   {
     id: 16,
     name: "JBL Wave Beam 2, Auriculares Inalámbricos Bluetooth, Cancelación de Ruido, 40 horas de autonomía",
@@ -287,12 +286,14 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     category: "Dispositivos electrónicos",
     image: "/img/JBLWaveBeam2.jpg",
     images: ["/img/JBLWaveBeam2.jpg", "/img/JBLWaveBeam2-1.jpg"],
-    color: "Azur",
-    storage: "Hasta 40 horas en total (con el estuche de carga)",
+    color: "Azul",
+    specs: [
+      { label: "Autonomía", value: "Hasta 40 horas en total (con el estuche de carga)" },
+    ],
   },
- 
   {
     id: 18,
+    // ⚠️ À VÉRIFIER : le titre dit Bose mais les images sont "SoundcoreSpaceOneCasque".
     name: "Auriculares con cancelación de ruido, con y sin cable, con micrófono Bose QuietComfort Ultra 2.ª generación - Negro",
     price: 220,
     category: "Dispositivos electrónicos",
@@ -302,7 +303,9 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/SoundcoreSpaceOneCasque-1.jpg",
     ],
     color: "Negro",
-    storage: "Hasta 30 horas (con cancelación de ruido activa)",
+    specs: [
+      { label: "Autonomía", value: "Hasta 30 horas (con cancelación de ruido activa)" },
+    ],
   },
   {
     id: 19,
@@ -315,9 +318,11 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/DJIOsmoPocket3-1.jpg",
       "/img/DJIOsmoPocket3.jpg",
     ],
-    color: "Negro",
-    storage: "Ranura microSD (hasta 1 TB, tarjeta no incluida)",
-    battery: "Hasta 166 minutos de grabación",
+    color: "Negro obsidiana",
+    specs: [
+      { label: "Autonomía", value: "Hasta 166 minutos de grabación" },
+      { label: "Ampliación", value: "Ranura microSD (hasta 1 TB, tarjeta no incluida)" },
+    ],
   },
   {
     id: 20,
@@ -358,8 +363,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/PlaystationSonyLecteur-1.jpg",
       "/img/PlaystationSonyLecteur-2.jpg",
     ],
-    storage: "Pantalla LCD Full HD 1080p de 8",
     color: "Blanco",
+    specs: [{ label: "Pantalla", value: 'LCD Full HD 1080p de 8"' }],
   },
   {
     id: 23,
@@ -388,13 +393,63 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/TheG-LabKeyz-2.jpg",
       "/img/TheG-LabKeyz-3.jpg",
     ],
-    storage: "Interruptores mecánicos rojos (lineales)",
+    color: "Negro",
+    specs: [
+      { label: "Tipo de interruptor", value: "Mecánicos rojos (lineales)" },
+      { label: "Distribución", value: "AZERTY francés, formato 65 %" },
+    ],
+  },
+  {
+    id: 62,
+    name: 'Samsung Odyssey G5 S27FG500SU Monitor Gaming OLED 27" 2.5K, 180 Hz, 0,03 ms, HDR10, Negro',
+    slug: "samsung-oled-de-27-odyssey-g5",
+    price: 351.99,
+    category: "Dispositivos electrónicos",
+    image: "/img/SamsungOLEDde27.jpg",
+    images: [
+      "/img/SamsungOLEDde27.jpg",
+      "/img/SamsungOLEDde27-2.jpg",
+      "/img/SamsungOLEDde27-1.jpg",
+    ],
     color: "Negro",
   },
-
+  {
+    id: 63,
+    // ⚠️ La référence "…AHFR" correspond probablement à un clavier français : vérifier et le préciser.
+    name: 'Lenovo Yoga Slim 7 14ILL10 (83JX00AHFR), Intel Core Ultra 7 258V, 32 GB RAM, SSD 1 TB, OLED 14" 2.8K, Windows 11 Home',
+    slug: "lenovo-yoga-slim-7-14ill10-83jx00ahfr",
+    price: 1141.99,
+    category: "Dispositivos electrónicos",
+    image: "/img/LenovoYogaSlim7.jpg",
+    images: [
+      "/img/LenovoYogaSlim7.jpg",
+      "/img/LenovoYogaSlim7-2.jpg",
+      "/img/LenovoYogaSlim7-1.jpg",
+    ],
+    color: "Negro",
+    storage: "1 TB",
+    specs: [{ label: "Memoria RAM", value: "32 GB" }],
+  },
+  {
+    id: 64,
+    // ⚠️ "SSD de 16 GB" interprété comme 16 GB de RAM : à confirmer.
+    name: 'ASUS Zenbook 14 OLED UM3406GA-QD013W, AMD Ryzen AI 5 430, 16 GB RAM, SSD 512 GB, OLED Full HD+ 14", Windows 11 Home',
+    slug: "asus-zenbook-14-oled-um3406ga-qd013w",
+    price: 999.99,
+    category: "Dispositivos electrónicos",
+    image: "/img/ASUSZenbook14.jpg",
+    images: [
+      "/img/ASUSZenbook14.jpg",
+      "/img/ASUSZenbook14-2.jpg",
+      "/img/ASUSZenbook14-1.jpg",
+    ],
+    color: "Negro",
+    storage: "512 GB",
+    specs: [{ label: "Memoria RAM", value: "16 GB" }],
+  },
 
   // ==========================================
-  // DEPORTE / FITNESS (13 Productos)
+  // DEPORTE / FITNESS
   // ==========================================
   {
     id: 26,
@@ -481,6 +536,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/URLIFEVeloelectrique-2.jpg",
     ],
     color: "Blanco",
+    // À COMPLÉTER avec les vraies données (puissance W, batterie Ah, autonomie km, poids,
+    // marquage CE, EN 15194) puis ajouter une `description` et un titre avec l'unité (16").
   },
   {
     id: 33,
@@ -504,7 +561,6 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     ],
     color: "Negro",
   },
-
   {
     id: 35,
     name: "UrbanLuxe Colchoneta de Gimnasia Inflable Air Tumble Track para Volteretas y Acrobacias",
@@ -516,7 +572,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
   },
   {
     id: 36,
-    name: "PROIRON Tapis de Yoga Epais 10MM/15MM,Antidérapant Tapis d'exercice Fitness",
+    name: "PROIRON Esterilla de Yoga Gruesa 10/15 mm, Antideslizante, para Fitness y Ejercicio",
+    slug: "proiron-tapis-de-yoga-epais-10mm",
     price: 24.99,
     category: "Deporte / Fitness",
     image: "/img/PROIRONTapis.jpg",
@@ -524,7 +581,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
   },
   {
     id: 37,
-    name: "Amazon Basics Slam Medicine Balls for Exercise",
+    name: "Amazon Basics Balón Medicinal de Rebote (Slam Ball) para Ejercicio",
+    slug: "amazon-basics-slam-medicine-balls-for",
     price: 20.99,
     category: "Deporte / Fitness",
     image: "/img/AmazonBasics.jpg",
@@ -532,7 +590,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
   },
   {
     id: 38,
-    name: "QIANBAIYI Support d'haltères, à 3 positions, peu encombrant, pour la salle de gym à la maison et la salle de sport, organisateur pour haltères",
+    name: "QIANBAIYI Soporte para Mancuernas de 3 Posiciones, Compacto, para Gimnasio en Casa",
+    slug: "qianbaiyi-support-d-halteres-a-3",
     price: 87.0,
     category: "Deporte / Fitness",
     image: "/img/QIANBAIYISupport.jpg",
@@ -540,7 +599,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
   },
 
   // ==========================================
-  // BELLEZA Y CUIDADO PERSONAL (3 Productos)
+  // BELLEZA Y CUIDADO PERSONAL
   // ==========================================
   {
     id: 39,
@@ -568,7 +627,7 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
   },
 
   // ==========================================
-  // HOGAR & COCINA (14 Productos)
+  // HOGAR & COCINA
   // ==========================================
   {
     id: 42,
@@ -578,15 +637,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     image: "/img/NinjaFoodiFlexDrawerAir.jpg",
     color: "Gris",
   },
-  
-  {
-    id: 44,
-    name: "Ninja Cafetera programable de 12 tazas, 2 estilos de preparación, plato caliente ajustable, depósito de agua de 60 onzas, preparación retardada, negro/acero",
-    price: 199.99,
-    category: "Cocina",
-    image: "/img/NinjaCafetera.jpg",
-    color: "Negro",
-  },
+  // id 44 (Ninja cafetera "12 tazas / 60 onzas") : modèle probablement US 120 V → retiré.
+  // Réactiver uniquement si c'est une version EU 230 V avec unités métriques.
   {
     id: 45,
     name: "ECOVACS T50 Omni GEN2 Robot Aspirador con Estación, Potencia de 21000 Pa",
@@ -597,7 +649,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
   },
   {
     id: 46,
-    name: "Bissell PowerClean FurGuard 280W Aspiradora inalámbrica que se mantiene en pie con cepillo autolimpiante, succión fuerte, battery extraíble",
+    name: "Bissell PowerClean FurGuard 280W Aspiradora Inalámbrica con Cepillo Autolimpiante y Batería Extraíble",
+    slug: "bissell-powerclean-furguard-280w-aspiradora-inal",
     price: 221.99,
     category: "Hogar",
     image: "/img/BissellPowerClean.jpg",
@@ -611,17 +664,16 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     image: "/img/DREAMEH15Pro.jpg",
     color: "Negro",
   },
-
   {
     id: 48,
-    name: "Aspiradora escoba inalámbrica Roborock H60 Ultra, 210 AW, 90 min de autonomía | Tubo plegable a 90°, filtración del 99,9%, cepillo antienredos para alfombras y suelos duros",
+    name: "Roborock H60 Ultra Aspiradora Escoba Inalámbrica, 210 AW, 90 min de autonomía, Tubo Plegable",
+    slug: "aspiradora-escoba-inalambrica-roborock-h60-ultra",
     price: 129.0,
     category: "Hogar",
     image: "/img/roborockH60Ultra.jpg",
     images: ["/img/roborockH60Ultra.jpg", "/img/roborockH60Ultra-1.jpg"],
     color: "Negro",
   },
-
   {
     id: 49,
     name: "HORION Roku TV 40 QLED Smart FHD Televisión con Quantum Dot Color | Más de 500 canales en vivo gratis, Dolby Audio, compatible con Apple AirPlay",
@@ -629,24 +681,13 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     category: "Hogar",
     image: "/img/TV4K.jpg",
     images: ["/img/TV4K.jpg", "/img/TV4K-1.jpg", "/img/TV4K-2.jpg"],
-    color: "azul",
+    color: "Azul",
   },
-  {
-    id: 50,
-    name: "Mini refrigerador retro de 3.5 pies cúbicos con congelador, azul, 2 puertas | Elegante mini refrigerador azul retro con capacidad de 3.5 pies cúbicos",
-    price: 79.0,
-    category: "Hogar",
-    image: "/img/Minirefrigerador.jpg",
-    images: [
-      "/img/Minirefrigerador.jpg",
-      "/img/Minirefrigerador-1.jpg",
-      "/img/Minirefrigerador-3.jpg",
-    ],
-    color: "azul",
-  },
+  // id 50 (mini refrigerador "3.5 pies cúbicos") : unités US, modèle probablement US → retiré.
   {
     id: 51,
-    name: "Cámara de vigilancia EZVIZ C8c 4K WiFi para exteriores de 360° con seguimiento y zoom automáticos, detección de formas humanas y de vehículos, visión nocturna a color y audio.",
+    name: "EZVIZ C8c Cámara de Vigilancia 4K WiFi Exterior 360°, Seguimiento Automático, Visión Nocturna en Color",
+    slug: "camara-de-vigilancia-ezviz-c8c-4k",
     price: 72.0,
     category: "Hogar",
     image: "/img/EZVIZC8c4K.jpg",
@@ -660,7 +701,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
   },
   {
     id: 52,
-    name: "Cámara para exteriores WiFi 360° MERCUSYS 2K, MC510 | Visión nocturna a color, detección de personas y seguimiento de movimiento, resistencia al agua IP65, alarma sonora personalizable",
+    name: "MERCUSYS MC510 Cámara WiFi Exterior 360° 2K, Visión Nocturna en Color, IP65, Alarma Sonora",
+    slug: "camara-para-exteriores-wifi-360-mercusys",
     price: 28.0,
     category: "Hogar",
     image: "/img/MERCUSYS2K.jpg",
@@ -673,7 +715,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
   },
   {
     id: 53,
-    name: "TP-Link Tapo - Cámara de seguridad interior de 1080P para monitor de bebé, cámara para perros con detección de movimiento, sirena de audio bidireccional",
+    name: "TP-Link Tapo Cámara de Seguridad Interior 1080P, Detección de Movimiento, Audio Bidireccional",
+    slug: "tp-link-tapo-camara-de-seguridad",
     price: 9.0,
     category: "Hogar",
     image: "/img/TP-LinkTapo.jpg",
@@ -684,8 +727,6 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
     ],
     color: "Blanco",
   },
-  
-
   {
     id: 55,
     name: "GASLAND GIH604BF Placa Mixta de Gas e Inducción 60 cm, Gas 5200 W con quemador wok",
@@ -697,9 +738,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/GASLANDGIH604BF-1.jpg",
       "/img/GASLANDGIH604BF-2.jpg",
     ],
-    color: "Black",
+    color: "Negro",
   },
-
   {
     id: 56,
     name: "Tumbona Bali de diseño cosmopolita - Beige. Chaise longue derecha - 1 plaza - tapicería de terciopelo - no convertible",
@@ -715,7 +755,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
   },
   {
     id: 57,
-    name: "Juego de 6 sillas de comedor Smartue color beige, patas de madera, 81 × 56,4 × 52,6 cm. Juego de 6 sillas de comedor color beige - Patas de madera maciza, respaldo curvo, asiento de tela",
+    name: "Juego de 6 Sillas de Comedor Smartue Beige, Patas de Madera Maciza, 81 × 56,4 × 52,6 cm",
+    slug: "juego-de-6-sillas-de-comedor",
     price: 409.0,
     category: "Hogar",
     image: "/img/Juegode6sillas.jpg",
@@ -728,7 +769,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
   },
   {
     id: 58,
-    name: "Aurlane DUALIDAD Mampara de ducha rectangular - Aluminio Blanco mate - Puerta corredera - Hidromasaje - 80 x 110 x 215 cm",
+    name: "Aurlane DUALIDAD Mampara de Ducha Rectangular con Hidromasaje, Puerta Corredera, Aluminio Blanco Mate, 80 x 110 x 215 cm",
+    slug: "aurlane-dualidad-mampara-de-ducha-rectangular",
     price: 599.0,
     category: "Hogar",
     image: "/img/AurlaneDUALIDAD.jpg",
@@ -741,7 +783,8 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
   },
   {
     id: 60,
-    name: "Asistente virtual Amazon Alexa Echo Spot 2024 Azul Amazon Echo Spot (modelo 2024): despertador inteligente azul, pantalla de 2,83 pulgadasy Alexa.",
+    name: "Amazon Echo Spot (modelo 2024) Despertador Inteligente con Alexa, Pantalla de 2,83 Pulgadas, Azul",
+    slug: "asistente-virtual-amazon-alexa-echo-spot",
     price: 76.0,
     category: "Hogar",
     image: "/img/Asistentevirtual.jpg",
@@ -759,106 +802,67 @@ const PRODUCT_SEED: ProductSeedEntry[] = [
       "/img/NespressoInissia-2.jpg",
       "/img/NespressoInissia-1.jpg",
     ],
-    color: "Negro",
-  },
-  {
-    id: 62,
-    name: "Samsung OLED de 27 - Odyssey G5 S27FG500SU Pantalla de PC 2.5K - 2560 x 1440 píxeles - 0,03 ms (gris a gris) - 16:9 - Panel OLED - 180 Hz - HDR10 - Compatible con FreeSync / G-SYNC - HDMI/DisplayPort - Negro",
-    price: 351.99,
-    category: "Dispositivos electrónicos",
-    image: "/img/SamsungOLEDde27.jpg",
-    images: [
-      "/img/SamsungOLEDde27.jpg",
-      "/img/SamsungOLEDde27-2.jpg",
-      "/img/SamsungOLEDde27-1.jpg",
-    ],
-    color: "Negro",
-  },
-  {
-    id: 63,
-    name: 'Lenovo Yoga Slim 7 14ILL10 (83JX00AHFR), Intel Core Ultra 7 258V, 32 GB de RAM, SSD de 1 TB, pantalla OLED de 14" (2.8K), Wi-Fi 7/Bluetooth, cámara web, Windows 11 Home',
-    price: 1141.99,
-    category: "Dispositivos electrónicos",
-    image: "/img/LenovoYogaSlim7.jpg",
-    images: [
-      "/img/LenovoYogaSlim7.jpg",
-      "/img/LenovoYogaSlim7-2.jpg",
-      "/img/LenovoYogaSlim7-1.jpg",
-    ],
-    color: "Negro",
-    storage: "1 TB",
-  },
-  {
-    id: 64,
-    name: "ASUS Zenbook 14 OLED UM3406GA-QD013W AMD Ryzen AI 5 430, SSD de 16 GB, 512 GB de almacenamiento, pantalla OLED Full HD+ de 14, Wi-Fi 7/Bluetooth, cámara web, Windows 11 Home.",
-    price: 999.99,
-    category: "Dispositivos electrónicos",
-    image: "/img/ASUSZenbook14.jpg",
-    images: [
-      "/img/ASUSZenbook14.jpg",
-      "/img/ASUSZenbook14-2.jpg",
-      "/img/ASUSZenbook14-1.jpg",
-    ],
-    color: "Negro",
-    storage: "512 GB",
+    color: "Rojo",
   },
 ];
 
-function detectBrand(name: string): string {
-  const brands = [
-    "Amazon Basics",
-    "HORION",
-    "EZVIZ",
-    "Amazon",
-    "Apple",
-    "Google",
-    "Sony",
-    "Samsung",
-    "Ninja",
-    "Lenovo",
-    "ASUS",
-    "DJI",
-    "Puma",
-    "Adidas",
-    "Skechers",
-    "JBL",
-    "Realme",
-    "CeraVe",
-    "MIXA",
-    "TYMO",
-    "Nintendo",
-    "Nespresso",
-    "Cosori",
-    "TP-Link",
-    "Bissell",
-    "Dreame",
-    "Roborock",
-    "ECOVACS",
-    "GASLAND",
-    "SanDisk",
-    "Shark",
-    "MERCUSYS",
-    "QIANBAIYI",
-    "URLIFE",
-    "ZIPRO",
-    "Aurlane",
-    "Smartue",
-    "UrbanLuxe",
-    "Dskeuzeew",
-    "PROIRON",
-    "The G-Lab",
-    "SHOKZ",
-    "Soundcore",
-    "SNDOAS",
-    "Anker",
-    "PlayStation",
-  ];
+const BRANDS = [
+  "Amazon Basics",
+  "HORION",
+  "EZVIZ",
+  "Amazon",
+  "Apple",
+  "Google",
+  "Sony",
+  "Bose",
+  "Samsung",
+  "Ninja",
+  "Lenovo",
+  "ASUS",
+  "DJI",
+  "Puma",
+  "Adidas",
+  "Skechers",
+  "JBL",
+  "Realme",
+  "CeraVe",
+  "MIXA",
+  "TYMO",
+  "Nintendo",
+  "Nespresso",
+  "TP-Link",
+  "Bissell",
+  "Dreame",
+  "Roborock",
+  "ECOVACS",
+  "GASLAND",
+  "Shark",
+  "MERCUSYS",
+  "QIANBAIYI",
+  "URLIFE",
+  "ZIPRO",
+  "Aurlane",
+  "Smartue",
+  "UrbanLuxe",
+  "Dskeuzeew",
+  "PROIRON",
+  "The G-Lab",
+  "SHOKZ",
+  "Soundcore",
+  "Anker",
+  "PlayStation",
+];
 
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function detectBrand(name: string): string {
   if (/\biphone\b/i.test(name)) return "Apple";
   return (
-    brands.find((brand) =>
+    BRANDS.find((brand) =>
       new RegExp(
-        `(?:^|[^a-z0-9])${brand.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:$|[^a-z0-9])`,
+        `(?:^|[^a-z0-9])${escapeRegExp(brand)}(?:$|[^a-z0-9])`,
         "i",
       ).test(name),
     ) ?? "Genérico"
@@ -879,16 +883,13 @@ function slugifyProductName(name: string): string {
     .replace(/-+$/g, "");
 }
 
-const usedSlugs = new Set<string>();
-
-function getModel(name: string, brand: string): string {
-  return name
-    .replace(
-      new RegExp(`^${brand.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*`, "i"),
-      "",
-    )
+function getModel(name: string, brand: string): string | undefined {
+  const model = name
+    .replace(new RegExp(`^${escapeRegExp(brand)}\\s*`, "i"), "")
     .replace(/\s*\(Reacondicionado\)/gi, "")
     .trim();
+  // Un titre long n'est pas un modèle : on l'affiche seulement s'il est court
+  return model.length <= 45 ? model : undefined;
 }
 
 function getStorage(name: string): string | undefined {
@@ -902,174 +903,165 @@ function detectColor(name: string): string | undefined {
     [/\bnegro obsidiana\b/i, "Negro obsidiana"],
     [/\bnegro espacial\b/i, "Negro espacial"],
     [/\bgris espacial\b|\bgris sid[eé]ral\b/i, "Gris espacial"],
-    [/\bblanco estrella\b|\bblanc stellaire\b/i, "Blanco estrella"],
+    [/\bblanco estrella\b/i, "Blanco estrella"],
     [/\btitanio natural\b/i, "Titanio natural"],
     [/\btitanio negro\b/i, "Titanio negro"],
-    [/\btitanio blanco\b/i, "Titanio blanco"],
-    [/\btitanio azul\b/i, "Titanio azul"],
-    [/\bazul sierra\b/i, "Azul sierra"],
-    [/\bazul pac[ií]fico\b/i, "Azul pacífico"],
-    [/\bazul medianoche\b/i, "Azul medianoche"],
-    [/\bverde alpino\b/i, "Verde alpino"],
-    [/\boro rosa\b/i, "Oro rosa"],
-    [/\bnegro\b|\bnoir\b|\bblack\b/i, "Negro"],
-    [/\bblanco\b|\bblanc\b|\bwhite\b/i, "Blanco"],
+    [/\bnegro\b|\bblack\b/i, "Negro"],
+    [/\bblanco\b|\bwhite\b/i, "Blanco"],
     [/\bplata\b|\bsilver\b/i, "Plata"],
     [/\boro\b|\bgold\b/i, "Oro"],
-    [/\bazul\b|\bbleu\b|\bblue\b/i, "Azul"],
-    [/\brojo\b|\bred\b|\brouge\b/i, "Rojo"],
-    [/\bverde\b|\bgreen\b|\bvert\b/i, "Verde"],
-    [/\brosa\b|\bpink\b|\brose\b/i, "Rosa"],
-    [/\bcian\b|\bcyan\b/i, "Cian"],
-    [/\bamari(?:llo|lla)\b|\byellow\b|\bjaune\b/i, "Amarillo"],
-    [/\bmorado\b|\bp[uú]rpura\b|\bpurple\b|\bviolet\b/i, "Morado"],
-    [/\bnaranja\b|\borange\b/i, "Naranja"],
-    [/\bgri(?:s|ses)\b|\bgrey\b|\bgray\b/i, "Gris"],
+    [/\bazul\b|\bblue\b/i, "Azul"],
+    [/\brojo\b|\bred\b/i, "Rojo"],
+    [/\bverde\b|\bgreen\b/i, "Verde"],
+    [/\brosa\b|\bpink\b/i, "Rosa"],
+    [/\bgris\b|\bgrey\b|\bgray\b/i, "Gris"],
   ];
-
   for (const [pattern, label] of colorPatterns) {
-    if (pattern.test(name)) {
-      return label;
-    }
+    if (pattern.test(name)) return label;
   }
   return undefined;
 }
 
+/**
+ * Description produit : uniquement des informations sur le produit.
+ * AUCUNE mention d'envoi, de retours ni de paiement (réservés aux pages légales).
+ * Recommandé : renseigner `description` dans chaque entrée avec un texte propre.
+ */
 export function buildDescription(product: Product): string {
   if (product.description && product.description.trim() !== "") {
     return product.description;
   }
 
-  const clauses: string[] = [];
-  const productModel = product.model || product.name;
+  const clauses: string[] = [`${product.name}.`];
+  clauses.push(`Marca: ${product.brand}.`);
 
   if (product.condition === "refurbished") {
-    const details = [
-      product.storage,
-      product.grade ? `estado Grado ${product.grade}` : undefined,
-    ]
-      .filter(Boolean)
-      .join(", ");
     clauses.push(
-      `${productModel} reacondicionado por Espanapoint${details ? `, ${details}` : ""}.`,
+      `Producto reacondicionado y revisado por Espanapoint${
+        product.grade ? `, estado estético Grado ${product.grade}` : ""
+      }.`,
     );
+  } else if (product.condition === "used") {
+    clauses.push("Producto usado.");
   } else {
-    clauses.push(`${productModel}.`);
+    clauses.push("Producto nuevo.");
   }
 
-  if (product.color) {
-    clauses.push(`Color: ${product.color}.`);
+  if (product.color) clauses.push(`Color: ${product.color}.`);
+  if (product.storage) clauses.push(`Almacenamiento: ${product.storage}.`);
+
+  for (const spec of product.specs ?? []) {
+    clauses.push(`${spec.label}: ${spec.value}.`);
   }
 
-  if (product.batteryHealth !== undefined && product.batteryHealth !== "") {
-    const batteryText =
+  if (
+    product.condition !== "new" &&
+    product.batteryHealth !== undefined &&
+    product.batteryHealth !== ""
+  ) {
+    const text =
       typeof product.batteryHealth === "number"
         ? `${product.batteryHealth} %`
         : String(product.batteryHealth).trim();
     clauses.push(
-      batteryText.includes("%")
-        ? `Batería con ${batteryText} de capacidad.`
-        : `Batería: ${batteryText}.`,
-    );
-  }
-  if (product.warrantyMonths > 0) {
-    clauses.push(
-      `Incluye garantía por escrito de ${product.warrantyMonths} meses.`,
+      text.includes("%")
+        ? `Salud de la batería: ${text}.`
+        : `Batería: ${text}.`,
     );
   }
 
-  clauses.push(
-    siteConfig.shipping.label,
-    siteConfig.returns.label,
-    siteConfig.paymentLabel,
-  );
+  if (product.warrantyMonths > 0) {
+    clauses.push(`Garantía de ${product.warrantyMonths} meses.`);
+  }
+
   return clauses.join(" ");
 }
 
-export const PRODUCTS_DATA: Product[] = PRODUCT_SEED.map((entry) => {
-  const brand = entry.brand ?? detectBrand(entry.name);
-  const condition: ProductCondition =
-    entry.condition ??
-    (/reacondicionado/i.test(entry.name)
-      ? "refurbished"
-      : /\busad[oa]s?\b|\bused\b/i.test(entry.name)
-        ? "used"
-        : "new");
-  const model = entry.model ?? getModel(entry.name, brand);
-  const storage = entry.storage ?? getStorage(entry.name);
-  const warrantyMonths =
-    entry.warrantyMonths ??
-    (condition === "refurbished"
-      ? siteConfig.warranty.refurbishedMonths
-      : condition === "used"
-        ? siteConfig.warranty.usedMonths
-        : siteConfig.warranty.newMonths);
-  const isRefurbishedIPhone =
-    condition === "refurbished" && /\biphone\b/i.test(entry.name);
+function buildProducts(): Product[] {
+  const usedSlugs = new Set<string>();
 
-  // Preserve historical slug structure unless a custom slug is specified
-  const nameForSlug = isRefurbishedIPhone
-    ? `Apple ${model}${getStorage(entry.name) ? ` ${getStorage(entry.name)}` : ""} Reacondicionado – Garantía ${warrantyMonths} meses`
-    : entry.name;
-  const name = isRefurbishedIPhone
-    ? `Apple ${model}${storage ? ` ${storage}` : ""} Reacondicionado – Garantía ${warrantyMonths} meses`
-    : entry.name;
-  const baseSlug =
-    entry.slug || slugifyProductName(nameForSlug) || `producto-${entry.id}`;
-  let slug = baseSlug;
-  let collisionIndex = 1;
-  while (usedSlugs.has(slug)) {
-    slug = `${baseSlug}-${entry.id}${collisionIndex === 1 ? "" : `-${collisionIndex}`}`;
-    collisionIndex += 1;
-  }
-  usedSlugs.add(slug);
+  return PRODUCT_SEED.map((entry) => {
+    const brand = entry.brand ?? detectBrand(entry.name);
+    const condition: ProductCondition =
+      entry.condition ??
+      (/reacondicionado/i.test(entry.name)
+        ? "refurbished"
+        : /\busad[oa]s?\b|\bused\b/i.test(entry.name)
+          ? "used"
+          : "new");
+    const model = entry.model ?? getModel(entry.name, brand);
+    const storage = entry.storage ?? getStorage(entry.name);
+    const warrantyMonths =
+      entry.warrantyMonths ??
+      (condition === "refurbished"
+        ? siteConfig.warranty.refurbishedMonths
+        : condition === "used"
+          ? siteConfig.warranty.usedMonths
+          : siteConfig.warranty.newMonths);
+    const isRefurbishedIPhone =
+      condition === "refurbished" && /\biphone\b/i.test(entry.name);
 
-  // Supporte jusqu'à 3 images différentes par produit
-  const rawImages: string[] = [];
-  if (entry.images && Array.isArray(entry.images) && entry.images.length > 0) {
-    rawImages.push(...entry.images);
-  } else if (entry.image) {
-    rawImages.push(entry.image);
-  }
-  const uniqueImages: string[] = [];
-  for (const img of rawImages) {
-    if (img && typeof img === "string" && !uniqueImages.includes(img)) {
-      uniqueImages.push(img);
+    const iphoneName = isRefurbishedIPhone
+      ? `Apple ${model ?? entry.name}${storage ? ` ${storage}` : ""} Reacondicionado – Garantía ${warrantyMonths} meses`
+      : entry.name;
+    const name = iphoneName;
+    const baseSlug =
+      entry.slug || slugifyProductName(iphoneName) || `producto-${entry.id}`;
+
+    let slug = baseSlug;
+    let collisionIndex = 1;
+    while (usedSlugs.has(slug)) {
+      slug = `${baseSlug}-${entry.id}${collisionIndex === 1 ? "" : `-${collisionIndex}`}`;
+      collisionIndex += 1;
     }
-    if (uniqueImages.length >= 3) break;
-  }
-  const images =
-    uniqueImages.length > 0 ? uniqueImages : [entry.image || "/img/log.png"];
-  const color = entry.color ?? detectColor(entry.name);
-  const batteryHealth = entry.batteryHealth ?? entry.battery;
+    usedSlugs.add(slug);
 
-  const product: Product = {
-    id: entry.id,
-    slug,
-    name,
-    brand,
-    model,
-    category: entry.category,
-    description: "",
-    images,
-    color,
-    colorsAvailable: entry.colorsAvailable,
-    condition,
-    grade: entry.grade,
-    storage,
-    batteryHealth,
-    warrantyMonths,
-    price: entry.price,
-    priceCurrency: "EUR",
-    availability: entry.availability ?? "InStock",
-    gtin13: entry.gtin13,
-    mpn: entry.mpn,
-    canonicalOf: entry.canonicalOf,
-  };
+    const rawImages: string[] =
+      entry.images && entry.images.length > 0
+        ? [...entry.images]
+        : entry.image
+          ? [entry.image]
+          : [];
+    const uniqueImages: string[] = [];
+    for (const img of rawImages) {
+      if (img && !uniqueImages.includes(img)) uniqueImages.push(img);
+      if (uniqueImages.length >= 3) break;
+    }
+    const images =
+      uniqueImages.length > 0 ? uniqueImages : [entry.image || "/img/log.png"];
 
-  product.description = entry.description || buildDescription(product);
-  return product;
-});
+    const product: Product = {
+      id: entry.id,
+      slug,
+      name,
+      brand,
+      model,
+      category: entry.category,
+      description: "",
+      images,
+      color: entry.color ?? detectColor(entry.name),
+      colorsAvailable: entry.colorsAvailable,
+      condition,
+      grade: entry.grade,
+      storage,
+      // La santé de batterie n'a de sens que pour le reconditionné / l'occasion
+      batteryHealth: condition === "new" ? undefined : entry.batteryHealth,
+      specs: entry.specs,
+      warrantyMonths,
+      price: entry.price,
+      priceCurrency: "EUR",
+      availability: entry.availability ?? "InStock",
+      gtin13: entry.gtin13,
+      mpn: entry.mpn,
+      canonicalOf: entry.canonicalOf,
+    };
+
+    product.description = entry.description || buildDescription(product);
+    return product;
+  });
+}
+
+export const PRODUCTS_DATA: Product[] = buildProducts();
 
 export function getProductSlug(product: Product): string {
   return product.slug;

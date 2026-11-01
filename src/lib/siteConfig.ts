@@ -7,7 +7,8 @@ export const SITE_URL = (
 const returnDays = 14;
 const shippingCost: number = 0;
 
-// ⚠️ Passer à true UNIQUEMENT quand le paiement par carte est réellement actif au checkout
+// ⚠️ true UNIQUEMENT quand le paiement par carte (Stripe) est réellement actif au checkout.
+// Google exige un moyen de paiement sécurisé : le virement seul est risqué.
 const cardPaymentEnabled = false;
 
 export const siteConfig = {

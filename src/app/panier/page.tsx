@@ -501,7 +501,7 @@ export default function CartPage() {
               >
                 <i className="fas fa-university"></i> Transferencia
               </button>
-              <button
+              {/* <button
                 onClick={() => void handleSelectPaymentMethod("card")}
                 style={{
                   flex: 1,
@@ -517,7 +517,7 @@ export default function CartPage() {
                 disabled={creatingPayment || !stripePromise}
               >
                 <i className="far fa-credit-card"></i> Tarjeta
-              </button>
+              </button> */}
             </div>
 
             {paymentError && (
